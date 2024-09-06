@@ -236,14 +236,24 @@
         }
 
         .quick-links a {
-            color: #4c5e58;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            padding: 3px 6px;
-            border-radius: 3px;
-            background-color: #f0f0f0;
-            display: inline-block;
-            font-size: 14px; /* 增大連結字體 */
+        color: #4c5e58;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        padding: 3px 6px;
+        border-radius: 5px;
+        background-color: #f0f0f0;
+        display: inline-block;
+        font-size: 14px;
+        animation: linkBounce 0.8s ease-in-out infinite alternate;
+        }
+
+        @keyframes linkBounce {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-3px);
+            }
         }
 
         .quick-links a:hover {
@@ -323,28 +333,98 @@
                             <div class="link-section">
                                 <h4>實習經歷</h4>
                                 <ul>
-                                    <li><a href="reliability.html">可靠度試驗、有限元素分析</a></li>
-                                    <li><a href="ansys.html">Ansys建模自動化</a></li>
+                                    <li><a href="reliability.html" target="_blank">→ 可靠度試驗、有限元素分析</a></li>
+                                    <li><a href="ansys.html" target="_blank">→ Ansys建模自動化</a></li>
                                 </ul>
                             </div>
                             <div class="link-section">
                                 <h4>學術研究</h4>
                                 <ul>
-                                    <li><a href="university-project.html">大學專題 - 振動抑制</a></li>
+                                    <li><a href="university-project.html" target="_blank">→ 大學專題 - 振動抑制</a></li>
                                 </ul>
                             </div>
                             <div class="link-section">
                                 <h4>完整專案設計</h4>
                                 <ul>
-                                    <li><a href="mechanical-project.html">機械專題</a></li>
-                                    <li><a href="auto-control.html">自動控制</a></li>
-                                    <li><a href="mechanical-design.html">機械設計</a></li>
-                                    <li><a href="kinematics.html">機動學</a></li>
+                                    <li><a href="mechanical-project.html" target="_blank">→ 機械專題</a></li>
+                                    <li><a href="auto-control.html" target="_blank">→ 自動控制</a></li>
+                                    <li><a href="mechanical-design.html" target="_blank">→ 機械設計</a></li>
+                                    <li><a href="kinematics.html" target="_blank">機動學</a></li>
                                 </ul>
                             </div>
                             <div class="link-section">
                                 <h4>基礎知識</h4>
                                 <ul>
-                                    <li><a href="numerical-analysis.html">數值分析</a></li>
-                                    <li><a href="instrumentation.html">儀器與量測</a></li>
-                                    <li><a href="mechanical-drawing.html">機械畫</a></li
+                                    <li><a href="numerical-analysis.html" target="_blank">→ 數值分析</a></li>
+                                    <li><a href="instrumentation.html" target="_blank">→ 儀器與量測</a></li>
+                                    <li><a href="mechanical-drawing.html" target="_blank">→ 機械畫</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+            <!-- 專業技能部分 -->
+            <section class="section">
+                <h2>專業技能</h2>
+                <p>語言類</p>
+                <ul>
+                    <li>TOEIC: 770</li>
+                </ul>
+                <p>程式語言類</p>
+                <ul>
+                    <li>Python/ Matlab/ C++/ LabVIEW/ Simulink</li>
+                </ul>
+                <p>機構設計分析類</p>
+                <ul>
+                    <li>Ansys/ Comsol/ Solidworks/ AutoCAD</li>
+                </ul>
+                <p>辦公室應用類</p>
+                <ul>
+                    <li>Word/Excel/PowerPoint/ Outlook</li>
+                </ul>
+            </section>
+
+            <!-- 工作經歷部分 -->
+            <section class="section">
+                <h2>工作經歷(~1年)</h2>
+                <div class="experience-item">
+                    <h3>台達電子工業股份有限公司</h3>
+                    <p class="job-title">R&D Engineer Intern</p>
+                    <p class="time">2024 Jul - Aug</p>
+                    <p>Ansys 自動化建模</p>
+                    <ul>
+                        <li>Python 腳本開發和實施自動化流程，實現Ansys的複雜幾何結構建模</li>
+                        <li>簡化不同的幾何結構生成，提高了建模靈活性和效率</li>
+                        <li>設計並編寫模組化腳本，以便重複使用和擴展，支持多種幾何形狀的自動化創建</li>
+                        <li>將自動化幾何創建的腳本打包成模組，用戶可在Ansys介面中快速調用並應用於不同的設計項目</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <h3>SGS台灣檢驗科技股份有限公司</h3>
+                    <p class="job-title">Reliability Labatory Intern</p>
+                    <p class="time">2023 Sep - 2024 Apr</p>
+                    <ul>
+                        <li>負責執行振動衝擊、防水防塵、HALT 等可靠度試驗</li>
+                        <li>在試驗前進行Ansys風扇結構及流場的有限元素分析</li>
+                        <li>使用感測器搭配Labview, DAQ在試驗中收集數據。</li>
+                        <li>分析數據，與 Ansys 模擬結果進行比較。</li>
+                        <li>主動尋求 Ansys, NI 廠商協助，提升與廠商的溝通能力</li>
+                    </ul>
+                </div>
+                <div class="experience-item">
+                    <h3>中華民國工業安全衛生協會</h3>
+                    <p class="job-title">Summer Intern</p>
+                    <p class="time">2022 Jul - Aug</p>
+                    <ul>
+                        <li>協助產業分析，撰寫報告</li>
+                        <li>撰寫政府公文及製作標案</li>
+                        <li>熟悉工安課程輔導學員提供諮詢(管理員、業務主管、堆高機、天車.......)</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
