@@ -200,6 +200,29 @@
             flex: 1;
         }
 
+        /* 作品集區域樣式 */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .portfolio-item {
+            text-align: center;
+        }
+
+        .portfolio-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .portfolio-item p {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
         /* 作品連結區域樣式 */
         .quick-links {
         background-color: transparent;
@@ -241,7 +264,7 @@
         transition: all 0.3s ease;
         padding: 3px 6px;
         border-radius: 5px;
-        background-color: #f0f0f0;
+        background-color: #f5e8d3;
         display: inline-block;
         font-size: 14px;
         animation: linkBounce 0.8s ease-in-out infinite alternate;
@@ -276,7 +299,7 @@
         <header class="header">
             <!-- 個人照片 -->
             <div>
-                <img src="D:\資料備份-勿刪\Desktop\html/image photo.jpg" alt="劉樺的照片" class="profile-img">
+                <img src="https://github.com/liu092111/College_Portfolio/blob/master/image%20photo.jpg?raw=true" alt="劉樺的照片" class="profile-img">
             </div>
             <div>
                 <!-- 姓名 -->
@@ -309,20 +332,32 @@
         <!-- 內容區域 -->
         <div class="content">
             <div class="column">
-                <!-- 學歷部分 -->
+                <!-- 機械畫作品集部分 -->
                 <section class="section">
-                    <h2>學歷</h2>
-                    <div class="experience-item">
-                        <h3>國立台灣大學</h3>
-                        <p>工程科學與海洋工程研究所電機電子組</p>
-                        <p class="time">2024 - 2026</p>
+                    <h2>機械畫作品</h2>
+                    <div class="portfolio-grid">
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/College_Portfolio/blob/main/Mechanical%20Drawing/Vernier%20Caliper.png?raw=true" alt="游標卡尺">
+                            <p>游標卡尺（包含：游尺、定尺、游尺上蓋、塞子）</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/College_Portfolio/blob/main/Mechanical%20Drawing/Universal%20Joint.png?raw=truepath/to/universal-joint-image.jpg" alt="萬象接頭">
+                            <p>萬象接頭（包含：主動軸、軸承、十字接頭）</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/College_Portfolio/blob/main/Mechanical%20Drawing/Exploded%20View%20of%20Universal%20Joint.png?raw=true" alt="萬象接頭之爆炸圖">
+                            <p>萬象接頭之爆炸圖</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/College_Portfolio/blob/main/Mechanical%20Drawing/Trailer%20Hitching.png?raw=true" alt="拖車栓掛">
+                            <p>拖車栓掛（包含：定位銷、拖車掛勾球、彈簧銷）</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/College_Portfolio/blob/main/Mechanical%20Drawing/V8%20engine.png?raw=true" alt="V8引擎">
+                            <p>V8引擎（包含：化油器主體、活塞、活塞銷、活塞連桿、曲柄軸、氣缸體、進氣岐管、節流蝶閥）</p>
+                        </div>
                     </div>
-                    <div class="experience-item">
-                        <h3>國立成功大學</h3>
-                        <p>機械工程學系</p>
-                        <p class="time">2020 - 2024</p>
-                    </div>
-                </section>
+            </section>
             </div>
             
             <div class="column">
@@ -351,7 +386,7 @@
                                     <li><a href="mechanical_project.html" target="_blank">→ 機械專題</a></li>
                                     <li><a href="automatic_control.html" target="_blank">→ 自動控制</a></li>
                                     <li><a href="mechanical_design.html" target="_blank">→ 機械設計</a></li>
-                                    <li><a href="kinematics.html" target="_blank">機動學</a></li>
+                                    <li><a href="kinematics.html" target="_blank">→ 機動學</a></li>
                                 </ul>
                             </div>
                             <div class="link-section">
@@ -359,7 +394,7 @@
                                 <ul>
                                     <li><a href="numerical_analysis.html" target="_blank">→ 數值分析</a></li>
                                     <li><a href="instrumentation.html" target="_blank">→ 儀器與量測</a></li>
-                                    <li><a href="mechanical-drawing.html" target="_blank">→ 機械畫</a></li>
+                                    <li><a href="mechanical_drawing.html" target="_blank">→ 機械畫</a></li>
                                 </ul>
                             </div>
                         </div>

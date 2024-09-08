@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>劉樺的個人網頁</title>
+    <title>大學專題—振動控制</title>
     <style>
         /* 導入Google字體 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
@@ -200,6 +200,29 @@
             flex: 1;
         }
 
+        /* 作品集區域樣式 */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .portfolio-item {
+            text-align: center;
+        }
+
+        .portfolio-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .portfolio-item p {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
         /* 作品連結區域樣式 */
         .quick-links {
         background-color: transparent;
@@ -290,15 +313,21 @@
                 </div>
                 <!-- 個人優勢 -->
                 <div class="section">
-                    <h2>為什麼要錄取我</h2>
+                    <h2>大學專題 — 振動控制</h2>
                     <ul>
-                        <li>A/D, D/A訊號處理</li>
-                        <li>Python 腳本處理Ansys 建模自動化</li>
-                        <li>各類型數值分析方法及電腦運算原理</li>
-                        <li>量測系統基本原理與資料表示注意事項</li>
-                        <li>運用數學、科學及工程原理，以系統化方法解決工程問題之能力</li>
-                        <li>解決問題、創新思維和實際操作的能力</li>
-                        <li>發掘、分析及處理問題的能力，並獲得實際工程項目的經驗</li>
+                        <li><strong>Situation:</strong></li>
+                        <li>發展智慧結構(smart structure)，以抑制高速運動時所產生的振動，從而提高機台的穩定性與性能</li>
+                        <li><strong>Task:</strong></li>
+                        <li>高速運動引發振動，影響機台性能和運動精度</li>
+                        <li>振動問題需解決，確保穩定性和精度</li>
+                        <li><strong>Action:</strong></li>
+                        <li>修改硬體平台並增加感測器以提升振動監測精度</li>
+                        <li>發展順滑模態控制（SMC）和ZN-PID控制系統以抑制振動</li>
+                        <li>學習MEMS微機電系統，掌握ADC/DAC訊號處理技術/li>
+                        <li><strong>Result:</strong></li>
+                        <li>成功減少振動影響，提升機台性能和穩定性</li>
+                        <li>強化了實驗設計、數據分析與解釋的能力</li>
+                        <li>理解智慧結構設計與控制技術</li>
                     </ul>
                 </div>
             </div>
@@ -307,20 +336,43 @@
         <!-- 內容區域 -->
         <div class="content">
             <div class="column">
-                <!-- 學歷部分 -->
+                <!-- 機械畫作品集部分 -->
                 <section class="section">
-                    <h2>學歷</h2>
-                    <div class="experience-item">
-                        <h3>國立台灣大學</h3>
-                        <p>工程科學與海洋工程研究所電機電子組</p>
-                        <p class="time">2024 - 2026</p>
-                    </div>
-                    <div class="experience-item">
-                        <h3>國立成功大學</h3>
-                        <p>機械工程學系</p>
-                        <p class="time">2020 - 2024</p>
-                    </div>
-                </section>
+        <h2>機械畫作品</h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-item">
+                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Rubber%20Platform%20Schematic%20and%20Actual%20Images.png?raw=true" alt="橡膠平台示意圖">
+                <p>橡膠平台示意圖</p>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Optical%20Inspection%20Platform%20Flow%20Chart.png?raw=true" alt="研究流程">
+                <p>研究流程</p>
+            </div>
+            <div class="portfolio-item full-width">
+                <div class="model-images">
+                    <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Build%20Platform%20Model(Rubber%20Bear).png?raw=true" alt="橡膠平台模型">                </div>
+                <p>建立平台模型(中心橡膠平台)</p>
+            </div>
+            <div class="portfolio-item full-width">
+                <div class="model-images">
+                    <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Build%20Platform%20Model(Active%20Platform).png?raw=true" alt="主動平台模型">
+                </div>
+                <p>建立平台模型(整體主動平台)</p>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Mechanical%20Drawing/Exploded%20View%20of%20Universal%20Joint.png?raw=true" alt="萬象接頭之爆炸圖">
+                <p>萬象接頭之爆炸圖</p>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Mechanical%20Drawing/Trailer%20Hitching.png?raw=true" alt="拖車栓掛">
+                <p>拖車栓掛（包含：定位銷、拖車掛勾球、彈簧銷）</p>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Mechanical%20Drawing/V8%20engine.png?raw=true" alt="V8引擎">
+                <p>V8引擎（包含：化油器主體、活塞、活塞銷、活塞連桿、曲柄軸、氣缸體、進氣岐管、節流蝶閥）</p>
+            </div>
+        </div>
+</section>
             </div>
             
             <div class="column">
@@ -333,97 +385,37 @@
                             <div class="link-section">
                                 <h4>實習經歷</h4>
                                 <ul>
-                                    <li><a href="project/reliability.html" target="_blank">→ 可靠度試驗、有限元素分析</a></li>
-                                    <li><a href="project/ansys.html" target="_blank">→ Ansys建模自動化</a></li>
+                                    <li><a href="reliability.html" target="_blank">→ 可靠度試驗、有限元素分析</a></li>
+                                    <li><a href="ansys.html" target="_blank">→ Ansys建模自動化</a></li>
                                 </ul>
                             </div>
                             <div class="link-section">
                                 <h4>學術研究</h4>
                                 <ul>
-                                    <li><a href="project/university_project.html" target="_blank">→ 大學專題 - 振動抑制</a></li>
+                                    <li><a href="university_project.html" target="_blank">→ 大學專題 - 振動控制</a></li>
                                 </ul>
                             </div>
                             <div class="link-section">
                                 <h4>完整專案設計</h4>
                                 <ul>
-                                    <li><a href="project/mechanical_project.html" target="_blank">→ 機械專題</a></li>
-                                    <li><a href="project/automatic-control.html" target="_blank">→ 自動控制</a></li>
-                                    <li><a href="project/mechanical_design.html" target="_blank">→ 機械設計</a></li>
-                                    <li><a href="project/kinematics.html" target="_blank">→ 機動學</a></li>
+                                    <li><a href="mechanical_project.html" target="_blank">→ 機械專題</a></li>
+                                    <li><a href="automatic_control.html" target="_blank">→ 自動控制</a></li>
+                                    <li><a href="/mechanical_design.html" target="_blank">→ 機械設計</a></li>
+                                    <li><a href="kinematics.html" target="_blank">→ 機動學</a></li>
                                 </ul>
                             </div>
                             <div class="link-section">
                                 <h4>基礎知識</h4>
                                 <ul>
-                                    <li><a href="project/numerical_analysis.html" target="_blank">→ 數值分析</a></li>
-                                    <li><a href="project/instrumentation.html" target="_blank">→ 儀器與量測</a></li>
-                                    <li><a href="project/mechanical_drawing.html" target="_blank">→ 機械畫</a></li>
+                                    <li><a href="numerical_analysis.html" target="_blank">→ 數值分析</a></li>
+                                    <li><a href="instrumentation.html" target="_blank">→ 儀器與量測</a></li>
+                                    <li><a href="mechanical_drawing.html" target="_blank">→ 機械畫</a></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </section>
             </div>
-        </div>
-            <!-- 專業技能部分 -->
-            <section class="section">
-                <h2>專業技能</h2>
-                <p>語言類</p>
-                <ul>
-                    <li>TOEIC: 770</li>
-                </ul>
-                <p>程式語言類</p>
-                <ul>
-                    <li>Python/ Matlab/ C++/ LabVIEW/ Simulink</li>
-                </ul>
-                <p>機構設計分析類</p>
-                <ul>
-                    <li>Ansys/ Comsol/ Solidworks/ AutoCAD</li>
-                </ul>
-                <p>辦公室應用類</p>
-                <ul>
-                    <li>Word/Excel/PowerPoint/ Outlook</li>
-                </ul>
-            </section>
-
-            <!-- 工作經歷部分 -->
-            <section class="section">
-                <h2>工作經歷(~1年)</h2>
-                <div class="experience-item">
-                    <h3>台達電子工業股份有限公司</h3>
-                    <p class="job-title">R&D Engineer Intern</p>
-                    <p class="time">2024 Jul - Aug</p>
-                    <p>Ansys 自動化建模</p>
-                    <ul>
-                        <li>Python 腳本開發和實施自動化流程，實現Ansys的複雜幾何結構建模</li>
-                        <li>簡化不同的幾何結構生成，提高了建模靈活性和效率</li>
-                        <li>設計並編寫模組化腳本，以便重複使用和擴展，支持多種幾何形狀的自動化創建</li>
-                        <li>將自動化幾何創建的腳本打包成模組，用戶可在Ansys介面中快速調用並應用於不同的設計項目</li>
-                    </ul>
-                </div>
-                <div class="experience-item">
-                    <h3>SGS台灣檢驗科技股份有限公司</h3>
-                    <p class="job-title">Reliability Labatory Intern</p>
-                    <p class="time">2023 Sep - 2024 Apr</p>
-                    <ul>
-                        <li>負責執行振動衝擊、防水防塵、HALT 等可靠度試驗</li>
-                        <li>在試驗前進行Ansys風扇結構及流場的有限元素分析</li>
-                        <li>使用感測器搭配Labview, DAQ在試驗中收集數據。</li>
-                        <li>分析數據，與 Ansys 模擬結果進行比較。</li>
-                        <li>主動尋求 Ansys, NI 廠商協助，提升與廠商的溝通能力</li>
-                    </ul>
-                </div>
-                <div class="experience-item">
-                    <h3>中華民國工業安全衛生協會</h3>
-                    <p class="job-title">Summer Intern</p>
-                    <p class="time">2022 Jul - Aug</p>
-                    <ul>
-                        <li>協助產業分析，撰寫報告</li>
-                        <li>撰寫政府公文及製作標案</li>
-                        <li>熟悉工安課程輔導學員提供諮詢(管理員、業務主管、堆高機、天車.......)</li>
-                    </ul>
-                </div>
-            </section>
         </div>
     </div>
 </body>
