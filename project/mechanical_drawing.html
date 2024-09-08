@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://github.com/liu092111/liu092111.github.io/blob/master/icon/knowledge.png?raw=true" type="image/x-icon">
     <title>基礎知識—機械畫</title>
     <style>
         /* 導入Google字體 */
@@ -202,13 +203,17 @@
 
         /* 作品集區域樣式 */
         .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        text-align: center; /* 添加此行 */
         }
 
         .portfolio-item {
-            text-align: center;
+            display: flex; /* 添加此行 */
+            flex-direction: column; /* 添加此行 */
+            align-items: center; /* 添加此行 */
+            justify-content: center; /* 添加此行 */
         }
 
         .portfolio-item img {
@@ -216,11 +221,13 @@
             height: auto;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px; /* 添加此行 */
         }
 
         .portfolio-item p {
             margin-top: 10px;
             font-size: 14px;
+            text-align: center; /* 添加此行 */
         }
 
         /* 作品連結區域樣式 */

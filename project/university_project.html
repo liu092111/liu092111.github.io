@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://github.com/liu092111/liu092111.github.io/blob/master/icon/research.png?raw=true" type="image/x-icon">
     <title>大學專題—振動控制</title>
     <style>
         /* 導入Google字體 */
@@ -53,7 +54,7 @@
         .block-2 {
             position: absolute;
             top: 20%;
-            left: 15%;
+            left: 8%;
             width: 40%;
             height: 55%;
             background-color: #cdb691;
@@ -202,13 +203,17 @@
 
         /* 作品集區域樣式 */
         .portfolio-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        text-align: center; /* 添加此行 */
         }
 
         .portfolio-item {
-            text-align: center;
+            display: flex; /* 添加此行 */
+            flex-direction: column; /* 添加此行 */
+            align-items: center; /* 添加此行 */
+            justify-content: center; /* 添加此行 */
         }
 
         .portfolio-item img {
@@ -216,11 +221,13 @@
             height: auto;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px; /* 添加此行 */
         }
 
         .portfolio-item p {
             margin-top: 10px;
             font-size: 14px;
+            text-align: center; /* 添加此行 */
         }
 
         /* 作品連結區域樣式 */
@@ -336,9 +343,9 @@
         <!-- 內容區域 -->
         <div class="content">
             <div class="column">
-                <!-- 機械畫作品集部分 -->
+                <!-- 專題作品集部分 -->
                 <section class="section">
-        <h2>機械畫作品</h2>
+        <h2>專題介紹—發展順滑模態控制系統的振動控制並應用於光學檢測系統</h2>
         <div class="portfolio-grid">
             <div class="portfolio-item">
                 <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Rubber%20Platform%20Schematic%20and%20Actual%20Images.png?raw=true" alt="橡膠平台示意圖">
@@ -360,16 +367,20 @@
                 <p>建立平台模型(整體主動平台)</p>
             </div>
             <div class="portfolio-item">
-                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Mechanical%20Drawing/Exploded%20View%20of%20Universal%20Joint.png?raw=true" alt="萬象接頭之爆炸圖">
-                <p>萬象接頭之爆炸圖</p>
+                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Controller%20Design.png?raw=true" alt="設計控制器">
+                <p>設計控制器</p>
             </div>
             <div class="portfolio-item">
-                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Mechanical%20Drawing/Trailer%20Hitching.png?raw=true" alt="拖車栓掛">
-                <p>拖車栓掛（包含：定位銷、拖車掛勾球、彈簧銷）</p>
+                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Controller%20Simulation.png?raw=true" alt="控制器模擬">
+                <p>控制器模擬</p>
             </div>
             <div class="portfolio-item">
-                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Mechanical%20Drawing/V8%20engine.png?raw=true" alt="V8引擎">
-                <p>V8引擎（包含：化油器主體、活塞、活塞銷、活塞連桿、曲柄軸、氣缸體、進氣岐管、節流蝶閥）</p>
+                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Experiment%20Data2.jpg?raw=true" alt="實驗結果">
+                <p>實驗結果</p>
+            </div>
+            <div class="portfolio-item">
+                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/(a)%20Actual%20Image%20(b)%20Standard%20Image%20(c)%20Blurred%20Image.png?raw=true" alt="鏡頭成像">
+                <p>鏡頭成像(實際圖、標準圖、模糊圖)</p>
             </div>
         </div>
 </section>
@@ -400,7 +411,7 @@
                                 <ul>
                                     <li><a href="mechanical_project.html" target="_blank">→ 機械專題</a></li>
                                     <li><a href="automatic_control.html" target="_blank">→ 自動控制</a></li>
-                                    <li><a href="/mechanical_design.html" target="_blank">→ 機械設計</a></li>
+                                    <li><a href="mechanical_design.html" target="_blank">→ 機械設計</a></li>
                                     <li><a href="kinematics.html" target="_blank">→ 機動學</a></li>
                                 </ul>
                             </div>
