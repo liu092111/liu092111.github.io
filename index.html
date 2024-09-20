@@ -202,58 +202,101 @@
         }
 
         /* 作品連結區域樣式 */
-        .quick-links {
-        background-color: transparent;
-        padding: 0;
-        margin-top: 10px;
-        box-shadow: none;
+        .quick-links-window {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            max-width: 300px;
+            transition: transform 0.3s ease-in-out;
+            z-index: 1000;
         }
 
+        .quick-links-window.collapsed {
+            transform: translateX(-10px);
+            top: 30px;
+            width: 30px; /* 收縮狀態下的寬度 */
+            overflow: hidden; /* 隱藏溢出的內容 */
+        }
+
+        /* 隱藏 h2 和 link-grid 當收縮時 */
+        .quick-links-window.collapsed h2,
+        .quick-links-window.collapsed .quick-links {
+            display: none;
+        }
+        /* 按鈕的初始位置 (展開時的位置) */
+        .toggle-btn {
+            position: absolute;
+            top: 10px;
+            right: -30px;
+            background-color: #4b5d56;
+            color: white;
+            border: none;
+            border-radius: 0 5px 5px 0;
+            padding: 5px 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        /* 收縮時，按鈕移到左上角 */
+        .quick-links-window.collapsed .toggle-btn {
+            left: 2;
+            top: 2px;
+            right: auto; /* 移除 right，改用 left */
+        }
+
+        .toggle-btn:hover {
+            background-color: #c5ae7c;
+        }
+
+        .quick-links-window h2 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #4b5d56;
+        }
+
+        /* 調整連結樣式以保持原有設計 */
         .link-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px 20px; /* 增加列間距，減少行間距 */
-        }
-
-        .link-section {
-            margin-bottom: 0; /* 移除底部間距 */
+            grid-template-columns: 1fr;
+            gap: 10px;
         }
 
         .link-section h4 {
-            color: #4b5d56;
+            font-size: 14px;
             margin-bottom: 5px;
-            font-size: 16px; /* 增大副標題字體 */
-            font-weight: bold;
+            color: #4b5d56;
         }
 
         .quick-links ul {
-            list-style-type: none;
-            padding-left: 0;
-            margin: 0;
+            padding-left: 15px;
         }
 
         .quick-links li {
-            margin-bottom: 5px;
+            margin-bottom: 3px;
         }
 
         .quick-links a {
-        color: #4c5e58;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        padding: 3px 6px;
-        border-radius: 5px;
-        background-color: #f5e8d3;
-        display: inline-block;
-        font-size: 14px;
-        animation: linkBounce 0.8s ease-in-out infinite alternate;
+            font-size: 12px;
+            padding: 2px 4px;
+            color: #4b5d56;
+            background-color: #ece3d9;
+            text-decoration: none;
+            border-radius: 3px;
+            transition: all 0.3s;
+            display: inline-block;
+            animation: linkBounce 1.5s ease-in-out infinite alternate;
         }
 
         @keyframes linkBounce {
-            0% {
+            0%, 100% {
                 transform: translateY(0);
             }
-            100% {
-                transform: translateY(-3px);
+            50% {
+                transform: translateY(-2px);
             }
         }
 
@@ -324,47 +367,56 @@
                 </section>
             </div>
             
-            <div class="column">
-                <!-- 作品連結部分 -->
-                <section class="section">
-                    <h2>作品連結</h2>
-                    <!-- 注釋：這裡展示了我的各種專業領域的作品 -->
-                    <div class="quick-links">
-                        <div class="link-grid">
-                            <div class="link-section">
-                                <h4>實習經歷</h4>
-                                <ul>
-                                    <li><a href="project/reliability.html" target="_blank">→ 可靠度試驗、有限元素分析</a></li>
-                                    <li><a href="project/ansys.html" target="_blank">→ Ansys建模自動化</a></li>
-                                </ul>
-                            </div>
-                            <div class="link-section">
-                                <h4>學術研究</h4>
-                                <ul>
-                                    <li><a href="project/university_project.html" target="_blank">→ 大學專題 - 振動抑制</a></li>
-                                </ul>
-                            </div>
-                            <div class="link-section">
-                                <h4>完整專案設計</h4>
-                                <ul>
-                                    <li><a href="project/mechanical_project.html" target="_blank">→ 機械專題</a></li>
-                                    <li><a href="project/automatic-control.html" target="_blank">→ 自動控制</a></li>
-                                    <li><a href="project/mechanical_design.html" target="_blank">→ 機械設計</a></li>
-                                    <li><a href="project/kinematics.html" target="_blank">→ 機動學</a></li>
-                                </ul>
-                            </div>
-                            <div class="link-section">
-                                <h4>基礎知識</h4>
-                                <ul>
-                                    <li><a href="project/numerical_analysis.html" target="_blank">→ 數值分析</a></li>
-                                    <li><a href="project/instrumentation.html" target="_blank">→ 儀器與量測</a></li>
-                                    <li><a href="project/mechanical_drawing.html" target="_blank">→ 機械畫</a></li>
-                                </ul>
-                            </div>
+            <!-- 新增作品連結視窗 -->
+            <div class="quick-links-window">
+                <button class="toggle-btn">◀</button>
+                <h2>作品連結</h2>
+                <div class="quick-links">
+                    <div class="link-grid">
+                        <div class="link-section">
+                            <h4>實習經歷</h4>
+                            <ul>
+                                <li><a href="project/reliability.html" target="_blank">可靠度試驗、有限元素分析</a></li>
+                                <li><a href="project/ansys.html" target="_blank">Ansys建模自動化</a></li>
+                            </ul>
+                        </div>
+                        <div class="link-section">
+                            <h4>學術研究</h4>
+                            <ul>
+                                <li><a href="project/university_project.html" target="_blank">大學專題 - 振動抑制</a></li>
+                            </ul>
+                        </div>
+                        <div class="link-section">
+                            <h4>完整專案設計</h4>
+                            <ul>
+                                <li><a href="project/mechanical_project.html" target="_blank">機械專題</a></li>
+                                <li><a href="project/automatic-control.html" target="_blank">自動控制</a></li>
+                                <li><a href="project/mechanical_design.html" target="_blank">機械設計</a></li>
+                                <li><a href="project/kinematics.html" target="_blank">機動學</a></li>
+                            </ul>
+                        </div>
+                        <div class="link-section">
+                            <h4>基礎知識</h4>
+                            <ul>
+                                <li><a href="project/numerical_analysis.html" target="_blank">數值分析</a></li>
+                                <li><a href="project/instrumentation.html" target="_blank">儀器與量測</a></li>
+                                <li><a href="project/mechanical_drawing.html" target="_blank">機械畫</a></li>
+                            </ul>
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
+
+            <script>
+                // 添加視窗收縮和展開功能
+                const quickLinksWindow = document.querySelector('.quick-links-window');
+                const toggleBtn = document.querySelector('.toggle-btn');
+                toggleBtn.addEventListener('click', () => {
+                    quickLinksWindow.classList.toggle('collapsed');
+                    toggleBtn.textContent = quickLinksWindow.classList.contains('collapsed') ? '▶' : '◀';
+                });
+            </script>
+
         </div>
             <!-- 專業技能部分 -->
             <section class="section">
