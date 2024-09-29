@@ -3,7 +3,7 @@
 export function QuickLinksWindow(options = {}) {
 
     //定義連結中路徑是否加入project/
-    const { basePath = 'project/' } = options;
+    const { basePath = '' } = options;
     const createLink = (href, text) => `<a href="${basePath}${href}" target="_blank">${text}</a>`;
     // 定義 CSS 樣式
     const style = `
