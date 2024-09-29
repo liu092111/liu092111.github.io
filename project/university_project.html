@@ -200,96 +200,6 @@
         .column {
             flex: 1;
         }
-
-        /* 作品集區域樣式 */
-        .portfolio-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        text-align: center; /* 添加此行 */
-        }
-
-        .portfolio-item {
-            display: flex; /* 添加此行 */
-            flex-direction: column; /* 添加此行 */
-            align-items: center; /* 添加此行 */
-            justify-content: center; /* 添加此行 */
-        }
-
-        .portfolio-item img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px; /* 添加此行 */
-        }
-
-        .portfolio-item p {
-            margin-top: 10px;
-            font-size: 14px;
-            text-align: center; /* 添加此行 */
-        }
-
-        /* 作品連結區域樣式 */
-        .quick-links {
-        background-color: transparent;
-        padding: 0;
-        margin-top: 10px;
-        box-shadow: none;
-        }
-
-        .link-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px 20px; /* 增加列間距，減少行間距 */
-        }
-
-        .link-section {
-            margin-bottom: 0; /* 移除底部間距 */
-        }
-
-        .link-section h4 {
-            color: #4b5d56;
-            margin-bottom: 5px;
-            font-size: 16px; /* 增大副標題字體 */
-            font-weight: bold;
-        }
-
-        .quick-links ul {
-            list-style-type: none;
-            padding-left: 0;
-            margin: 0;
-        }
-
-        .quick-links li {
-            margin-bottom: 5px;
-        }
-
-        .quick-links a {
-        color: #4c5e58;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        padding: 3px 6px;
-        border-radius: 5px;
-        background-color: #f5e8d3;
-        display: inline-block;
-        font-size: 14px;
-        animation: linkBounce 0.8s ease-in-out infinite alternate;
-        }
-
-        @keyframes linkBounce {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(-3px);
-            }
-        }
-
-        .quick-links a:hover {
-            color: #ffffff;
-            background-color: #c5ae7c;
-        }
     </style>
 </head>
 <body>
@@ -383,51 +293,11 @@
                 <p>鏡頭成像(實際圖、標準圖、模糊圖)</p>
             </div>
         </div>
-</section>
-            </div>
-            
-            <div class="column">
-                <!-- 作品連結部分 -->
-                <section class="section">
-                    <h2>作品連結</h2>
-                    <!-- 注釋：這裡展示了我的各種專業領域的作品 -->
-                    <div class="quick-links">
-                        <div class="link-grid">
-                            <div class="link-section">
-                                <h4>實習經歷</h4>
-                                <ul>
-                                    <li><a href="reliability.html" target="_blank">→ 可靠度試驗、有限元素分析</a></li>
-                                    <li><a href="ansys.html" target="_blank">→ Ansys建模自動化</a></li>
-                                </ul>
-                            </div>
-                            <div class="link-section">
-                                <h4>學術研究</h4>
-                                <ul>
-                                    <li><a href="university_project.html" target="_blank">→ 大學專題 - 振動控制</a></li>
-                                </ul>
-                            </div>
-                            <div class="link-section">
-                                <h4>完整專案設計</h4>
-                                <ul>
-                                    <li><a href="mechanical_project.html" target="_blank">→ 機械專題</a></li>
-                                    <li><a href="automatic_control.html" target="_blank">→ 自動控制</a></li>
-                                    <li><a href="mechanical_design.html" target="_blank">→ 機械設計</a></li>
-                                    <li><a href="kinematics.html" target="_blank">→ 機動學</a></li>
-                                </ul>
-                            </div>
-                            <div class="link-section">
-                                <h4>基礎知識</h4>
-                                <ul>
-                                    <li><a href="numerical_analysis.html" target="_blank">→ 數值分析</a></li>
-                                    <li><a href="instrumentation.html" target="_blank">→ 儀器與量測</a></li>
-                                    <li><a href="mechanical_drawing.html" target="_blank">→ 機械畫</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
     </div>
 </body>
 </html>
+
+<script type="module">
+    import { QuickLinksWindow } from '../quick_links_components.js';
+    QuickLinksWindow();
+</script>
