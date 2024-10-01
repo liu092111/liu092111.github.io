@@ -131,31 +131,31 @@ export function QuickLinksWindow(options = {}) {
                     <div class="link-section">
                         <h4>實習經歷</h4>
                         <ul>
+                            <li>${createLink('ansys.html', 'Ansys建模自動化 (2024)')}</li>
                             <li>${createLink('reliability.html', '可靠度試驗、FEA (2023)')}</li>
-                            <li>${createLink('ansys.html', 'Ansys建模自動化')}</li>
                         </ul>
                     </div>
                     <div class="link-section">
                         <h4>學術研究</h4>
                         <ul>
-                            <li>${createLink('university_project.html', '大學專題 - 振動抑制')}</li>
+                            <li>${createLink('university_project.html', '大學專題 - 振動抑制(2023)')}</li>
                         </ul>
                     </div>
                     <div class="link-section">
                         <h4>完整專案設計</h4>
                         <ul>
-                            <li>${createLink('mechanical_project.html', '機械專題')}</li>
-                            <li>${createLink('automatic-control.html', '自動控制')}</li>
-                            <li>${createLink('mechanical_design.html', '機械設計')}</li>
-                            <li>${createLink('kinematics.html', '機動學')}</li>
+                            <li>${createLink('mechanical_project.html', '機械專題(2023)')}</li>
+                            <li>${createLink('automatic-control.html', '自動控制(2022)')}</li>
+                            <li>${createLink('mechanical_design.html', '機械設計(2022)')}</li>
+                            <li>${createLink('kinematics.html', '機動學(2021)')}</li>
                         </ul>
                     </div>
                     <div class="link-section">
                         <h4>基礎知識</h4>
                         <ul>
-                            <li>${createLink('numerical_analysis.html', '數值分析')}</li>
-                            <li>${createLink('instrumentation.html', '儀器與量測')}</li>
-                            <li>${createLink('mechanical_drawing.html', '機械畫')}</li>
+                            <li>${createLink('numerical_analysis.html', '數值分析(2023)')}</li>    
+                            <li>${createLink('instrumentation.html', '儀器與量測(2023)')}</li>
+                            <li>${createLink('mechanical_drawing.html', '機械畫(2021)')}</li>
                         </ul>
                     </div>
                 </div>
