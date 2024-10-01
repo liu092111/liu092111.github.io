@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://github.com/liu092111/liu092111.github.io/blob/master/icon/project.png?raw=true" type="image/x-icon">
+    <title>完整專案設計—機械設計</title>
+    <style>
+        /* 導入Google字體 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
+        
+        /* 全局樣式設置 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #f8f5f0 25%, #e0d8c3 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 簡歷主容器樣式 */
+        .resume {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 添加背景色塊 */
+        .background-block {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .block-1 {
+            position: absolute;
+            top: 0;
+            left: 0%;
+            width: 30%;
+            height: 55%;
+            background-color: #ece3d9;
+        }
+        .block-2 {
+            position: absolute;
+            top: 20%;
+            left: 15%;
+            width: 40%;
+            height: 55%;
+            background-color: #cdb691;
+        }
+        .block-3 {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 35%;
+            height: 35%;
+            background-color: #4c5e58;
+            opacity: 0.7;
+        }
+
+        /* 頭部樣式 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        /* 個人照片樣式 */
+        .profile-img {
+            width: 250px;
+            height: 300px;
+            object-fit: cover;
+            margin-top: 50px;
+            margin-right: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 聯繫信息樣式 */
+        .contact-info {
+            color: black;
+            padding: 15px;
+            margin-bottom: 2px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-left: 10px;
+        }
+
+        .contact-info p {
+            margin: 4px 0;
+            font-size: 12px;
+        }
+
+        /* 內容區域樣式 */
+        .content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 各部分樣式 */
+        .section {
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* 淡入動畫 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 標題樣式 */
+        h1 {
+            font-size: 32px;
+            margin: 0 0 10px 0;
+            color: #4b5d56;
+        }
+
+        h2 {
+            font-size: 20px;
+            color: #4b5d56;
+            border-bottom: 2px solid #c5ae7c;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        /* 段落和列表項目樣式 */
+        p, li {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        /* 經歷項目樣式 */
+        .experience-item {
+            margin-bottom: 15px;
+        }
+
+        .experience-item h3 {
+            font-size: 16px;
+            color: #4b5d56;
+            margin: 0;
+        }
+
+        .experience-item p {
+            color: #000;
+            margin: 2px 0;
+        }
+
+        .experience-item p.job-title {
+            font-weight: bold;
+        }
+
+        .experience-item .time {
+            color: #888;
+            font-style: italic;
+        }
+
+        /* 頁腳樣式 */
+        .footer {
+            background-color: #4b5d56;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 添加兩列佈局 */
+        .content {
+            display: flex;
+            gap: 20px;
+        }
+
+        .column {
+            flex: 1;
+        }
+
+        /* 作品集區域樣式 */
+        .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        text-align: center; /* 添加此行 */
+        }
+
+        .portfolio-item {
+            display: flex; /* 添加此行 */
+            flex-direction: column; /* 添加此行 */
+            align-items: center; /* 添加此行 */
+            justify-content: center; /* 添加此行 */
+        }
+
+        .portfolio-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px; /* 添加此行 */
+        }
+
+        .portfolio-item p {
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center; /* 添加此行 */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 背景色塊 -->
+    <div class="background-block">
+        <div class="block-1"></div>
+        <div class="block-2"></div>
+        <div class="block-3"></div>
+    </div>
+    
+    <!-- 簡歷主容器 -->
+    <div class="resume">
+        <!-- 頭部區域 -->
+        <header class="header">
+            <!-- 個人照片 -->
+            <div>
+                <img src="https://github.com/liu092111/College_Portfolio/blob/master/image%20photo.jpg?raw=true" alt="劉樺的照片" class="profile-img">
+            </div>
+            <div>
+                <!-- 姓名 -->
+                <h1>劉&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;樺</h1>
+                <!-- 聯繫信息 -->
+                <div class="contact-info">
+                    <p>📞 0908736900</p>
+                    <p>✉️ liu092211@gmail.com</p>
+                    <p>🏠 桃園市中壢區青商路</p>
+                    <p>🌐 <a href="https://www.linkedin.com/in/hua-liu-b8a905236/" target="_blank">LinkedIn</a></p>
+                </div>
+                <!-- 個人優勢 -->
+                <div class="section">
+                    <h2>機械畫 — Solidworks</h2>
+                    <ul>
+                        <li><strong>Situation:</strong></li>
+                        <li>進行應力結構分析，並與理論結果進行比較</li>
+                        <li><strong>Task:</strong></li>
+                        <li>未曾接觸過有限元素分析。理論難以應對過於複雜的結構，需要進行簡化</li>
+                        <li><strong>Action:</strong></li>
+                        <li>將複雜的結構進行簡化，並自學有限元素分析方法後進行分析</li>
+                        <li>針對不同工程問題，如動態載荷、非線性材料和疲勞壽命分析，<br>進行結構研究，確保結果與理論結果吻合</li>
+                        <li><strong>Result:</strong></li>
+                        <li>針對不同的問題去自學相應知識並應用</li>
+                        <li>提升機械系統規劃及實現設計的能力</li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- 加入作品連結視窗 -->
+        <script type="module">
+            import { QuickLinksWindow } from '../quick_links_components.js';
+            QuickLinksWindow({basePath: ''});
+        </script>
+
+        <!-- 內容區域 -->
+        <div class="content">
+            <div class="column">
+                <!-- 機械設計作品集部分 -->
+                <section class="section">
+                    <h2>機械設計作品</h2>
+                    <div class="portfolio-grid">
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Mechanical%20Design/Goal%20Structure%20(Computer%20Stand).png?raw=true" alt="目標架構">
+                            <p>目標分析架構(電腦支架)</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Mechanical%20Design/Simplified%20Mechanism%20Analysis%20(Solidwork,%20Ansys).png?raw=true" alt="簡化機構">
+                            <p>簡化機構分析(Solidworks/Ansys)</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Mechanical%20Design/Mesh%20Generation.png?raw=true" alt="網格劃分">
+                            <p>網格劃分</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Mechanical%20Design/Solidworks%20Stress,%20Displacement%20Analysis.png?raw=true" alt="Solidworks應力分析">
+                            <p>Solidworks 應力分析</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Mechanical%20Design/Ansys%20Stress,%20Displacement%20Analysis.png?raw=true" alt="Ansys 應力分析">
+                            <p>Ansys 應力分析</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Mechanical%20Design/Error%20Comparison.png?raw=true" alt="誤差結果比較">
+                            <p>結果比較</p>
+                        </div>
+                    </div>
+            </section>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
