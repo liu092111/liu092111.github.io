@@ -230,6 +230,24 @@
             text-align: center; /* 添加此行 */
         }
 
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .profile-img {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .contact-info {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -260,7 +278,7 @@
                 </div>
                 <!-- 個人優勢 -->
                 <div class="section">
-                    <h2>機械畫 — Solidworks</h2>
+                    <h2>機械設計 — 應力分析</h2>
                     <ul>
                         <li><strong>Situation:</strong></li>
                         <li>進行應力結構分析，並與理論結果進行比較</li>

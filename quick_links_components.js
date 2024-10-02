@@ -4,8 +4,8 @@ export function QuickLinksWindow(options = {}) {
 
     //定義連結中路徑是否加入project/
     const { basePath = 'project/' } = options;
-    const createLink = (href, text) => `<a href="${basePath}${href}" target="_blank">${text}</a>`;
-    const indexLink = (href, text) => `<a href="${href}" target="_blank">${text}</a>`;
+    const createLink = (href, text) => `<a href="${basePath}${href}">${text}</a>`;
+    const indexLink = (href, text) => `<a href="${href}" >${text}</a>`;
     // 定義 CSS 樣式
     const style = `
         /* 快速鏈接窗口的基本樣式 */
@@ -130,8 +130,8 @@ export function QuickLinksWindow(options = {}) {
             <div class="quick-links">
                 <div class="link-grid">
                     <div class="link-section">
-                        <li>${indexLink('index.html', '返回履歷首頁')}</li>
-                    <div>
+                            <li><a href="../index.html">返回履歷首頁</a></li>
+                        </div>
                     <div class="link-section">
                         <h4>實習經歷</h4>
                         <ul>

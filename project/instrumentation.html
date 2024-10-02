@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://github.com/liu092111/liu092111.github.io/blob/master/icon/knowledge.png?raw=true" type="image/x-icon">
+    <title>基礎知識—儀器與量測</title>
+    <style>
+        /* 導入Google字體 */
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
+        
+        /* 全局樣式設置 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #f8f5f0 25%, #e0d8c3 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 簡歷主容器樣式 */
+        .resume {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 添加背景色塊 */
+        .background-block {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+        .block-1 {
+            position: absolute;
+            top: 0;
+            left: 0%;
+            width: 30%;
+            height: 55%;
+            background-color: #ece3d9;
+        }
+        .block-2 {
+            position: absolute;
+            top: 20%;
+            left: 15%;
+            width: 40%;
+            height: 55%;
+            background-color: #cdb691;
+        }
+        .block-3 {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 35%;
+            height: 35%;
+            background-color: #4c5e58;
+            opacity: 0.7;
+        }
+
+        /* 頭部樣式 */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+
+        /* 個人照片樣式 */
+        .profile-img {
+            width: 250px;
+            height: 300px;
+            object-fit: cover;
+            margin-top: 50px;
+            margin-left: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 聯繫信息樣式 */
+        .contact-info {
+            color: black;
+            padding: 15px;
+            margin-bottom: 2px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-left: 10px;
+        }
+
+        .contact-info p {
+            margin: 4px 0;
+            font-size: 12px;
+        }
+
+        /* 內容區域樣式 */
+        .content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 各部分樣式 */
+        .section {
+            margin-bottom: 5px;
+            animation: fadeInUp 1s ease-out forwards;
+            opacity: 0;
+        }
+
+        /* 淡入動畫 */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* 標題樣式 */
+        h1 {
+            font-size: 32px;
+            margin: 0 0 10px 0;
+            color: #4b5d56;
+        }
+
+        h2 {
+            font-size: 20px;
+            color: #4b5d56;
+            border-bottom: 2px solid #c5ae7c;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        /* 段落和列表項目樣式 */
+        p, li {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        /* 經歷項目樣式 */
+        .experience-item {
+            margin-bottom: 15px;
+        }
+
+        .experience-item h3 {
+            font-size: 16px;
+            color: #4b5d56;
+            margin: 0;
+        }
+
+        .experience-item p {
+            color: #000;
+            margin: 2px 0;
+        }
+
+        .experience-item p.job-title {
+            font-weight: bold;
+        }
+
+        .experience-item .time {
+            color: #888;
+            font-style: italic;
+        }
+
+        /* 頁腳樣式 */
+        .footer {
+            background-color: #4b5d56;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 添加兩列佈局 */
+        .content {
+            display: flex;
+            gap: 20px;
+        }
+
+        .column {
+            flex: 1;
+        }
+
+        /* 作品集區域樣式 */
+        .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
+        text-align: center; /* 添加此行 */
+        }
+
+        .portfolio-item {
+            display: flex; /* 添加此行 */
+            flex-direction: column; /* 添加此行 */
+            align-items: center; /* 添加此行 */
+            justify-content: center; /* 添加此行 */
+        }
+
+        .portfolio-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px; /* 添加此行 */
+        }
+
+        .portfolio-item p {
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center; /* 添加此行 */
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .profile-img {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .contact-info {
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 背景色塊 -->
+    <div class="background-block">
+        <div class="block-1"></div>
+        <div class="block-2"></div>
+        <div class="block-3"></div>
+    </div>
+    
+    <!-- 簡歷主容器 -->
+    <div class="resume">
+        <!-- 頭部區域 -->
+        <header class="header">
+            <!-- 個人照片 -->
+            <div>
+                <img src="https://github.com/liu092111/College_Portfolio/blob/master/image%20photo.jpg?raw=true" alt="劉樺的照片" class="profile-img">
+            </div>
+            <div>
+                <!-- 姓名 -->
+                <h1>劉&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;樺</h1>
+                <!-- 聯繫信息 -->
+                <div class="contact-info">
+                    <p>📞 0908736900</p>
+                    <p>✉️ liu092211@gmail.com</p>
+                    <p>🏠 桃園市中壢區青商路</p>
+                    <p>🌐 <a href="https://www.linkedin.com/in/hua-liu-b8a905236/" target="_blank">LinkedIn</a></p>
+                </div>
+                <!-- 個人優勢 -->
+                <div class="section">
+                    <h2>儀器與量測 — 訊號處理</h2>
+                    <ul>
+                        <li><strong>Situation:</strong></li>
+                        <li>瞭解量測系統的基本特性，並進行精密量測系統的概念設計<br>和非機械量測系統（如EE、MSE、CHEM）</li>
+                        <li><strong>Task:</strong></li>
+                        <li>需掌握儀器與機械變數的量測，同時以任課老師實驗室的儀器為基礎，<br>進行系統概念設計及個案討論</li>
+                        <li><strong>Action:</strong></li>
+                        <li>選定五軸加工機，監測在不同轉速下的時域和頻域訊號</li>
+                        <li>設計實驗架設、數據擷取、數據處理及資料分析</li>
+                        <li><strong>Result:</strong></li>
+                        <li>熟悉量測系統的基本原理及資料表示注意事項</li>
+                        <li>認識基本機械變數的量測方法與儀器的基本原理</li>
+                        <li>提升測量和分析能力，並獲得了實際操作的經驗 </li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <!-- 加入作品連結視窗 -->
+        <script type="module">
+            import { QuickLinksWindow } from '../quick_links_components.js';
+            QuickLinksWindow({basePath: ''});
+        </script>
+
+        <!-- 內容區域 -->
+        <div class="content">
+            <div class="column">
+                <!-- 儀器與量測作品集部分 -->
+                <section class="section">
+                    <h2>儀器與量測作品</h2>
+                    <div class="portfolio-grid">
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Instrument%20and%20Measurement/Raw%20Signal%20&%20Filtered%20Signal.png?raw=true" alt="濾波訊號">
+                            <p>原始訊號和濾波訊號</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Instrument%20and%20Measurement/Machine%20Status%20Monitoring%20Process.png?raw=true" alt="機台狀態監測流程">
+                            <p>機台狀態監測流程</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Instrument%20and%20Measurement/Five-Axis%20Processing%20Machine.png?raw=true" alt="五軸加工機">
+                            <p>五軸加工機</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Instrument%20and%20Measurement/Time%20Domain%20Plot%20Before%20and%20After%20Filtering.png?raw=true" alt="濾波前後時域對比圖">
+                            <p>濾波前後時域對比圖</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Instrument%20and%20Measurement/Frequency%20Spectrum%20Plot%20for%201000rpm,%205000rpm,%2010000rpm.png?raw=true" alt="1000rpm, 5000rpm, 10000rpm頻譜圖">
+                            <p>1000rpm, 5000rpm, 10000rpm頻譜圖</p>
+                        </div>
+                    </div>
+            </section>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
