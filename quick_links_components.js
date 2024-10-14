@@ -150,16 +150,13 @@ export function QuickLinksWindow(options = {}) {
                         <ul>
                             <li>${createLink('mechanical_project.html', '機械專題(2023)')}</li>
                             <li>${createLink('automatic-control.html', '自動控制(2022)')}</li>
-                            <li>${createLink('mechanical_design.html', '機械設計(2022)')}</li>
-                            <li>${createLink('kinematics.html', '機動學(2021)')}</li>
                         </ul>
                     </div>
                     <div class="link-section">
                         <h4>基礎知識</h4>
                         <ul>
-                            <li>${createLink('numerical_analysis.html', '數值分析(2023)')}</li>    
-                            <li>${createLink('instrumentation.html', '儀器與量測(2023)')}</li>
-                            <li>${createLink('mechanical_drawing.html', '機械畫(2021)')}</li>
+                            <li>${createLink('numerical_analysis.html', '訊號處理、數值分析(2023)')}</li> 
+                            <li>${createLink('mechanical_design.html', '機械設計(2022)')}</li>   
                         </ul>
                     </div>
                 </div>
