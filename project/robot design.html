@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="https://github.com/liu092111/liu092111.github.io/blob/master/icon/project.png?raw=true" type="image/x-icon">
-    <title>完整專案經歷—自動控制</title>
+    <title>完整專案經歷—機器人設計</title>
     <style>
         /* 導入Google字體 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
@@ -83,7 +83,7 @@
             height: 300px;
             object-fit: cover;
             margin-top: 50px;
-            margin-right: 20px;
+            margin-left: 100px; /*調整照片左右位置*/
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -179,7 +179,8 @@
         /* 作品集區域樣式 */
         .portfolio-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        /*grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));*/
+        grid-template-columns: repeat(3, 1fr);
         gap: 20px;
         text-align: center; /* 添加此行 */
         }
@@ -243,7 +244,7 @@
             </div>
             <div>
                 <!-- 姓名 -->
-                <h1>劉&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;樺</h1>
+                <h1> 劉&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;樺</h1>
                 <!-- 聯繫信息 -->
                 <div class="contact-info">
                     <p>📞 0908736900</p>
@@ -285,15 +286,15 @@
                     <div class="portfolio-grid">
                         <div class="portfolio-item">
                             <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Mechanical%20Project/Design%20of%20Retrieval%20Robot%20and%20Analysis.gif?raw=true" alt="機器人設計圖">
-                            <p>機器人設計圖</p>
-                        </div>
-                        <div class="portfolio-item">
-                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Mechanical%20Project/Transport%20Robot.jpg?raw=true" alt="運輸機器人">
-                            <p>運輸機器人</p>
+                            <p>機器人設計</p>
                         </div>
                         <div class="portfolio-item">
                             <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Mechanical%20Project/Retrieval%20Robot.jpg?raw=true" alt="取物機器人">
                             <p>取物機器人設計圖</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Mechanical%20Project/Transport%20Robot.jpg?raw=true" alt="運輸機器人">
+                            <p>運輸機器人</p>
                         </div>
                         <div class="portfolio-item">
                             <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Mechanical%20Project/Retrieval%20Robot%20Gripping%20Components.gif?raw=true" alt="取物機器人夾取零件">
@@ -317,7 +318,7 @@
             <div class="column">
                 <!-- 機械畫作品集部分 -->
                 <section class="section">
-                    <h2>自動控制作品 (20233</h2>
+                    <h2>自動控制作品 (2022)</h2>
                     <div class="portfolio-grid">
                         <div class="portfolio-item">
                             <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/Automatic%20Control/line_following.gif?raw=true" alt="EV3循跡">
