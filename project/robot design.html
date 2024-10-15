@@ -83,7 +83,7 @@
             height: 300px;
             object-fit: cover;
             margin-top: 50px;
-            margin-left: 100px; /*調整照片左右位置*/
+            margin-left: 40px; /*調整照片左右位置*/
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
@@ -178,26 +178,30 @@
 
         /* 作品集區域樣式 */
         .portfolio-grid {
-        display: grid;
-        /*grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));*/
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px;
-        text-align: center; /* 添加此行 */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
         }
 
         .portfolio-item {
-            display: flex; /* 添加此行 */
-            flex-direction: column; /* 添加此行 */
-            align-items: center; /* 添加此行 */
-            justify-content: center; /* 添加此行 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            max-width: 250px; /* 增加最大寬度 */
+            margin: 0 auto;
         }
 
         .portfolio-item img {
-            max-width: 100%;
-            height: auto;
+            width: 100%;
+            height: 150px; /* 固定高度，您可以根據需要調整 */
+            object-fit: contain; /* 改為contain，確保整個圖片可見 */
+            background-color: #f0f0f0; /* 添加背景色，使圖片邊界更清晰 */
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px; /* 添加此行 */
+            margin-bottom: 10px;
         }
 
         .portfolio-item p {

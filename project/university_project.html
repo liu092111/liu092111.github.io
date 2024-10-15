@@ -176,6 +176,35 @@
             flex: 1;
         }
 
+        /* 作品集區域樣式 */
+        .portfolio-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 10px;
+        text-align: center; 
+        }
+
+        .portfolio-item {
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+        }
+
+        .portfolio-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px; 
+        }
+
+        .portfolio-item p {
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center; /* 添加此行 */
+        }
+
         /* 響應式設計 */
         @media (max-width: 768px) {
             .header {
@@ -213,7 +242,7 @@
             </div>
             <div>
                 <!-- 姓名 -->
-                <h1>劉&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;樺</h1>
+                <h1>&nbsp;劉&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;樺</h1>
                 <!-- 聯繫信息 -->
                 <div class="contact-info">
                     <p>📞 0908736900</p>
@@ -258,15 +287,16 @@
                             <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Optical%20Inspection%20Platform%20Flow%20Chart.png?raw=true" alt="研究流程">
                             <p>研究流程</p>
                         </div>
-                        <div class="portfolio-item full-width">
-                            <div class="model-images">
-                                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Build%20Platform%20Model(Rubber%20Bear).png?raw=true" alt="橡膠平台模型">                </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/(a)%20Actual%20Image%20(b)%20Standard%20Image%20(c)%20Blurred%20Image.png?raw=true" alt="鏡頭成像">
+                            <p>鏡頭成像(實際圖、標準圖、模糊圖)</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Build%20Platform%20Model(Rubber%20Bear).png?raw=true" alt="橡膠平台模型">
                             <p>建立平台模型(中心橡膠平台)</p>
                         </div>
-                        <div class="portfolio-item full-width">
-                            <div class="model-images">
-                                <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Build%20Platform%20Model(Active%20Platform).png?raw=true" alt="主動平台模型">
-                            </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Build%20Platform%20Model(Active%20Platform).png?raw=true" alt="主動平台模型">
                             <p>建立平台模型(整體主動平台)</p>
                         </div>
                         <div class="portfolio-item">
@@ -280,10 +310,6 @@
                         <div class="portfolio-item">
                             <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/Experiment%20Data2.jpg?raw=true" alt="實驗結果">
                             <p>實驗結果</p>
-                        </div>
-                        <div class="portfolio-item">
-                            <img src="https://github.com/liu092111/College_Portfolio/blob/main/Monographic%20study/Picture/(a)%20Actual%20Image%20(b)%20Standard%20Image%20(c)%20Blurred%20Image.png?raw=true" alt="鏡頭成像">
-                            <p>鏡頭成像(實際圖、標準圖、模糊圖)</p>
                         </div>
                     </div>
                 </section>
