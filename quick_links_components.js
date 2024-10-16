@@ -135,7 +135,6 @@ export function QuickLinksWindow(options = {}) {
                     <div class="link-section">
                         <h4>實習經歷</h4>
                         <ul>
-                            <!--<li>${createLink('ansys.html', 'Ansys建模自動化 (2024)')}</li>-->
                             <li>${createLink('reliability.html', '可靠度試驗、FEA (2023)')}</li>
                         </ul>
                     </div>
