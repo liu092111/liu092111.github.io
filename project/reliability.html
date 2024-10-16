@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="https://github.com/liu092111/liu092111.github.io/blob/master/icon/project.png?raw=true" type="image/x-icon">
-    <title>完整專案設計—機械設計</title>
+    <link rel="icon" href="https://github.com/liu092111/liu092111.github.io/blob/master/icon/internship.png?raw=true" type="image/x-icon">
+    <title>實習經歷—可靠度試驗</title>
     <style>
         /* 導入Google字體 */
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap');
@@ -178,30 +178,36 @@
 
         /* 作品集區域樣式 */
         .portfolio-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        text-align: center; 
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            text-align: center;
         }
 
         .portfolio-item {
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+            max-width: 250px; /* 增加最大寬度 */
+            margin: 0 auto;
         }
 
         .portfolio-item img {
-            max-width: 100%;
-            height: auto;
+            width: 100%;
+            height: 150px; /* 固定高度，您可以根據需要調整 */
+            object-fit: contain; /* 改為contain，確保整個圖片可見 */
+            background-color: #f0f0f0; /* 添加背景色，使圖片邊界更清晰 */
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px; 
+            margin-bottom: 10px;
         }
 
         .portfolio-item p {
             margin-top: 10px;
             font-size: 14px;
+            text-align: center; /* 添加此行 */
         }
 
         /* 響應式設計 */
@@ -242,7 +248,7 @@
             </div>
             <div>
                 <!-- 姓名 -->
-                <h1>劉&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;樺</h1>
+                <h1>&nbsp;劉&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;樺</h1>
                 <!-- 聯繫信息 -->
                 <div class="contact-info">
                     <p>📞 0908736900</p>
@@ -252,7 +258,7 @@
                 </div>
                 <!-- 個人優勢 -->
                 <div class="section">
-                    <h2>機械設計 — 應力分析</h2>
+                    <h2>實習經歷 — 可靠度試驗、FEA分析</h2>
                     <ul>
                         <li><strong>Situation:</strong></li>
                         <li>學術知識應用於實際工作場景中，利用Ansys和LabVIEW及DAQ進行可靠度試驗</li>
@@ -320,7 +326,43 @@
                     </div>
                 </section>
             </div>
-        </div>        
+        </div>
+        
+        <div class="content">
+            <div class="column">
+                <!-- 可靠度試驗作品集部分 -->
+                <section class="section">
+                    <h2>可靠度試驗 (2023 Sep-2024 Apr)</h2>
+                    <div class="portfolio-grid">
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/SGS%20Inspection%20Intern/Reliability%20Test/Thermal%20Test.jpg?raw=true" alt="溫度試驗">
+                            <p>溫度試驗</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/SGS%20Inspection%20Intern/Reliability%20Test/Vibration%20Test.png?raw=true" alt="振動試驗">
+                            <p>振動試驗</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/SGS%20Inspection%20Intern/Reliability%20Test/Thermal%20Vibrational%20Test.png?raw=true" alt="複合式試驗(振動+溫度)">
+                            <p>複合式試驗(振動+溫度)</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/SGS%20Inspection%20Intern/Reliability%20Test/Shock%20Test.png?raw=true" alt="衝擊試驗">
+                            <p>衝擊試驗</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/SGS%20Inspection%20Intern/Reliability%20Test/Waterproof%20Test.png?raw=true" alt="防水試驗">
+                            <p>防水試驗</p>
+                        </div>
+                        <div class="portfolio-item">
+                            <img src="https://github.com/liu092111/liu092111.github.io/blob/master/picture/SGS%20Inspection%20Intern/Reliability%20Test/Dustproof%20Test.png?raw=true" alt="防塵試驗">
+                            <p>防塵試驗</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
     </div>
 </body>
 </html>
