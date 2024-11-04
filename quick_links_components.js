@@ -130,7 +130,8 @@ export function QuickLinksWindow(options = {}) {
             <div class="quick-links">
                 <div class="link-grid">
                     <div class="link-section">
-                            <li><a href="../index.html">返回履歷首頁</a></li>
+                            <li><a href="https://liu092111.github.io/">返回履歷首頁</a></li>
+                            <li><a href="https://liu092111.github.io/eng">Personal Homepage</a></li>
                     </div>
                     <div class="link-section">
                         <h4>實習經歷</h4>
