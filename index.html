@@ -13,7 +13,7 @@
         body, html {
             margin: 0;
             padding: 0;
-            font-family: 'Noto Sans TC', sans-serif;
+            font-family: 'Inter', 'Segoe UI', Roboto, 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #f8f5f0 25%, #e0d8c3 100%);
             background-attachment: fixed;
             min-height: 100vh;
@@ -163,11 +163,20 @@
             font-size: 16px;
             color: #4b5d56;
             margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px; /* 圖示和文字的間距 */
+        }
+
+        .title-icon {
+            width: 24px;  /* 圖示寬度 */
+            height: 24px; /* 圖示高度 */
+            object-fit: contain;
         }
 
         .experience-item p {
             color: #000;
-            margin: 2px 0;
+            margin: 5px 0;
         }
 
         .experience-item p.job-title {
@@ -313,7 +322,10 @@
             <section class="section">
                 <h2>工作經歷(~1年)</h2>
                 <div class="experience-item">
-                    <h3>台達電子工業股份有限公司</h3>
+                    <h3>
+                        <img src="https://github.com/liu092111/liu092111.github.io/blob/master/icon/Delta.jpg?raw=true" alt="Delta icon" class="title-icon">
+                        台達電子工業股份有限公司
+                    </h3>
                     <p class="job-title">Lab for Digital Twin-Based Optimization, R&D Engineer Intern</p>
                     <p class="time">2024 Jul - Aug</p>
                     <p>Ansys 自動化建模</p>
@@ -325,7 +337,10 @@
                     </ul>
                 </div>
                 <div class="experience-item">
-                    <h3>SGS台灣檢驗科技股份有限公司</h3>
+                    <h3>
+                        <img src="https://github.com/liu092111/liu092111.github.io/blob/master/icon/SGS.png?raw=true" alt="SGS icon" class="title-icon">
+                        SGS台灣檢驗科技股份有限公司
+                    </h3>
                     <p class="job-title">Reliability Labatory Intern</p>
                     <p class="time">2023 Sep - 2024 Apr</p>
                     <ul>
@@ -337,7 +352,10 @@
                     </ul>
                 </div>
                 <div class="experience-item">
-                    <h3>中華民國工業安全衛生協會</h3>
+                    <h3>
+                        <img src="https://github.com/liu092111/liu092111.github.io/blob/master/icon/isha.jpg?raw=trueL" alt="SGS icon" class="title-icon">
+                        中華民國工業安全衛生協會
+                    </h3>
                     <p class="job-title">Summer Intern</p>
                     <p class="time">2022 Jul - Aug, 2020 Jul - Aug</p>
                     <ul>
