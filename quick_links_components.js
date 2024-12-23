@@ -142,20 +142,20 @@ export function QuickLinksWindow(options = {}) {
                     <div class="link-section">
                         <h4>學術研究</h4>
                         <ul>
-                            <li>${createLink('university_project.html', '大學專題 - 振動抑制(2023)')}</li>
+                            <li>${createLink('university_project.html', '大學專題 - 振動抑制 (2023)')}</li>
                         </ul>
                     </div>
                     <div class="link-section">
                         <h4>完整專案設計</h4>
                         <ul>
-                            <li>${createLink('robot design.html', '機器人設計(2023)')}</li>
-                            <li>${createLink('mechanical_design.html', '機械設計(2022)')}</li>
+                            <li>${createLink('robot design.html', '機器人設計 (2023)')}</li>
+                            <li>${createLink('mechanical_design.html', '機械設計 (2022)')}</li>
                         </ul>
                     </div>
                     <div class="link-section">
                         <h4>基礎知識</h4>
                         <ul>
-                            <li>${createLink('numerical_analysis.html', '訊號處理、數值分析(2023)')}</li>    
+                            <li>${createLink('numerical_analysis.html', '訊號處理、數值分析 (2023)')}</li>    
                         </ul>
                     </div>
                 </div>
