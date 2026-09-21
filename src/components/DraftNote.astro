@@ -1,0 +1,44 @@
+---
+/**
+ * Placeholder marking prose that only Flora can write.
+ *
+ * Dev-only on purpose: an unresolved note used to render on the live site,
+ * so a visitor read "Needs your input" instead of an essay. Gating on DEV
+ * means forgetting to resolve one costs a gap, not a public draft.
+ * `npm run audit:drafts` lists whatever is still outstanding.
+ */
+interface Props {
+  needs: string;
+}
+const { needs } = Astro.props;
+---
+
+{
+  import.meta.env.DEV && (
+    <aside class="draftnote">
+      <p class="label draftnote__tag">Needs your input</p>
+      <p class="draftnote__body">{needs}</p>
+      <slot />
+    </aside>
+  )
+}
+
+<style>
+  .draftnote {
+    margin: 1.5rem 0;
+    padding: 1rem 1.2rem;
+    border: 1px dashed var(--signal);
+    background: color-mix(in srgb, var(--signal) 6%, transparent);
+    max-width: var(--measure);
+  }
+
+  .draftnote__tag {
+    margin: 0 0 0.4rem;
+    color: var(--signal);
+  }
+
+  .draftnote__body {
+    margin: 0;
+    font-size: var(--fs-small);
+  }
+</style>

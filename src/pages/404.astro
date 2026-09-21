@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Not found" description="That page does not exist.">
+  <div class="shell nf">
+    <p class="label">Error 404</p>
+    <h1>No such page</h1>
+    <p>
+      That address does not exist. Try <a href="/">the homepage</a>, or the
+      <a href="/about">about page</a>.
+    </p>
+  </div>
+</Base>
+
+<style>
+  .nf {
+    padding-block: clamp(4rem, 12vw, 8rem);
+  }
+
+  .nf h1 {
+    margin-block: 1rem;
+  }
+</style>

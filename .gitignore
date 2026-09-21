@@ -1,0 +1,14 @@
+node_modules/
+dist/
+.astro/
+.DS_Store
+*.log
+.env
+.env.production
+
+# Local-only, deliberately never published from this repo:
+#   draft/ — the Codex-built draft of this site, kept for side-by-side comparison.
+#   icon/  — one leftover image from the 2024 site, which this rebuild replaced.
+# Both are untracked already; listing them keeps `git status` honest about it.
+draft/
+icon/

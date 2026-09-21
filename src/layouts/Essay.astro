@@ -1,0 +1,212 @@
+---
+import Base from './Base.astro';
+import { PILLARS, SITE } from '../data/site';
+
+interface Props {
+  docNo: string;
+  title: string;
+  description: string;
+  /**
+   * One-sentence thesis shown large under the title. Defaults to this essay's
+   * `promise` in site.ts, which is the same sentence the home page prints, so
+   * the two can never drift apart. Only pass it to deliberately differ.
+   */
+  thesis?: string;
+}
+
+const { docNo, title, description, thesis } = Astro.props;
+
+// The three essays are a loop: whichever you land on, there is a next one.
+const here = PILLARS.findIndex((p) => p.no === docNo);
+const next = PILLARS[(here + 1) % PILLARS.length];
+const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
+---
+
+<Base title={title} description={description} docNo={docNo}>
+  <article class="essay shell">
+    <header class="essay__head">
+      <h1>{title}</h1>
+      <p class="essay__thesis">{thesisText}</p>
+    </header>
+
+    <div class="essay__body">
+      <slot />
+    </div>
+
+    <footer class="essay__end">
+      <a class="nextup" href={next.href}>
+        <span class="label nextup__kicker">Next · {next.no}</span>
+        <span class="nextup__title">{next.title}</span>
+        <span class="nextup__promise">{next.promise}</span>
+      </a>
+
+      <div class="essay__cta">
+        <p>
+          If any of this is useful to your team, I am glad to talk it through. I speak at career
+          talks, student sessions and community events.
+        </p>
+        <p class="essay__ctalinks">
+          <a href="/speaking">What I can talk about</a>
+          <span aria-hidden="true">·</span>
+          <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        </p>
+      </div>
+    </footer>
+  </article>
+</Base>
+
+<style is:global>
+  /* Narrower than the page shell so the column reads as a deliberate
+     document block rather than text stranded in a wide container. */
+  .essay {
+    padding-top: clamp(1.5rem, 4vw, 2.5rem);
+    max-width: 56rem;
+    margin-inline: auto;
+  }
+
+  .essay__head {
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+
+  .essay__thesis {
+    margin-top: 1.25rem;
+    font-size: clamp(1.125rem, 2.2vw, 1.375rem);
+    line-height: 1.45;
+    color: var(--ink-muted);
+    max-width: 52ch;
+    text-wrap: pretty;
+  }
+
+  .essay__body {
+    padding-top: 1rem;
+  }
+
+  /* numbered subsection inside an essay */
+  .sub {
+    padding-block: clamp(2rem, 5vw, 3rem);
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .sub:last-child {
+    border-bottom: 0;
+  }
+
+  .sub__head {
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    margin-bottom: 1.1rem;
+  }
+
+  .sub__no {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    flex: none;
+    padding-top: 0.3em;
+    letter-spacing: 0.08em;
+  }
+
+  .sub h2 {
+    font-size: clamp(1.25rem, 2.6vw, 1.625rem);
+  }
+
+  .sub__body {
+    padding-left: 0;
+  }
+
+  /* Reading path: never end an essay in the footer. */
+  .essay__end {
+    margin-top: 3rem;
+    border-top: 1px solid var(--rule-strong);
+  }
+
+  .nextup {
+    display: block;
+    padding: 1.5rem 1.5rem 1.6rem;
+    background: var(--paper-sunk);
+    border: 1px solid var(--rule);
+    border-top: 0;
+    text-decoration: none;
+    color: inherit;
+    transition: background 120ms ease;
+  }
+
+  .nextup:hover {
+    background: color-mix(in srgb, var(--accent) 8%, var(--paper-sunk));
+  }
+
+  .nextup__kicker {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--accent);
+  }
+
+  .nextup__title {
+    display: block;
+    font-size: clamp(1.25rem, 2.4vw, 1.625rem);
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    text-underline-offset: 0.22em;
+  }
+
+  .nextup:hover .nextup__title {
+    text-decoration-color: var(--accent);
+  }
+
+  .nextup__promise {
+    display: block;
+    margin-top: 0.6rem;
+    max-width: 58ch;
+    color: var(--ink-muted);
+    font-size: var(--fs-small);
+  }
+
+  .essay__cta {
+    padding-top: 2rem;
+  }
+
+  .essay__cta p {
+    max-width: 56ch;
+  }
+
+  .essay__ctalinks {
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    display: flex;
+    gap: 0.7rem;
+    flex-wrap: wrap;
+    margin-bottom: 0;
+  }
+
+  .pullquote {
+    margin: 1.75rem 0;
+    padding: 1.1rem 1.35rem;
+    border-left: 2px solid var(--accent);
+    background: var(--paper-sunk);
+    font-size: var(--fs-lede);
+  }
+
+  .pullquote p:last-child {
+    margin-bottom: 0;
+  }
+
+  .essay__body ul {
+    max-width: var(--measure);
+    padding-left: 1.15rem;
+  }
+
+  .essay__body li {
+    margin-bottom: 0.5rem;
+  }
+
+  @media (max-width: 640px) {
+    .sub__head {
+      gap: 0.7rem;
+    }
+  }
+</style>

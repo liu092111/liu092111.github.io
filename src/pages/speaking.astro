@@ -1,0 +1,187 @@
+---
+import Base from '../layouts/Base.astro';
+import Figure from '../components/Figure.astro';
+import { SPEAKING_TOPICS, TALKS, SITE } from '../data/site';
+import community from '../assets/techie-talk-community.jpg';
+---
+
+<Base
+  title="Speaking"
+  description="Talks and sharing sessions on NPI decisions, reliability evidence, AI in hardware workflows, and career paths into hardware engineering."
+  docNo="04"
+>
+  <div class="shell speak">
+    <header class="speak__head">
+      <h1>Speaking</h1>
+      <p class="speak__lede">
+        Engineering also means explaining a decision to people who did not run the test. I enjoy that
+        part, and I am glad to do more of it.
+      </p>
+      <p class="speak__avail">
+        <span class="chip chip--accent">Available</span>
+        <span>Career talks · student sessions · engineering community events · panels</span>
+      </p>
+    </header>
+
+    <section class="section" id="topics">
+      <div class="section-head">
+        <span class="section-head__num">4.1</span>
+        <div>
+          <h2>What I can talk about</h2>
+          <p class="section-head__sub">
+            Any of these can be sized to a 15-minute slot or a full session. Happy to shape something
+            to your audience instead.
+          </p>
+        </div>
+      </div>
+
+      <ul class="list-plain topics">
+        {
+          SPEAKING_TOPICS.map((t, i) => (
+            <li class="topic">
+              <span class="num topic__no">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h3>{t.title}</h3>
+                <p class="topic__blurb">{t.blurb}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section class="section" id="past">
+      <div class="section-head">
+        <span class="section-head__num">4.2</span>
+        <h2>Previously</h2>
+      </div>
+
+      {
+        TALKS.map((t) => (
+          <article class="past">
+            <div class="past__meta">
+              <h3>{t.event}</h3>
+              <span class="num">{t.year}</span>
+              <span class="chip">{t.role}</span>
+            </div>
+            <p class="past__summary">{t.summary}</p>
+          </article>
+        ))
+      }
+
+      <Figure
+        src={community}
+        no="4.2"
+        wide
+        alt="Attendees and speakers gathered at the Techie Talk 2026 community event."
+        caption="Techie Talk, 2026: a room of people from different backgrounds, which is the best kind of room to explain something in."
+      />
+    </section>
+
+    <section class="section" id="invite">
+      <div class="section-head">
+        <span class="section-head__num">4.3</span>
+        <h2>Invitations</h2>
+      </div>
+
+      <div class="invite">
+        <p>
+          The fastest way to reach me is email. It helps if you can include the audience, the format,
+          the date and roughly how long you would like me to speak. A one-line message is fine too.
+        </p>
+        <p class="invite__addr">
+          <a href={`mailto:${SITE.email}?subject=Speaking%20invitation`}>{SITE.email}</a>
+        </p>
+        <p class="num">Or message me on <a href={SITE.linkedin} target="_blank" rel="noopener">LinkedIn</a>.</p>
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .speak__head {
+    padding-top: clamp(1.5rem, 4vw, 2.5rem);
+    padding-bottom: 2rem;
+  }
+
+  .speak__lede {
+    margin-top: 1rem;
+    font-size: var(--fs-lede);
+    max-width: 56ch;
+  }
+
+  .speak__avail {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    color: var(--ink-muted);
+    margin: 0;
+  }
+
+  .section-head__sub {
+    margin: 0.5rem 0 0;
+    color: var(--ink-muted);
+    max-width: 60ch;
+  }
+
+  .topics {
+    border-top: 1px solid var(--rule);
+  }
+
+  .topic {
+    display: grid;
+    grid-template-columns: 3rem 1fr;
+    gap: 1rem;
+    padding-block: 1.4rem;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .topic__no {
+    padding-top: 0.3rem;
+  }
+
+  .topic__blurb {
+    margin: 0.4rem 0 0;
+    color: var(--ink-muted);
+    max-width: 62ch;
+  }
+
+  .past__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.6rem;
+  }
+
+  .past__summary {
+    max-width: 62ch;
+    margin: 0;
+  }
+
+  .invite {
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-sunk);
+    padding: 1.5rem;
+    max-width: 44rem;
+  }
+
+  .invite p:last-child {
+    margin-bottom: 0;
+  }
+
+  .invite__addr {
+    font-family: var(--font-mono);
+    font-size: var(--fs-lede);
+  }
+
+  @media (max-width: 640px) {
+    .topic {
+      grid-template-columns: 2.25rem 1fr;
+      gap: 0.75rem;
+    }
+  }
+</style>

@@ -1,0 +1,187 @@
+---
+/* Listing for both writing tracks.
+   Deliberately not in NAV yet: the routes exist so that publishing a post is
+   only "add a markdown file", but an empty index should not be advertised.
+   Add the nav entry in src/data/site.ts once there are two or three posts. */
+import Base from '../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+/* Drafts stay visible while writing and disappear from the built site, so a
+   half-finished post can be previewed at its real URL without shipping. */
+const publishable = import.meta.env.DEV ? undefined : ({ data }: { data: { draft: boolean } }) => !data.draft;
+
+const [notes, career] = await Promise.all([
+  getCollection('notes', publishable),
+  getCollection('career', publishable),
+]);
+
+const newestFirst = <T extends { data: { date: Date } }>(posts: T[]) =>
+  [...posts].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const TRACKS = [
+  {
+    key: 'notes',
+    no: '6.1',
+    title: 'Notes',
+    blurb: 'Product design, systems, evidence and the decisions that determine what gets built.',
+    posts: newestFirst(notes),
+  },
+  {
+    key: 'career',
+    no: '6.2',
+    title: 'Career',
+    blurb:
+      'How this path was actually walked: interviews, coffee chats, and the parts nobody puts on a résumé. Usually written in Chinese.',
+    posts: newestFirst(career),
+  },
+];
+
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<Base
+  title="Writing"
+  description="Flora Liu writes about product design, systems, engineering evidence and the decisions that determine what gets built."
+  docNo="06"
+>
+  <div class="shell shell--read writing">
+    <header class="writing__head">
+      <h1>Writing</h1>
+      <p class="writing__lede">
+        One track is about products: design, systems, evidence and decisions. The other is about how
+        a person ends up doing this work.
+      </p>
+    </header>
+
+    {
+      TRACKS.map((track) => (
+        <section class="section" id={track.key}>
+          <div class="section-head">
+            <span class="section-head__num">{track.no}</span>
+            <div>
+              <h2>{track.title}</h2>
+              <p class="track__blurb">{track.blurb}</p>
+            </div>
+          </div>
+
+          {track.posts.length === 0 ? (
+            <p class="track__empty">Nothing published in this track yet.</p>
+          ) : (
+            <ul class="list-plain posts">
+              {track.posts.map((post) => (
+                <li class="post">
+                  <a class="post__link" href={`/writing/${track.key}/${post.id}`}>
+                    <span class="num post__date">
+                      <time datetime={iso(post.data.date)}>{iso(post.data.date)}</time>
+                      {post.data.draft && <span class="post__draft"> · draft</span>}
+                    </span>
+                    <span class="post__title">{post.data.title}</span>
+                    <span class="post__desc">{post.data.description}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      ))
+    }
+  </div>
+</Base>
+
+<style>
+  .writing {
+    padding-top: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .writing__head {
+    padding-bottom: 2rem;
+  }
+
+  .writing__lede {
+    margin-top: 1.25rem;
+    font-size: var(--fs-lede);
+    color: var(--ink-muted);
+    max-width: 52ch;
+    text-wrap: pretty;
+  }
+
+  .track__blurb {
+    margin: 0.6rem 0 0;
+    color: var(--ink-muted);
+    max-width: 62ch;
+  }
+
+  .track__empty {
+    margin: 1.5rem 0 0;
+    color: var(--ink-muted);
+    font-size: var(--fs-small);
+  }
+
+  .posts {
+    margin-top: 1.75rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .post {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* Date first so the column scans chronologically, then the title, which
+     carries the link affordance on its own rather than only on hover. */
+  .post__link {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 0.2rem 1rem;
+    padding: 1.1rem 1rem 1.1rem 0;
+    text-decoration: none;
+    color: inherit;
+    transition: background 120ms ease;
+  }
+
+  .post__link:hover {
+    background: var(--paper-sunk);
+  }
+
+  .post__date {
+    grid-row: 1 / span 2;
+    padding-top: 0.35rem;
+  }
+
+  .post__draft {
+    color: var(--signal);
+  }
+
+  .post__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    text-underline-offset: 0.22em;
+  }
+
+  .post__link:hover .post__title {
+    text-decoration-color: var(--accent);
+  }
+
+  .post__desc {
+    margin-top: 0.35rem;
+    font-size: var(--fs-small);
+    color: var(--ink-muted);
+    max-width: 62ch;
+  }
+
+  @media (max-width: 40rem) {
+    .post__link {
+      grid-template-columns: 1fr;
+    }
+
+    .post__date {
+      grid-row: auto;
+      padding-top: 0;
+      margin-bottom: 0.3rem;
+    }
+  }
+</style>

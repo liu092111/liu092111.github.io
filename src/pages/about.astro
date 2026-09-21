@@ -1,0 +1,554 @@
+---
+import Base from '../layouts/Base.astro';
+import DraftNote from '../components/DraftNote.astro';
+import { Image } from 'astro:assets';
+import {
+  SITE,
+  EXPERIENCE,
+  EDUCATION,
+  TOOLS,
+  LANGUAGES,
+  METHODS,
+  PROJECTS,
+  CERTS,
+} from '../data/site';
+import headshot from '../assets/headshot.jpg';
+
+// Lead with the three strongest; keep the rest available but out of the way.
+const featured = PROJECTS.filter((p) => p.featured);
+const rest = PROJECTS.filter((p) => !p.featured);
+---
+
+<Base
+  title="About"
+  description="Flora Liu, hardware engineer at Amazon, working across reliability, NPI and AI-assisted engineering workflows. Experience, tools, methods and selected work."
+  docNo="05"
+>
+  <div class="shell about">
+    <!-- ---------- who ---------- -->
+    <section class="intro">
+      <div class="intro__lead">
+        <h1>About</h1>
+        <p class="intro__lede">
+          I am Flora Liu, a hardware engineer at Amazon, working on the product integrity side of new
+          product introduction.
+        </p>
+      </div>
+
+      <div class="intro__body">
+        <p>
+          Mechanical engineering gave me a physical foundation. Reliability work, product development
+          and research taught me to connect that foundation to data, and then to decisions. That
+          turned out to be the harder half.
+        </p>
+        <p>
+          I have been useful in three different seats: a third-party laboratory that produces
+          evidence, a system company that builds and pushes back, and a global brand that has to
+          decide and live with the consequence. I write because the interesting part of engineering is
+          what happens in between, and almost nobody writes that down.
+        </p>
+        <p>
+          Lately my curiosity goes into two things: making reliability evidence legible to the people
+          who carry the business risk, and using agents to remove coordination friction in hardware
+          development without handing over the judgement.
+        </p>
+      </div>
+
+      <div class="intro__aside">
+        <Image
+          class="intro__photo"
+          src={headshot}
+          alt="Portrait of Flora Liu."
+          widths={[320, 640]}
+          sizes="(max-width: 800px) 60vw, 20rem"
+          loading="eager"
+        />
+        <div class="docmeta intro__meta">
+          <div class="docmeta__cell">
+            <span class="docmeta__key">Based in</span>
+            <span class="docmeta__val">{SITE.location}</span>
+          </div>
+          <div class="docmeta__cell">
+            <span class="docmeta__key">Currently</span>
+            <span class="docmeta__val">Amazon · Product Integrity</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <nav class="contents" aria-label="On this page">
+      <p class="label contents__title">Contents</p>
+      <ol class="list-plain contents__list">
+        <li><span class="num">5.1</span> <a href="#outside">Outside the lab</a></li>
+        <li><span class="num">5.2</span> <a href="#experience">Experience</a></li>
+        <li><span class="num">5.3</span> <a href="#profile">Technical profile</a></li>
+        <li><span class="num">5.4</span> <a href="#work">Selected work</a></li>
+        <li><span class="num">5.5</span> <a href="#education">Education</a></li>
+        <li><span class="num">5.6</span> <a href="#certifications">Certifications</a></li>
+      </ol>
+    </nav>
+
+    <section class="section" id="outside">
+      <div class="section-head">
+        <span class="section-head__num">5.1</span>
+        <h2>Outside the lab</h2>
+      </div>
+      <p>
+        I swam competitively, and it shaped how I work more than any course did: measure honestly,
+        adjust continuously, and stay consistent long enough for it to compound. Reasonable training
+        for reliability engineering, where nothing interesting happens quickly.
+      </p>
+      <DraftNote
+        needs="One honest paragraph about what you are reading, learning, or arguing about lately. This does more for a personal site than another list of tools — your 19,000-impression LinkedIn post was written in exactly this register."
+      />
+    </section>
+
+    <!-- ---------- the record ---------- -->
+    <section class="section" id="experience">
+      <div class="section-head">
+        <span class="section-head__num">5.2</span>
+        <h2>Experience</h2>
+      </div>
+
+      {
+        EXPERIENCE.map((job) => (
+          <article class="row">
+            <div class="row__meta">
+              <h3>{job.org}</h3>
+              <p class="num">{job.period}</p>
+            </div>
+            <div class="row__body">
+              <p class="row__title">{job.title}</p>
+              {job.note && <p class="num row__note">{job.note}</p>}
+              <ul>
+                {job.points.map((pt) => (
+                  <li>{pt}</li>
+                ))}
+              </ul>
+            </div>
+          </article>
+        ))
+      }
+    </section>
+
+    <section class="section" id="profile">
+      <div class="section-head">
+        <span class="section-head__num">5.3</span>
+        <div>
+          <h2>Technical profile</h2>
+          <p class="section-head__sub">
+            What I work in, and the methods I reach for. Named specifically, because "statistical
+            analysis" is a claim and these are checkable.
+          </p>
+        </div>
+      </div>
+
+      <div class="tools">
+        {
+          TOOLS.map((t) => (
+            <div class="tools__group">
+              <h3 class="label tools__title">{t.group}</h3>
+              <ul class="list-plain tools__chips">
+                {t.items.map((i) => (
+                  <li class="chip">{i}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+        <div class="tools__group">
+          <h3 class="label tools__title">Languages</h3>
+          <ul class="list-plain tools__langs">
+            {
+              LANGUAGES.map((l) => (
+                <li>
+                  <strong>{l.name}</strong> · <span class="num">{l.level}</span>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+
+      <details class="more more--inset">
+        <summary class="more__summary">
+          Show the full method list: reliability, measurement, simulation, data
+        </summary>
+        <div class="methods">
+          {
+            METHODS.map((m) => (
+              <div>
+                <h3 class="label methods__title">{m.group}</h3>
+                <ul class="list-plain methods__list">
+                  {m.items.map((i) => (
+                    <li>{i}</li>
+                  ))}
+                </ul>
+              </div>
+            ))
+          }
+        </div>
+      </details>
+    </section>
+
+    <section class="section" id="work">
+      <div class="section-head">
+        <span class="section-head__num">5.4</span>
+        <div>
+          <h2>Selected work</h2>
+          <p class="section-head__sub">
+            Public repositories. Work done at Amazon is not represented here and will not be. What I
+            can share about it lives in the written pages instead.
+          </p>
+        </div>
+      </div>
+
+      {
+        featured.map((p) => (
+          <article class="proj">
+            <div class="proj__head">
+              <h3>{p.title}</h3>
+              <span class="chip">{p.kind}</span>
+            </div>
+            <p class="proj__summary">{p.summary}</p>
+            {p.detail && (
+              <ul class="proj__detail">
+                {p.detail.map((d) => (
+                  <li>{d}</li>
+                ))}
+              </ul>
+            )}
+            <p class="num">
+              <a href={p.repo} target="_blank" rel="noopener">
+                Repository →
+              </a>
+            </p>
+          </article>
+        ))
+      }
+
+      <details class="more">
+        <summary class="more__summary">
+          {rest.length} more projects: data pipelines, machine learning, undergraduate archive
+        </summary>
+        {
+          rest.map((p) => (
+            <article class="proj">
+              <div class="proj__head">
+                <h3>{p.title}</h3>
+                <span class="chip">{p.kind}</span>
+              </div>
+              <p class="proj__summary">{p.summary}</p>
+              <p class="num">
+                <a href={p.repo} target="_blank" rel="noopener">
+                  Repository →
+                </a>
+              </p>
+            </article>
+          ))
+        }
+      </details>
+    </section>
+
+    <section class="section" id="education">
+      <div class="section-head">
+        <span class="section-head__num">5.5</span>
+        <h2>Education</h2>
+      </div>
+
+      {
+        EDUCATION.map((e) => (
+          <article class="row">
+            <div class="row__meta">
+              <h3>{e.school}</h3>
+              <p class="num">{e.period}</p>
+            </div>
+            <div class="row__body">
+              <p class="row__title">{e.degree}</p>
+              <p>{e.detail}</p>
+            </div>
+          </article>
+        ))
+      }
+    </section>
+
+    <section class="section" id="certifications">
+      <div class="section-head">
+        <span class="section-head__num">5.6</span>
+        <h2>Certifications</h2>
+      </div>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Credential</th>
+            <th scope="col">Issuer</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            CERTS.map((c) => (
+              <tr>
+                <td>
+                  <a href={c.url} target="_blank" rel="noopener">
+                    {c.name}
+                  </a>
+                </td>
+                <td>{c.issuer}</td>
+                <td class="mono">{c.date}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </section>
+  </div>
+</Base>
+
+<style>
+  /* Desktop: prose left, photo right. Phones collapse to source order —
+     name and role first, then the photo, then the rest — so the page opens
+     with who she is rather than with a portrait. */
+  .intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 20rem);
+    grid-template-areas: 'lead aside' 'body aside';
+    gap: 0 clamp(2rem, 5vw, 4rem);
+    padding-top: clamp(1.5rem, 4vw, 2.5rem);
+    padding-bottom: 1rem;
+    align-items: start;
+  }
+
+  .intro__lead {
+    grid-area: lead;
+  }
+
+  .intro__body {
+    grid-area: body;
+  }
+
+  .intro__aside {
+    grid-area: aside;
+  }
+
+  .intro__lede {
+    margin-top: 1.25rem;
+    font-size: var(--fs-lede);
+  }
+
+  .intro h1 {
+    margin-bottom: 0;
+  }
+
+  .intro__photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--rule-strong);
+    margin-bottom: 1.25rem;
+  }
+
+  .intro__meta {
+    grid-template-columns: 1fr;
+  }
+
+  .intro__meta .docmeta__cell {
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .intro__meta .docmeta__cell:last-child {
+    border-bottom: 0;
+  }
+
+  .section-head__sub {
+    margin: 0.5rem 0 0;
+    color: var(--ink-muted);
+    max-width: 60ch;
+  }
+
+  /* This is a reference page, not a landing page: tighter vertical rhythm
+     than the essays so the whole record stays scannable. */
+  .about :global(.section) {
+    padding-block: clamp(2rem, 4.5vw, 3.25rem);
+  }
+
+  /* The contents block keeps a long page navigable. */
+  .contents {
+    margin-top: 2rem;
+    padding: 1.1rem 1.35rem;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-sunk);
+  }
+
+  .contents__title {
+    margin: 0 0 0.75rem;
+  }
+
+  .contents__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.75rem;
+    font-size: var(--fs-small);
+  }
+
+  .contents__list li {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+  }
+
+  /* experience / education rows */
+  .row {
+    display: grid;
+    grid-template-columns: minmax(11rem, 16rem) 1fr;
+    gap: 1.5rem;
+    padding-block: 1.75rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .row__meta h3 {
+    margin-bottom: 0.25rem;
+  }
+
+  .row__title {
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .row__note {
+    margin-top: -0.25rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .row__body ul {
+    margin: 0;
+    padding-left: 1.15rem;
+    max-width: var(--measure);
+  }
+
+  .row__body li {
+    margin-bottom: 0.45rem;
+  }
+
+  /* tools */
+  .tools {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 1.75rem 2.5rem;
+  }
+
+  .tools__title,
+  .methods__title {
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--rule-strong);
+    color: var(--ink);
+  }
+
+  .tools__chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tools__langs {
+    font-size: var(--fs-small);
+  }
+
+  .tools__langs li {
+    margin-bottom: 0.3rem;
+  }
+
+  /* methods */
+  .methods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: 1.75rem 2.5rem;
+  }
+
+  .methods__list li {
+    font-size: var(--fs-small);
+    margin-bottom: 0.45rem;
+    color: var(--ink-muted);
+  }
+
+  /* projects */
+  .proj {
+    padding-block: 1.6rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .proj__head {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.6rem;
+  }
+
+  .proj__summary {
+    margin-bottom: 0.75rem;
+  }
+
+  .proj__detail {
+    margin: 0 0 0.85rem;
+    padding-left: 1.15rem;
+    max-width: var(--measure);
+    font-size: var(--fs-small);
+    color: var(--ink-muted);
+  }
+
+  .more {
+    border-top: 1px solid var(--rule);
+  }
+
+  /* The method list is a sub-part of Technical profile, not a peer section. */
+  .more--inset {
+    margin-top: 1.75rem;
+  }
+
+  .more__summary {
+    cursor: pointer;
+    padding-block: 1.1rem;
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    color: var(--accent);
+  }
+
+  .more__summary:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+
+  .more[open] .more__summary {
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 0.5rem;
+  }
+
+  .more .proj:first-of-type {
+    border-top: 0;
+  }
+
+  @media (max-width: 800px) {
+    .intro {
+      grid-template-columns: 1fr;
+      grid-template-areas: 'lead' 'aside' 'body';
+      gap: 1.5rem 0;
+    }
+
+    .intro__aside {
+      max-width: 13rem;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .row {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+  }
+</style>

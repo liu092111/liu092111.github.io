@@ -1,0 +1,447 @@
+---
+import Base from '../layouts/Base.astro';
+import { Image } from 'astro:assets';
+import { PILLARS, VANTAGE, TALKS, NDA, SITE } from '../data/site';
+import stage from '../assets/techie-talk-stage.png';
+
+const description =
+  'Flora Liu is a hardware engineer writing about how products get designed, how they earn confidence, and how engineering decisions create value.';
+---
+
+<Base title="Home" description={description}>
+  <section class="hero shell">
+    <div class="hero__grid">
+      <div class="hero__text">
+        <p class="label hero__eyebrow">Product integrity · NPI · reliability</p>
+
+        <h1>
+          I study how products<br />
+          earn the right to exist.
+        </h1>
+
+        <div class="hero__lede">
+          <p>
+            A physical product has to survive reality, earn confidence, and make commercial sense.
+            Someone has to decide when all three are true.
+          </p>
+          <p>
+            I am a hardware engineer at Amazon. I have made that decision from three seats on the
+            same supply chain.
+          </p>
+        </div>
+      </div>
+
+      <figure class="hero__figure">
+        <Image
+          src={stage}
+          alt="Flora Liu speaking on stage at Techie Talk 2026, in front of a slide introducing her work as a hardware engineer."
+          widths={[400, 560, 840]}
+          sizes="(max-width: 900px) 95vw, 21rem"
+          loading="eager"
+        />
+        <figcaption class="fig__cap">
+          <span>Techie Talk, 2026: explaining how hardware moves from engineering work to product
+            decisions.</span>
+        </figcaption>
+      </figure>
+    </div>
+
+  </section>
+
+  <!-- ============ 01 · the argument ============ -->
+  <section class="section shell shell--read" id="perspective">
+    <div class="section-head">
+      <span class="section-head__num">01</span>
+      <div>
+        <h2>Three questions I keep answering</h2>
+        <p class="section-head__sub">
+          Most engineering writing explains methods. These pages explain decisions: harder to learn,
+          and rarely written down.
+        </p>
+      </div>
+    </div>
+
+    <ul class="list-plain pillars">
+      {
+        PILLARS.map((p) => (
+          <li class="pillar">
+            <a class="pillar__link" href={p.href}>
+              <span class="num pillar__no" aria-hidden="true">{p.no}</span>
+              <div class="pillar__body">
+                <h3 class="pillar__title">
+                  <span class="pillar__titletext">{p.title}</span>
+                  <span class="pillar__arrow" aria-hidden="true">→</span>
+                </h3>
+                <p class="pillar__q">{p.question}</p>
+                <p class="pillar__promise">{p.promise}</p>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- ============ 02 · why I can say this ============ -->
+  <section class="section shell shell--read" id="vantage">
+    <div class="section-head">
+      <span class="section-head__num">02</span>
+      <div>
+        <h2>Tested by one company. Built by another. Decided by a third.</h2>
+        <p class="section-head__sub">
+          The same product looks different from each seat on a supply chain. I have sat in all three,
+          and the disagreements between them are where the real engineering happens.
+        </p>
+      </div>
+    </div>
+
+    <div class="vantage breakout">
+      {
+        VANTAGE.map((v) => (
+          <article class="vantage__card">
+            <header class="vantage__head">
+              <span class="num">{v.no}</span>
+              <span class="chip">{v.kind}</span>
+            </header>
+            <h3 class="vantage__org">{v.org}</h3>
+            <p class="vantage__verb">{v.verb}</p>
+            <p class="vantage__learned">{v.learned}</p>
+            <p class="num">{v.period}</p>
+          </article>
+        ))
+      }
+    </div>
+
+    <p class="vantage__foot">
+      <a href="/about">See the experience behind this →</a>
+    </p>
+  </section>
+
+  <!-- ============ 03 · the constraint, stated as a position ============ -->
+  <section class="section band" id="confidentiality">
+    <div class="shell shell--read">
+      <header class="nda__head">
+        <p class="label nda__kicker">
+          <span class="nda__num">03</span> {NDA.kicker}
+        </p>
+        <h2>{NDA.headline}</h2>
+      </header>
+
+      <div class="nda">
+        {NDA.body.map((para) => <p>{para}</p>)}
+        <p class="nda__closing">{NDA.closing}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 04 · speaking ============ -->
+  <section class="section shell shell--read" id="speaking">
+    <div class="section-head">
+      <span class="section-head__num">04</span>
+      <div>
+        <h2>I like explaining this out loud</h2>
+        <p class="section-head__sub">
+          Engineering also means explaining a decision to people who did not run the test.
+        </p>
+      </div>
+    </div>
+
+    {
+      TALKS.map((t) => (
+        <div class="talk">
+          <div class="talk__meta">
+            <span class="chip chip--accent">{t.role}</span>
+            <span class="num">
+              {t.event} · {t.year}
+            </span>
+          </div>
+          <p class="talk__summary">{t.summary}</p>
+        </div>
+      ))
+    }
+
+    <p class="speaking__cta">
+      Running an event, a career talk, or a student session?
+      <a href="/speaking">See what I can talk about</a> or
+      <a href={`mailto:${SITE.email}`}>get in touch</a>.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    padding-top: clamp(3rem, 9vw, 6.5rem);
+    padding-bottom: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 21rem);
+    gap: clamp(2rem, 4.5vw, 3.5rem);
+    align-items: start;
+  }
+
+  .hero__eyebrow {
+    margin: 0 0 1.5rem;
+  }
+
+  .hero__lede {
+    margin-top: 2rem;
+    font-size: var(--fs-lede);
+  }
+
+  /* Portrait-orientation photo shown uncropped; the column width, not a
+     crop, is what keeps its height in check. */
+  .hero__figure {
+    margin: 0;
+  }
+
+  .hero__figure :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--rule-strong);
+  }
+
+  /* Figure.astro's caption styles are scoped to that component, so the
+     hero figure needs its own copy. */
+  .hero__figure .fig__cap {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+    padding-top: 0.6rem;
+    font-size: var(--fs-meta);
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hero__figure {
+      max-width: 22rem;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    /* The masthead already occupies the top of a phone screen; do not spend
+       another 3rem before the headline. */
+    .hero {
+      padding-top: 1.75rem;
+    }
+
+    .hero__eyebrow {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .section-head__sub {
+    margin: 0.6rem 0 0;
+    color: var(--ink-muted);
+    max-width: 62ch;
+  }
+
+  /* --- pillars --- */
+
+  .pillars {
+    border-top: 1px solid var(--rule);
+  }
+
+  .pillar {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .pillar__link {
+    display: grid;
+    grid-template-columns: 3.5rem 1fr;
+    gap: 0.5rem;
+    align-items: start;
+    padding: 1.6rem 1.25rem 1.6rem 0;
+    text-decoration: none;
+    color: inherit;
+    transition: background 120ms ease;
+  }
+
+  .pillar__no {
+    padding-top: 0.5rem;
+  }
+
+  /* The title carries link affordance on its own, so the row reads as
+     clickable even before hover: the underline is not hover-only. The
+     decoration sits on an inner span because text-decoration propagates to
+     descendants and cannot be cancelled, which would underline the arrow. */
+  .pillar__title {
+    color: var(--accent);
+  }
+
+  .pillar__titletext {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    text-underline-offset: 0.22em;
+  }
+
+  .pillar__arrow {
+    display: inline-block;
+    transition: transform 120ms ease;
+  }
+
+  .pillar__link:hover {
+    background: var(--paper-sunk);
+  }
+
+  .pillar__link:hover .pillar__titletext {
+    text-decoration-color: var(--accent);
+  }
+
+  .pillar__link:hover .pillar__arrow {
+    transform: translateX(0.2em);
+  }
+
+  /* Hierarchy: the question is the hook, so it carries the weight. The
+     promise explains it and is set one step down. Previously these were
+     reversed, which put the sharpest line in the styling reserved for
+     metadata. */
+  .pillar__q {
+    margin: 0.7rem 0 0;
+    font-size: var(--fs-body);
+    color: var(--ink);
+    max-width: 52ch;
+    text-wrap: pretty;
+  }
+
+  .pillar__promise {
+    margin: 0.55rem 0 0;
+    font-size: var(--fs-small);
+    color: var(--ink-muted);
+    max-width: 62ch;
+  }
+
+  /* --- vantage --- */
+
+  .vantage {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 0;
+    border: 1px solid var(--rule);
+  }
+
+  .vantage__card {
+    padding: 1.4rem 1.25rem;
+    border-right: 1px solid var(--rule);
+  }
+
+  .vantage__card:last-child {
+    border-right: 0;
+  }
+
+  .vantage__head {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .vantage__org {
+    margin-bottom: 0.15rem;
+  }
+
+  .vantage__verb {
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+    color: var(--accent);
+    margin: 0 0 0.9rem;
+  }
+
+  .vantage__learned {
+    font-size: var(--fs-small);
+    color: var(--ink-muted);
+    margin-bottom: 1rem;
+  }
+
+  .vantage__foot {
+    margin: 1.5rem 0 0;
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+  }
+
+  /* --- confidentiality band --- */
+
+  .nda__head {
+    margin-bottom: 1.75rem;
+  }
+
+  .nda__kicker {
+    margin: 0 0 0.7rem;
+    display: flex;
+    gap: 0.7rem;
+  }
+
+  .nda__num {
+    color: var(--accent);
+  }
+
+  .nda__head h2 {
+    max-width: 44ch;
+  }
+
+  .nda {
+    max-width: 60ch;
+    font-size: var(--fs-lede);
+  }
+
+  /* The payoff of the section, so it is set up a step rather than in mono.
+     Monospace here read as a system message, not as a human sentence. */
+  .nda__closing {
+    margin-bottom: 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    font-size: var(--fs-lede);
+    color: var(--ink);
+  }
+
+  /* --- talks --- */
+
+  .talk {
+    border-left: 2px solid var(--accent);
+    padding-left: 1.1rem;
+  }
+
+  .talk__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .talk__summary {
+    margin: 0;
+    max-width: 62ch;
+  }
+
+  .speaking__cta {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    max-width: 62ch;
+  }
+
+  @media (max-width: 640px) {
+    .pillar__link {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+
+    .vantage__card {
+      border-right: 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .vantage__card:last-child {
+      border-bottom: 0;
+    }
+  }
+</style>

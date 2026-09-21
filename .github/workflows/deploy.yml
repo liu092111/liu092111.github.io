@@ -1,0 +1,51 @@
+name: Deploy to GitHub Pages
+
+# This repository IS the deployment source. As the user-pages repo it serves at
+# the account root, so the absolute internal paths in src/data/site.ts resolve
+# with no `base` in astro.config.mjs — do not add one here.
+#
+# Requires Settings → Pages → Source = "GitHub Actions". While it is still set
+# to "Deploy from a branch", this workflow builds and then fails at the deploy
+# step, and the branch's raw files keep being served instead.
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Let a newer run supersede an in-flight one, but never cancel a deploy midway.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,334 @@
+---
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import { SITE, NAV } from '../data/site';
+import socialSource from '../assets/techie-talk-community.jpg';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Section number shown in the page masthead, e.g. "02". Omit on the homepage. */
+  docNo?: string;
+  /**
+   * Document language. The career track is written in Chinese, and a page that
+   * declares the wrong language gets read aloud wrong and indexed wrong, so a
+   * zh post has to override this rather than inherit the site default.
+   */
+  lang?: 'en' | 'zh';
+}
+
+const { title, description, docNo, lang = 'en' } = Astro.props;
+const htmlLang = lang === 'zh' ? 'zh-Hant' : 'en';
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const fullTitle = path === '/' ? `${SITE.name} — ${SITE.role}` : `${title} · ${SITE.name}`;
+
+// Link previews need a real, absolutely-addressed image; declaring a large
+// summary card without one leaves LinkedIn and Slack with a blank block.
+const social = await getImage({
+  src: socialSource,
+  width: 1200,
+  height: 630,
+  fit: 'cover',
+  format: 'jpeg',
+});
+const socialUrl = new URL(social.src, Astro.site).href;
+const canonical = new URL(path, Astro.site).href;
+---
+
+<!doctype html>
+<html lang={htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+
+    <!-- Declaring an icon is also what stops the browser probing /favicon.ico
+         and logging a 404. SVG only: every browser that supports SVG icons
+         prefers them, and the ones that do not simply show no icon rather than
+         a broken one. -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Flora Liu speaking at Techie Talk 2026 about hardware engineering and product decisions."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialUrl} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+    />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="masthead">
+      <div class="shell masthead__inner">
+        <a class="masthead__id" href="/">
+          <span class="masthead__name">Flora Liu</span>
+          <span class="label masthead__role">{SITE.role}</span>
+        </a>
+
+        <nav class="masthead__navwrap" aria-label="Primary">
+          <ul class="masthead__nav list-plain">
+            {
+              NAV.map((item) => (
+                <li>
+                  <a
+                    href={item.href}
+                    title={item.hint}
+                    aria-current={path === item.href ? 'page' : undefined}
+                  >
+                    {item.no && (
+                      <span class="masthead__navno" aria-hidden="true">
+                        {item.no}
+                      </span>
+                    )}
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+          <a class="masthead__cta" href={`mailto:${SITE.email}`}>Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      {
+        docNo && (
+          <div class="shell pagehead">
+            <p class="label pagehead__eyebrow">
+              <span class="pagehead__num">{docNo}</span> {title}
+            </p>
+          </div>
+        )
+      }
+      <slot />
+    </main>
+
+    <footer class="footer">
+      <div class="shell">
+        <hr class="rule rule--strong" />
+        <div class="footer__grid">
+          <div>
+            <p class="footer__lede">
+              Building reliable hardware, and better ways to decide when it is ready.
+            </p>
+            <p class="num">Taiwan · open to speaking and sharing invitations</p>
+          </div>
+          <ul class="list-plain footer__links">
+            <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+            <li>
+              <a href={SITE.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
+            </li>
+            <li>
+              <a href={SITE.github} rel="me noopener" target="_blank">GitHub</a>
+            </li>
+          </ul>
+        </div>
+        <p class="num footer__colophon">
+          © {new Date().getFullYear()} Flora Liu · Set in IBM Plex · Built with Astro
+        </p>
+      </div>
+    </footer>
+
+    <style>
+      .masthead {
+        border-bottom: 1px solid var(--rule);
+        position: sticky;
+        top: 0;
+        background: color-mix(in srgb, var(--paper) 92%, transparent);
+        backdrop-filter: blur(8px);
+        z-index: 5;
+      }
+
+      .masthead__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+        padding-block: 0.85rem;
+      }
+
+      .masthead__id {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+        text-decoration: none;
+        color: var(--ink);
+      }
+
+      .masthead__name {
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+
+      .masthead__role {
+        font-size: var(--fs-label);
+      }
+
+      .masthead__navwrap {
+        display: flex;
+        align-items: center;
+        gap: clamp(1rem, 2.5vw, 1.9rem);
+        flex-wrap: wrap;
+      }
+
+      .masthead__nav {
+        display: flex;
+        flex-wrap: wrap;
+        gap: clamp(0.85rem, 2.2vw, 1.6rem);
+        font-family: var(--font-mono);
+        font-size: var(--fs-meta);
+      }
+
+      .masthead__cta {
+        font-family: var(--font-mono);
+        font-size: var(--fs-meta);
+        text-decoration: none;
+        color: var(--paper);
+        background: var(--ink);
+        border: 1px solid var(--ink);
+        padding: 0.3rem 0.85rem;
+        white-space: nowrap;
+      }
+
+      .masthead__cta:hover {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--paper);
+      }
+
+      .masthead__nav a {
+        color: var(--ink-muted);
+        text-decoration: none;
+        padding-block: 0.2rem;
+        border-bottom: 1px solid transparent;
+      }
+
+      .masthead__nav a:hover {
+        color: var(--ink);
+      }
+
+      .masthead__nav a[aria-current='page'] {
+        color: var(--ink);
+        border-bottom-color: var(--accent);
+      }
+
+      .masthead__navno {
+        color: var(--accent);
+        margin-right: 0.3em;
+      }
+
+      /* Phones: identity + Contact on the first row, then the nav wrapping
+         onto at most two fully visible rows. An earlier version scrolled
+         horizontally, which hid About entirely and gave no cue that more
+         existed — wrapping costs a few pixels and hides nothing. */
+      @media (max-width: 40rem) {
+        .masthead__inner {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          grid-template-areas: 'id cta' 'nav nav';
+          gap: 0.55rem 1rem;
+          padding-block: 0.6rem;
+        }
+
+        .masthead__id {
+          grid-area: id;
+        }
+
+        .masthead__navwrap {
+          display: contents;
+        }
+
+        .masthead__cta {
+          grid-area: cta;
+          align-self: center;
+        }
+
+        .masthead__nav {
+          grid-area: nav;
+          flex-wrap: wrap;
+          gap: 0.3rem 1.05rem;
+          font-size: 0.9375rem;
+        }
+
+        .masthead__nav a {
+          white-space: nowrap;
+        }
+
+        /* The numbers are a desktop nicety; on a phone they cost the width
+           that would push a link off the row. */
+        .masthead__navno {
+          display: none;
+        }
+      }
+
+      .pagehead {
+        padding-top: clamp(2rem, 5vw, 3.5rem);
+      }
+
+      .pagehead__eyebrow {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        font-size: var(--fs-label);
+      }
+
+      .pagehead__num {
+        color: var(--accent);
+      }
+
+      .footer {
+        margin-top: clamp(3rem, 8vw, 6rem);
+        padding-bottom: 2.5rem;
+      }
+
+      .footer__grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 2rem;
+        padding-top: 2rem;
+      }
+
+      .footer__lede {
+        margin-bottom: 0.35rem;
+        max-width: 34ch;
+      }
+
+      .footer__links {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        font-family: var(--font-mono);
+        font-size: var(--fs-meta);
+      }
+
+      .footer__colophon {
+        margin-top: 2.5rem;
+        font-size: 0.75rem;
+      }
+    </style>
+  </body>
+</html>

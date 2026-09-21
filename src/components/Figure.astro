@@ -1,0 +1,80 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  /** A raster figure. Omit it and pass the figure as children instead, which
+   *  is how the inline-SVG diagrams are drawn: they inherit the design tokens
+   *  and so stay correct in both colour schemes. `alt` goes with `src`. */
+  src?: ImageMetadata;
+  alt?: string;
+  caption: string;
+  /** Figure number, e.g. "2.1". Rendered as `FIG 2.1`. */
+  no: string;
+  /** Break out of the text measure for wide or photographic figures. */
+  wide?: boolean;
+}
+
+const { src, alt, caption, no, wide = false } = Astro.props;
+---
+
+<figure class:list={['fig', wide && 'fig--wide']}>
+  <div class="fig__frame">
+    {
+      src ? (
+        <Image
+          src={src}
+          alt={alt ?? ''}
+          widths={[480, 800, 1280]}
+          sizes={wide ? '(max-width: 50rem) 100vw, 60rem' : '(max-width: 44rem) 100vw, 44rem'}
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <slot />
+      )
+    }
+  </div>
+  <figcaption class="fig__cap">
+    <span class="label fig__no">Fig {no}</span>
+    <span>{caption}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .fig {
+    margin: 2rem 0;
+    max-width: 44rem;
+  }
+
+  .fig--wide {
+    max-width: 60rem;
+  }
+
+  .fig__frame {
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-sunk);
+    line-height: 0;
+  }
+
+  .fig__frame :global(img) {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .fig__cap {
+    display: flex;
+    gap: 0.7rem;
+    align-items: baseline;
+    padding-top: 0.6rem;
+    font-size: var(--fs-meta);
+    color: var(--ink-muted);
+    line-height: 1.5;
+  }
+
+  .fig__no {
+    flex: none;
+    color: var(--accent);
+  }
+</style>

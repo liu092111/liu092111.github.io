@@ -1,0 +1,187 @@
+---
+/* One route serves both tracks: they differ in audience and language, not in
+   shape, so a second near-identical template would only be a second place to
+   forget a fix. */
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Base from '../../../layouts/Base.astro';
+
+const TRACKS = ['notes', 'career'] as const;
+type Track = (typeof TRACKS)[number];
+
+export async function getStaticPaths() {
+  const tracks = ['notes', 'career'] as const;
+  const groups = await Promise.all(
+    tracks.map(async (track) => {
+      /* Drafts get a real URL in dev and none in the built site, so a
+         work-in-progress can be read in place without being published. */
+      const posts = await getCollection(
+        track,
+        import.meta.env.DEV ? undefined : ({ data }) => !data.draft
+      );
+      return posts.map((post) => ({
+        params: { track, slug: post.id },
+        props: { post, track },
+      }));
+    })
+  );
+  return groups.flat();
+}
+
+interface Props {
+  post: CollectionEntry<Track>;
+  track: Track;
+}
+
+const { post, track } = Astro.props as Props;
+const { Content } = await render(post);
+
+const iso = (d: Date) => d.toISOString().slice(0, 10);
+const docNo = track === 'notes' ? '6.1' : '6.2';
+---
+
+<Base
+  title={post.data.title}
+  description={post.data.description}
+  docNo={docNo}
+  lang={post.data.lang}
+>
+  <article class="shell post">
+    <header class="post__head">
+      <p class="label post__track">
+        <a href={`/writing#${track}`}>{track === 'notes' ? 'Notes' : 'Career'}</a>
+      </p>
+      <h1>{post.data.title}</h1>
+      <p class="post__desc">{post.data.description}</p>
+
+      <div class="docmeta post__meta">
+        <div class="docmeta__cell">
+          <span class="docmeta__key">Published</span>
+          <span class="docmeta__val">
+            <time datetime={iso(post.data.date)}>{iso(post.data.date)}</time>
+          </span>
+        </div>
+        {
+          post.data.updated && (
+            <div class="docmeta__cell">
+              <span class="docmeta__key">Updated</span>
+              <span class="docmeta__val">
+                <time datetime={iso(post.data.updated)}>{iso(post.data.updated)}</time>
+              </span>
+            </div>
+          )
+        }
+        {
+          post.data.tags.length > 0 && (
+            <div class="docmeta__cell">
+              <span class="docmeta__key">Tags</span>
+              <span class="docmeta__val">{post.data.tags.join(', ')}</span>
+            </div>
+          )
+        }
+      </div>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    <footer class="post__end">
+      <a href="/writing">← All writing</a>
+    </footer>
+  </article>
+</Base>
+
+<style>
+  .post {
+    padding-top: clamp(1.5rem, 4vw, 2.5rem);
+    max-width: 56rem;
+    margin-inline: auto;
+  }
+
+  .post__track {
+    margin: 0 0 1rem;
+  }
+
+  .post__desc {
+    margin-top: 1.25rem;
+    font-size: var(--fs-lede);
+    color: var(--ink-muted);
+    max-width: 52ch;
+    text-wrap: pretty;
+  }
+
+  .post__meta {
+    margin-top: 1.75rem;
+  }
+
+  .post__end {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule-strong);
+    font-family: var(--font-mono);
+    font-size: var(--fs-meta);
+  }
+
+  /* Markdown output is not covered by global.css, which styles only the
+     elements the hand-built pages use. Kept to the elements a post actually
+     produces rather than a full typographic reset. */
+  .prose {
+    padding-top: 2rem;
+  }
+
+  .prose :global(h2) {
+    margin: 2.5rem 0 0.9rem;
+    font-size: clamp(1.25rem, 2.6vw, 1.625rem);
+  }
+
+  .prose :global(h3) {
+    margin: 2rem 0 0.7rem;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    max-width: var(--measure);
+    padding-left: 1.15rem;
+    margin: 0 0 1.25rem;
+  }
+
+  .prose :global(li) {
+    margin-bottom: 0.5rem;
+  }
+
+  .prose :global(blockquote) {
+    margin: 1.75rem 0;
+    padding: 1.1rem 1.35rem;
+    border-left: 2px solid var(--accent);
+    background: var(--paper-sunk);
+    font-size: var(--fs-lede);
+    max-width: var(--measure);
+  }
+
+  .prose :global(blockquote p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .prose :global(pre) {
+    max-width: var(--measure);
+    padding: 1rem 1.1rem;
+    border: 1px solid var(--rule);
+    background: var(--paper-sunk);
+    overflow-x: auto;
+    font-size: var(--fs-small);
+  }
+
+  .prose :global(img) {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--rule-strong);
+  }
+
+  .prose :global(hr) {
+    border: 0;
+    border-top: 1px solid var(--rule);
+    margin: 2.5rem 0;
+    max-width: var(--measure);
+  }
+</style>
