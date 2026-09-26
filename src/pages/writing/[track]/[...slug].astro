@@ -2,54 +2,44 @@
 /* One route serves both tracks: they differ in audience and language, not in
    shape, so a second near-identical template would only be a second place to
    forget a fix. */
-import { getCollection, render } from 'astro:content';
-import type { CollectionEntry } from 'astro:content';
+import { render } from 'astro:content';
 import Base from '../../../layouts/Base.astro';
-
-const TRACKS = ['notes', 'career'] as const;
-type Track = (typeof TRACKS)[number];
+import { TRACKS, getPosts, getTrack, type Post, type TrackKey } from '../../../lib/writing';
 
 export async function getStaticPaths() {
-  const tracks = ['notes', 'career'] as const;
   const groups = await Promise.all(
-    tracks.map(async (track) => {
-      /* Drafts get a real URL in dev and none in the built site, so a
-         work-in-progress can be read in place without being published. */
-      const posts = await getCollection(
-        track,
-        import.meta.env.DEV ? undefined : ({ data }) => !data.draft
-      );
-      return posts.map((post) => ({
-        params: { track, slug: post.id },
-        props: { post, track },
-      }));
-    })
+    TRACKS.map(async ({ key }) =>
+      (await getPosts(key)).map((post) => ({
+        params: { track: key, slug: post.id },
+        props: { post, track: key },
+      }))
+    )
   );
   return groups.flat();
 }
 
 interface Props {
-  post: CollectionEntry<Track>;
-  track: Track;
+  post: Post;
+  track: TrackKey;
 }
 
-const { post, track } = Astro.props as Props;
+const { post, track } = Astro.props;
 const { Content } = await render(post);
+const trackInfo = getTrack(track);
 
 const iso = (d: Date) => d.toISOString().slice(0, 10);
-const docNo = track === 'notes' ? '6.1' : '6.2';
 ---
 
 <Base
   title={post.data.title}
   description={post.data.description}
-  docNo={docNo}
+  docNo={trackInfo.no}
   lang={post.data.lang}
 >
   <article class="shell post">
     <header class="post__head">
       <p class="label post__track">
-        <a href={`/writing#${track}`}>{track === 'notes' ? 'Notes' : 'Career'}</a>
+        <a href={`/writing#${track}`}>{trackInfo.title}</a>
       </p>
       <h1>{post.data.title}</h1>
       <p class="post__desc">{post.data.description}</p>

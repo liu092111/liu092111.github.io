@@ -3,9 +3,9 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
 interface Props {
-  /** A raster figure. Omit it and pass the figure as children instead, which
-   *  is how the inline-SVG diagrams are drawn: they inherit the design tokens
-   *  and so stay correct in both colour schemes. `alt` goes with `src`. */
+  /** A raster figure. Omit it and pass the figure as children instead, e.g.
+   *  an inline SVG drawn with `var(--ink)` etc., which inherits the design
+   *  tokens and so stays correct in both colour schemes. `alt` goes with `src`. */
   src?: ImageMetadata;
   alt?: string;
   caption: string;

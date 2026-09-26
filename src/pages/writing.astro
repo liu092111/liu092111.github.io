@@ -1,40 +1,16 @@
 ---
 /* Listing for both writing tracks.
-   Deliberately not in NAV yet: the routes exist so that publishing a post is
-   only "add a markdown file", but an empty index should not be advertised.
-   Add the nav entry in src/data/site.ts once there are two or three posts. */
+   Always built, so publishing a post is only "add a markdown file" and a
+   shared link never 404s. Until the section reaches LAUNCH_THRESHOLD
+   published posts it stays out of the masthead and out of search results;
+   both switch on by themselves once enough posts exist. */
 import Base from '../layouts/Base.astro';
-import { getCollection } from 'astro:content';
+import { TRACKS, getPosts, isWritingLive, postHref } from '../lib/writing';
 
-/* Drafts stay visible while writing and disappear from the built site, so a
-   half-finished post can be previewed at its real URL without shipping. */
-const publishable = import.meta.env.DEV ? undefined : ({ data }: { data: { draft: boolean } }) => !data.draft;
-
-const [notes, career] = await Promise.all([
-  getCollection('notes', publishable),
-  getCollection('career', publishable),
-]);
-
-const newestFirst = <T extends { data: { date: Date } }>(posts: T[]) =>
-  [...posts].sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-const TRACKS = [
-  {
-    key: 'notes',
-    no: '6.1',
-    title: 'Notes',
-    blurb: 'Product design, systems, evidence and the decisions that determine what gets built.',
-    posts: newestFirst(notes),
-  },
-  {
-    key: 'career',
-    no: '6.2',
-    title: 'Career',
-    blurb:
-      'How this path was actually walked: interviews, coffee chats, and the parts nobody puts on a résumé. Usually written in Chinese.',
-    posts: newestFirst(career),
-  },
-];
+const tracks = await Promise.all(
+  TRACKS.map(async (track) => ({ ...track, posts: await getPosts(track.key) }))
+);
+const live = await isWritingLive();
 
 const iso = (d: Date) => d.toISOString().slice(0, 10);
 ---
@@ -43,6 +19,7 @@ const iso = (d: Date) => d.toISOString().slice(0, 10);
   title="Writing"
   description="Flora Liu writes about product design, systems, engineering evidence and the decisions that determine what gets built."
   docNo="06"
+  noindex={!live}
 >
   <div class="shell shell--read writing">
     <header class="writing__head">
@@ -54,7 +31,7 @@ const iso = (d: Date) => d.toISOString().slice(0, 10);
     </header>
 
     {
-      TRACKS.map((track) => (
+      tracks.map((track) => (
         <section class="section" id={track.key}>
           <div class="section-head">
             <span class="section-head__num">{track.no}</span>
@@ -70,7 +47,7 @@ const iso = (d: Date) => d.toISOString().slice(0, 10);
             <ul class="list-plain posts">
               {track.posts.map((post) => (
                 <li class="post">
-                  <a class="post__link" href={`/writing/${track.key}/${post.id}`}>
+                  <a class="post__link" href={postHref(track.key, post)}>
                     <span class="num post__date">
                       <time datetime={iso(post.data.date)}>{iso(post.data.date)}</time>
                       {post.data.draft && <span class="post__draft"> · draft</span>}

@@ -7,6 +7,8 @@ Two separate tracks. Keep them separate — mixing them dilutes both audiences.
 | `notes/` | Technical | Engineers, hiring readers | English          |
 | `career/`| Career    | Students, job seekers     | Chinese          |
 
+Track names, numbers and blurbs are defined once in `src/lib/writing.ts`.
+
 ## Adding a post
 
 Create `src/content/notes/some-slug.md` (or `career/`):
@@ -24,15 +26,31 @@ lang: en
 Body in Markdown.
 ```
 
-`draft: true` keeps it out of listings until you remove the flag.
+It is served at `/writing/notes/some-slug` and listed on `/writing`. Set `lang: zh` for a
+Chinese post so the page declares the right language.
 
-## Not yet routed
+## Drafts
 
-The collections are configured but **no listing or detail pages exist yet**, on purpose —
-an empty writing section looks worse than none. Once there are two or three posts
-ready, the routes and the nav entries get added together.
+`draft: true` means:
 
-Planned first pieces:
+- **`npm run dev`** — the post is listed and readable at its real URL, marked "draft".
+- **`npm run build`** — the post is left out entirely: no page, no listing entry.
+
+Remove the flag (or set `draft: false`) to publish.
+
+## When the section goes public
+
+`/writing` and every published post are always built, so a shared link never breaks. The
+section is only *advertised* once it has `LAUNCH_THRESHOLD` published posts (set in
+`src/lib/writing.ts`, currently 2) across both tracks. Before that:
+
+- the **Writing** entry is hidden from the masthead, and
+- `/writing` carries `noindex`, so search engines skip a near-empty index.
+
+Both switch on by themselves at the next build after the threshold is met; there is nothing
+to edit by hand.
+
+## Planned first pieces
 
 1. `notes/` — Tested by one company, built by another, decided by a third
 2. `notes/` — Reliability analysis on a public failure dataset

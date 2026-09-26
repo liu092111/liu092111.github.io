@@ -14,13 +14,24 @@ export const SITE = {
 
 /* The three essays carry a number in the nav so a first-time visitor reads
    them as one series rather than three abstract nouns; `hint` becomes the
-   link title so hovering explains what each one is. */
-export const NAV = [
+   link title so hovering explains what each one is.
+   `afterWritingLaunch` hides an entry until the writing section has enough
+   published posts; the threshold lives in src/lib/writing.ts. */
+interface NavItem {
+  href: string;
+  label: string;
+  hint: string;
+  no?: string;
+  afterWritingLaunch?: boolean;
+}
+
+export const NAV: NavItem[] = [
   { href: '/designed', label: 'Designed', no: '01', hint: 'How a product gets designed' },
   { href: '/confidence', label: 'Confidence', no: '02', hint: 'How a product earns confidence' },
   { href: '/value', label: 'Value', no: '03', hint: 'How a product creates value' },
   { href: '/speaking', label: 'Speaking', hint: 'Talks, topics and invitations' },
   { href: '/about', label: 'About', hint: 'Experience, tools and selected work' },
+  { href: '/writing', label: 'Writing', hint: 'Notes and career posts', afterWritingLaunch: true },
 ];
 
 /* The three evergreen pillars. These are the site's argument; the

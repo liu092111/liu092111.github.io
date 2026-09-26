@@ -35,6 +35,8 @@ jobs:
 
       - run: npm ci
       - run: npm run build
+      # Fails the run before deploy if any internal link would 404 or redirect.
+      - run: npm run check:links
 
       - uses: actions/upload-pages-artifact@v3
         with:

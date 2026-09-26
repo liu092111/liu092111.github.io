@@ -2,6 +2,8 @@
 import '../styles/global.css';
 import { getImage } from 'astro:assets';
 import { SITE, NAV } from '../data/site';
+import { routePath, canonicalUrl } from '../lib/url';
+import { isWritingLive } from '../lib/writing';
 import socialSource from '../assets/techie-talk-community.jpg';
 
 interface Props {
@@ -15,11 +17,18 @@ interface Props {
    * zh post has to override this rather than inherit the site default.
    */
   lang?: 'en' | 'zh';
+  /**
+   * Keep the page reachable but out of search results. Also drops the
+   * canonical tag, which would otherwise ask search engines to index it.
+   */
+  noindex?: boolean;
 }
 
-const { title, description, docNo, lang = 'en' } = Astro.props;
+const { title, description, docNo, lang = 'en', noindex = false } = Astro.props;
 const htmlLang = lang === 'zh' ? 'zh-Hant' : 'en';
-const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const path = routePath(Astro.url.pathname);
+const writingLive = await isWritingLive();
+const nav = NAV.filter((item) => !item.afterWritingLaunch || writingLive);
 const fullTitle = path === '/' ? `${SITE.name} — ${SITE.role}` : `${title} · ${SITE.name}`;
 
 // Link previews need a real, absolutely-addressed image; declaring a large
@@ -32,7 +41,7 @@ const social = await getImage({
   format: 'jpeg',
 });
 const socialUrl = new URL(social.src, Astro.site).href;
-const canonical = new URL(path, Astro.site).href;
+const canonical = canonicalUrl(path, Astro.site!);
 ---
 
 <!doctype html>
@@ -42,7 +51,7 @@ const canonical = new URL(path, Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical} />}
 
     <!-- Declaring an icon is also what stops the browser probing /favicon.ico
          and logging a 404. SVG only: every browser that supports SVG icons
@@ -88,7 +97,7 @@ const canonical = new URL(path, Astro.site).href;
         <nav class="masthead__navwrap" aria-label="Primary">
           <ul class="masthead__nav list-plain">
             {
-              NAV.map((item) => (
+              nav.map((item) => (
                 <li>
                   <a
                     href={item.href}

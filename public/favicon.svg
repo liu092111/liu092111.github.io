@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
   <!--
-    The cost-of-change staircase, the same figure the /designed page argues
-    from. Three treads read cleanly at 16px, and the last one carries the
-    signal colour exactly as it does in FIG 1.2.
+    A cost-of-change staircase: each gate makes the same change more
+    expensive. Three treads read cleanly at 16px, and the last, most costly
+    one carries the signal colour.
 
     Colours are inlined rather than tokenised: a favicon is fetched outside the
     page, so it cannot see the site's CSS custom properties. The media query is

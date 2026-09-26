@@ -14,7 +14,7 @@ Not part of the Astro build. Import it in whatever script produces a figure:
     fig.savefig("dark.svg", format="svg", transparent=True)
 
 Why two exports: an SVG carries baked colours, so one file cannot follow
-`prefers-color-scheme` the way the inline-SVG diagrams do. Ship both and pick
+`prefers-color-scheme` the way an inline SVG using the CSS tokens does. Ship both and pick
 per scheme:
 
     <picture>

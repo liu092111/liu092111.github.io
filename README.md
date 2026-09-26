@@ -3,27 +3,40 @@
 Source for [liu092111.github.io](https://liu092111.github.io) — Flora Liu's personal site.
 
 Built with [Astro](https://astro.build), no client-side JavaScript, no UI framework.
-Every push to `master` builds and deploys through `.github/workflows/deploy.yml`.
+Every push to `master` builds, link-checks and deploys through `.github/workflows/deploy.yml`.
 
 ```bash
 npm install
-npm run dev      # local server
-npm run build    # production build into dist/
-npm run check    # astro check (types and templates)
+npm run dev            # local server
+npm run build          # production build into dist/
+npm run check          # astro check (types and templates)
+npm run check:links    # after a build: every internal link resolves with no redirect
 npm run audit:drafts   # list unresolved <DraftNote> placeholders
 ```
 
+On WSL with the repo on a Windows drive (`/mnt/c/...`), the dev server switches to a
+polling file watcher automatically. Set `ASTRO_POLL=1` or `ASTRO_POLL=0` to override.
+
 ## Layout
 
-| Path                 | What it is                                                              |
-| -------------------- | ----------------------------------------------------------------------- |
-| `src/data/site.ts`   | Single source of truth for copy and structured facts. Edit here first.   |
-| `src/pages/`         | One file per route. The three numbered essays are the site's argument.   |
-| `src/layouts/`       | `Base.astro` (shell, head, nav) and `Essay.astro` (the numbered essays). |
-| `src/components/`    | Inline-SVG concept diagrams and the shared `Figure` caption treatment.   |
-| `src/content/`       | Writing, in two tracks — see `src/content/README.md`.                    |
-| `src/styles/global.css` | Design tokens and shared element styles.                             |
-| `tools/`             | `site_chart_style.py`, so exported matplotlib charts match the site.     |
+| Path                    | What it is                                                              |
+| ----------------------- | ----------------------------------------------------------------------- |
+| `src/data/site.ts`      | Single source of truth for copy and structured facts. Edit here first.   |
+| `src/pages/`            | One file per route. The three numbered essays are the site's argument.   |
+| `src/layouts/`          | `Base.astro` (shell, head, nav) and `Essay.astro` (the numbered essays). |
+| `src/components/`       | `Figure` (captioned figures) and `DraftNote` (dev-only placeholders).    |
+| `src/lib/`              | Shared logic: URL shape (`url.ts`) and the writing section (`writing.ts`). |
+| `src/content/`          | Writing, in two tracks — see `src/content/README.md`.                    |
+| `src/styles/global.css` | Design tokens and shared element styles.                                |
+| `scripts/`              | Build checks run in CI.                                                 |
+| `tools/`                | `site_chart_style.py`, so exported matplotlib charts match the site.     |
+
+## URLs
+
+Pages live at `/about`, never `/about/`. The build emits `about.html` (not
+`about/index.html`) because GitHub Pages serves the former directly but answers the latter
+with a 301. Write internal links without a trailing slash; `npm run check:links` fails the
+deploy if one slips through.
 
 ## Publishing rules this repo follows
 
