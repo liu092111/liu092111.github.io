@@ -2,7 +2,9 @@
 import Base from '../layouts/Base.astro';
 ---
 
-<Base title="Not found" description="That page does not exist.">
+<!-- GitHub Pages serves this for every missing address, so it must not be
+     indexed or claim a canonical URL of its own. -->
+<Base title="Not found" description="That page does not exist." noindex>
   <div class="shell nf">
     <p class="label">Error 404</p>
     <h1>No such page</h1>
