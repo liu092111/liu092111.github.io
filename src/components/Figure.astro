@@ -51,8 +51,11 @@ const { src, alt, caption, no, wide = false } = Astro.props;
     max-width: 60rem;
   }
 
+  /* Rounded rather than framed: an outline around a photo adds a box the
+     eye has to parse without adding information. */
   .fig__frame {
-    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
+    overflow: hidden;
     background: var(--paper-sunk);
     line-height: 0;
   }

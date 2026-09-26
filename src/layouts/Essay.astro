@@ -23,7 +23,7 @@ const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
 ---
 
 <Base title={title} description={description} docNo={docNo}>
-  <article class="essay shell">
+  <article class="essay shell shell--read">
     <header class="essay__head">
       <h1>{title}</h1>
       <p class="essay__thesis">{thesisText}</p>
@@ -56,12 +56,10 @@ const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
 </Base>
 
 <style is:global>
-  /* Narrower than the page shell so the column reads as a deliberate
-     document block rather than text stranded in a wide container. */
+  /* On the reading spine (shell--read) so the column reads as a deliberate
+     document block, left-aligned with the page masthead above it. */
   .essay {
     padding-top: clamp(1.5rem, 4vw, 2.5rem);
-    max-width: 56rem;
-    margin-inline: auto;
   }
 
   .essay__head {
@@ -100,7 +98,7 @@ const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
   }
 
   .sub__no {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: 0.75rem;
     color: var(--accent);
     flex: none;
@@ -175,7 +173,7 @@ const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
   }
 
   .essay__ctalinks {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--fs-meta);
     display: flex;
     gap: 0.7rem;

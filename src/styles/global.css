@@ -1,35 +1,43 @@
 /* ---------------------------------------------------------------
    Flora Liu — design tokens
-   Visual language: engineering test report. Ruled, numbered,
-   monospace metadata, restrained colour, generous measure.
+   Visual language: calm, editorial, one typeface. Numbered sections and
+   hairline rules carry the engineering structure; the type carries the
+   person. No boxes where whitespace will do.
    --------------------------------------------------------------- */
 
 :root {
-  --paper: #fbfaf8;
-  --paper-sunk: #f4f2ee;
-  --ink: #17191c;
-  --ink-muted: #5f636a;
-  --rule: #e2e0da;
-  --rule-strong: #c6c3bb;
+  /* Pure white ground: logos and photos arrive on white, so they sit in
+     the page instead of reading as pasted-on tiles. */
+  --paper: #ffffff;
+  --paper-sunk: #f6f6f4;
+  --ink: #15171a;
+  --ink-muted: #5b6068;
+  --rule: #e7e7e4;
+  --rule-strong: #d0d0cb;
   --accent: #0d5c56;
   --accent-hover: #0a453f;
+  --accent-soft: #e8f1f0;
   --signal: #9c4712;
+  --radius: 10px;
 
-  --font-sans: 'IBM Plex Sans', -apple-system, 'Segoe UI', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  /* One family for everything a visitor reads. Plus Jakarta Sans: warm,
+     contemporary, legible at small sizes, with real tabular figures.
+     Chinese falls back to the platform's Traditional Chinese sans. */
+  --font-sans:
+    'Plus Jakarta Sans', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', system-ui,
+    -apple-system, 'Segoe UI', sans-serif;
+  /* Code only. UI text is never monospace. */
+  --font-mono: ui-monospace, 'Cascadia Code', Consolas, monospace;
 
-  /* Type scale. Body sits at 19px with a ~44rem measure: comfortable for
-     long prose, and noticeably roomier than a default 16px/60ch.
-     Steps are kept above ~1.14 so each one is actually perceptible. The
-     earlier 19/17/15 ramp stepped by 1.12 and read as a single mushy size.
-     --fs-label stays at 12px on purpose: shrinking the smallest text to
-     widen a gap trades legibility for arithmetic. */
-  --fs-body: 1.1875rem; /* 19px */
-  --fs-lede: 1.375rem; /* 22px */
+  /* Type scale. Body 18px with a ~44rem measure. The small end is kept
+     generous (15px meta, 13px labels): the earlier 14/12px sizes read as
+     fine print on a page whose job is to be read. */
+  --fs-body: 1.125rem; /* 18px */
+  --fs-lede: 1.3125rem; /* 21px */
   --fs-small: 1rem; /* 16px — secondary prose, table cells */
-  --fs-meta: 0.875rem; /* 14px — mono metadata */
-  --fs-label: 0.75rem; /* 12px — uppercase labels */
-  --lh-body: 1.58;
+  --fs-meta: 0.9375rem; /* 15px — dates, metadata, UI */
+  --fs-label: 0.8125rem; /* 13px — eyebrow labels */
+  --lh-body: 1.65;
 
   --measure: 44rem;
   --page: 76rem;
@@ -38,21 +46,10 @@
   --page-read: 56rem;
   --gap: clamp(1.5rem, 4vw, 3rem);
 
-  color-scheme: light dark;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #101215;
-    --paper-sunk: #171a1e;
-    --ink: #e9e7e2;
-    --ink-muted: #aab0b8;
-    --rule: #272b31;
-    --rule-strong: #3a3f46;
-    --accent: #52c2b1;
-    --accent-hover: #7ad4c6;
-    --signal: #e0904f;
-  }
+  /* Light only, by choice: one palette means every photo, logo and
+     screenshot looks the same for every visitor. `color-scheme: light` also keeps form controls
+     and scrollbars light when the visitor's system is set to dark. */
+  color-scheme: light;
 }
 
 *,
@@ -84,16 +81,20 @@ h1,
 h2,
 h3,
 h4 {
-  font-weight: 600;
+  font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   margin: 0;
   text-wrap: balance;
 }
 
+/* Plus Jakarta Sans has a narrow word space, so display tracking stays
+   modest: tighter than -0.025em and "I study" starts to read as one word. */
 h1 {
-  font-size: clamp(2.25rem, 5.6vw, 3.4rem);
-  letter-spacing: -0.03em;
+  font-size: clamp(2.25rem, 5.6vw, 3.5rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  word-spacing: 0.04em;
 }
 
 h2 {
@@ -130,52 +131,61 @@ kbd {
   font-size: 0.9em;
 }
 
-/* --- monospace utility labels ---------------------------------- */
+/* --- utility labels -------------------------------------------- */
 
+/* Small uppercase eyebrow. Tracked just enough to read as a label, not so
+   wide that it turns into a row of letters. */
 .label {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--fs-label);
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  font-weight: 600;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink-muted);
 }
 
 .mono {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-variant-numeric: tabular-nums;
 }
 
+/* Dates, periods and other metadata. */
 .num {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--fs-meta);
   font-weight: 500;
   color: var(--ink-muted);
-  letter-spacing: 0.06em;
+  font-variant-numeric: tabular-nums;
 }
 
 /* --- layout ---------------------------------------------------- */
 
 .shell {
+  --gutter: clamp(1.125rem, 4vw, 3rem);
   width: 100%;
   max-width: var(--page);
   margin-inline: auto;
-  padding-inline: clamp(1.125rem, 4vw, 3rem);
+  padding-inline: var(--gutter);
 }
 
-/* Sequential prose sits on the reading spine. */
+/* Sequential prose sits on the reading spine, but the spine shares the
+   page's left edge rather than being centred in it. An earlier version
+   centred a narrower box, which gave the page three different left edges
+   (masthead/hero, reading sections, breakouts) and made the eye jump.
+   The narrowing now happens on the right only: the unused width of the
+   page becomes extra right padding. The 1rem allowance stops a desktop
+   scrollbar turning the breakout below into horizontal overflow. */
 .shell--read {
-  max-width: var(--page-read);
+  --spare: max(0px, min(var(--page), 100vw - 1rem) - var(--page-read));
+  padding-right: calc(var(--gutter) + var(--spare));
 }
 
-/* Escape the reading spine out to --page, symmetrically, for blocks that are
+/* Escape the reading spine out to the full page width for blocks that are
    scanned in parallel rather than read in order: width itself then tells the
    reader which mode they are in. Collapses to a no-op once the viewport is
-   narrower than the spine, so small screens stay a single column. The 1rem
-   allowance stops a desktop scrollbar turning this into horizontal overflow. */
+   narrower than the spine, so small screens stay a single column. */
 .breakout {
-  --escape: calc((min(var(--page), 100vw - 1rem) - min(var(--page-read), 100vw - 1rem)) / 2);
-  margin-inline: calc(-1 * var(--escape));
+  margin-right: calc(-1 * var(--spare, 0px));
 }
 
 .rule {
@@ -194,6 +204,24 @@ kbd {
   border-top: 1px solid var(--rule);
 }
 
+/* On a shell, a plain border-top would run out into the side gutters and
+   overshoot the content's left edge. Draw it from gutter to gutter instead,
+   so every rule starts on the same line as the text beneath it. Full-bleed
+   sections (.band) keep their edge-to-edge border. */
+.section.shell {
+  position: relative;
+  border-top: 0;
+}
+
+.section.shell::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--gutter);
+  right: var(--gutter);
+  border-top: 1px solid var(--rule);
+}
+
 .section-head {
   display: flex;
   align-items: baseline;
@@ -202,11 +230,11 @@ kbd {
 }
 
 .section-head__num {
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  font-weight: 600;
   color: var(--accent);
-  letter-spacing: 0.1em;
+  font-variant-numeric: tabular-nums;
   flex: none;
   padding-top: 0.35em;
 }
@@ -232,16 +260,17 @@ kbd {
 
 .docmeta__key {
   display: block;
-  font-family: var(--font-mono);
-  font-size: 0.6875rem;
-  letter-spacing: 0.14em;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink-muted);
   margin-bottom: 0.2rem;
 }
 
 .docmeta__val {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--fs-meta);
   color: var(--ink);
   overflow-wrap: anywhere;
@@ -263,61 +292,92 @@ kbd {
   }
 }
 
-/* --- inverted band -------------------------------------------
-   A full-bleed contrast band used sparingly for rhythm. Re-declares
-   the tokens so nested components need no special casing.
+/* --- tinted band ----------------------------------------------
+   A full-bleed, lightly tinted section for a change of rhythm. Light on
+   purpose: a black slab mid-page reads as the end of the page.
    ------------------------------------------------------------- */
 
 .band {
-  --paper: #0f1114;
-  --paper-sunk: #171a1e;
-  --ink: #f4f2ee;
-  /* Muted text on a dark band needs more lift than it does on paper —
-     #a3a8af measured too faint against #0f1114. */
-  --ink-muted: #c2c7ce;
-  --rule: #343941;
-  --rule-strong: #4d545e;
-  --accent: #6fd6c3;
-  --accent-hover: #93e2d3;
-  --signal: #eda468;
-
-  background: var(--paper);
-  color: var(--ink);
-  border-block: 1px solid var(--rule-strong);
+  background: var(--paper-sunk);
 }
 
-@media (prefers-color-scheme: dark) {
-  /* Already dark: shift the band lighter instead so it still reads as a band. */
-  .band {
-    --paper: #1b1f24;
-    --paper-sunk: #23282e;
-    --rule: #343a41;
-    --rule-strong: #4a515a;
-  }
-}
-
-/* --- chips: [ PASS ] [ RISK ] ---------------------------------- */
+/* --- tags ------------------------------------------------------
+   A soft filled pill, not an outlined box: an outline around a label
+   reads as a button or a form field and adds a frame the eye must parse.
+   ------------------------------------------------------------- */
 
 .chip {
   display: inline-block;
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--fs-label);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 0.2rem 0.55rem;
-  border: 1px solid var(--rule-strong);
+  font-weight: 600;
+  line-height: 1.4;
+  padding: 0.2rem 0.65rem;
+  border-radius: 999px;
+  background: var(--paper-sunk);
   color: var(--ink-muted);
   white-space: nowrap;
 }
 
 .chip--signal {
-  border-color: var(--signal);
+  background: color-mix(in srgb, var(--signal) 10%, transparent);
   color: var(--signal);
 }
 
 .chip--accent {
-  border-color: var(--accent);
+  background: var(--accent-soft);
   color: var(--accent);
+}
+
+/* --- buttons --------------------------------------------------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-family: var(--font-sans);
+  font-size: var(--fs-meta);
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+  border-radius: 8px;
+  padding: 0.75rem 1.2rem;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+.btn--primary {
+  color: #fff;
+  background: var(--ink);
+  border-color: var(--ink);
+}
+
+.btn--primary:hover {
+  color: #fff;
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Organisation logo: square, softly rounded, no frame, the way LinkedIn
+   shows them. The page is white, so white-ground logos need no tile. */
+.logo {
+  display: block;
+  flex: none;
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+  border-radius: 8px;
 }
 
 /* --- tables ---------------------------------------------------- */
@@ -337,10 +397,10 @@ kbd {
 }
 
 .table th {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: var(--fs-label);
-  font-weight: 500;
-  letter-spacing: 0.12em;
+  font-weight: 600;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: var(--ink-muted);
   border-bottom-color: var(--rule-strong);
@@ -392,15 +452,16 @@ kbd {
   top: 0.5rem;
 }
 
+/* Motion policy. `prefers-reduced-motion` is the visitor's own OS setting,
+   not the site's; most visitors never turn it on. Animations are shown to
+   everyone by default. What gets withheld from visitors who did turn it on
+   is only large movement, the kind that causes motion sickness: smooth
+   scrolling, parallax, big slides or zooms. Fades, colour changes and the
+   home count-up are not movement and play for everyone.
+   New animation? If it moves things across the screen, wrap it in
+   `@media (prefers-reduced-motion: no-preference)`; otherwise, don't. */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
-  }
-
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
   }
 }

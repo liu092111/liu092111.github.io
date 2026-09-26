@@ -36,7 +36,7 @@ const iso = (d: Date) => d.toISOString().slice(0, 10);
   docNo={trackInfo.no}
   lang={post.data.lang}
 >
-  <article class="shell post">
+  <article class="shell shell--read post">
     <header class="post__head">
       <p class="label post__track">
         <a href={`/writing#${track}`}>{trackInfo.title}</a>
@@ -85,8 +85,6 @@ const iso = (d: Date) => d.toISOString().slice(0, 10);
 <style>
   .post {
     padding-top: clamp(1.5rem, 4vw, 2.5rem);
-    max-width: 56rem;
-    margin-inline: auto;
   }
 
   .post__track {
@@ -109,7 +107,7 @@ const iso = (d: Date) => d.toISOString().slice(0, 10);
     margin-top: 3rem;
     padding-top: 1.5rem;
     border-top: 1px solid var(--rule-strong);
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--fs-meta);
   }
 

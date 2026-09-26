@@ -2,7 +2,9 @@
 import Base from '../layouts/Base.astro';
 import Figure from '../components/Figure.astro';
 import { SPEAKING_TOPICS, TALKS, SITE } from '../data/site';
-import community from '../assets/techie-talk-community.jpg';
+// Graded copy (exposure, highlights/shadows, a slightly cooler balance);
+// the untouched original is kept alongside it.
+import community from '../assets/techie-talk-community-graded.jpg';
 ---
 
 <Base
@@ -39,7 +41,9 @@ import community from '../assets/techie-talk-community.jpg';
         {
           SPEAKING_TOPICS.map((t, i) => (
             <li class="topic">
-              <span class="num topic__no">{String(i + 1).padStart(2, '0')}</span>
+              {/* Lettered, not "01"–"04": two-digit numbers are page numbers
+                  site-wide, and "01" would read as essay 01. */}
+              <span class="num topic__no">{String.fromCharCode(65 + i)}</span>
               <div>
                 <h3>{t.title}</h3>
                 <p class="topic__blurb">{t.blurb}</p>
@@ -61,10 +65,25 @@ import community from '../assets/techie-talk-community.jpg';
           <article class="past">
             <div class="past__meta">
               <h3>{t.event}</h3>
-              <span class="num">{t.year}</span>
-              <span class="chip">{t.role}</span>
+              <span class="chip chip--accent">{t.role}</span>
             </div>
+            <p class="num past__org">
+              {t.organiser} · {t.year}
+            </p>
+            {t.audience && <p class="past__audience">{t.audience}</p>}
             <p class="past__summary">{t.summary}</p>
+            <p class="past__links">
+              {t.eventUrl && (
+                <a href={t.eventUrl} target="_blank" rel="noopener">
+                  About the event ↗
+                </a>
+              )}
+              {t.link && (
+                <a href={t.link} target="_blank" rel="noopener">
+                  My write-up ↗
+                </a>
+              )}
+            </p>
           </article>
         ))
       }
@@ -115,7 +134,7 @@ import community from '../assets/techie-talk-community.jpg';
     align-items: center;
     gap: 0.75rem;
     flex-wrap: wrap;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--fs-meta);
     color: var(--ink-muted);
     margin: 0;
@@ -157,15 +176,31 @@ import community from '../assets/techie-talk-community.jpg';
     margin-bottom: 0.6rem;
   }
 
+  .past__org {
+    margin: 0 0 0.5rem;
+  }
+
+  .past__audience {
+    margin: 0 0 0.75rem;
+    color: var(--ink-muted);
+    max-width: 62ch;
+  }
+
   .past__summary {
     max-width: 62ch;
     margin: 0;
   }
 
+  .past__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    margin: 0.85rem 0 0;
+    font-size: var(--fs-meta);
+    font-weight: 600;
+  }
+
   .invite {
-    border: 1px solid var(--rule-strong);
-    background: var(--paper-sunk);
-    padding: 1.5rem;
     max-width: 44rem;
   }
 
@@ -174,8 +209,9 @@ import community from '../assets/techie-talk-community.jpg';
   }
 
   .invite__addr {
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--fs-lede);
+    font-weight: 600;
   }
 
   @media (max-width: 640px) {

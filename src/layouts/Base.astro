@@ -1,10 +1,11 @@
 ---
 import '../styles/global.css';
 import { getImage } from 'astro:assets';
-import { SITE, NAV } from '../data/site';
+import { SITE, NAV, GOATCOUNTER, PERSPECTIVES_LABEL } from '../data/site';
 import { routePath, canonicalUrl } from '../lib/url';
 import { isWritingLive } from '../lib/writing';
-import socialSource from '../assets/techie-talk-community.jpg';
+import Mark from '../components/Mark.astro';
+import socialSource from '../assets/techie-talk-community-graded.jpg';
 
 interface Props {
   title: string;
@@ -29,6 +30,8 @@ const htmlLang = lang === 'zh' ? 'zh-Hant' : 'en';
 const path = routePath(Astro.url.pathname);
 const writingLive = await isWritingLive();
 const nav = NAV.filter((item) => !item.afterWritingLaunch || writingLive);
+const essayNav = nav.filter((item) => item.essay);
+const inEssay = essayNav.some((item) => item.href === path);
 const fullTitle = path === '/' ? `${SITE.name} — ${SITE.role}` : `${title} · ${SITE.name}`;
 
 // Link previews need a real, absolutely-addressed image; declaring a large
@@ -80,8 +83,22 @@ const canonical = canonicalUrl(path, Astro.site!);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap"
     />
+
+    <!-- Visitor counting: GoatCounter, cookie-free and anonymous, so no
+         consent banner is needed. Production builds only, so local
+         development never pollutes the numbers. -->
+    {
+      import.meta.env.PROD && (
+        <script
+          is:inline
+          async
+          data-goatcounter={`https://${GOATCOUNTER}.goatcounter.com/count`}
+          src="https://gc.zgo.at/count.js"
+        />
+      )
+    }
   </head>
 
   <body>
@@ -90,32 +107,76 @@ const canonical = canonicalUrl(path, Astro.site!);
     <header class="masthead">
       <div class="shell masthead__inner">
         <a class="masthead__id" href="/">
-          <span class="masthead__name">Flora Liu</span>
-          <span class="label masthead__role">{SITE.role}</span>
+          <Mark class="masthead__mark" />
+          <span class="masthead__text">
+            <span class="masthead__name">Flora Liu</span>
+            <span class="label masthead__role">{SITE.role}</span>
+          </span>
         </a>
 
         <nav class="masthead__navwrap" aria-label="Primary">
           <ul class="masthead__nav list-plain">
             {
-              nav.map((item) => (
-                <li>
-                  <a
-                    href={item.href}
-                    title={item.hint}
-                    aria-current={path === item.href ? 'page' : undefined}
-                  >
-                    {item.no && (
-                      <span class="masthead__navno" aria-hidden="true">
-                        {item.no}
-                      </span>
-                    )}
-                    {item.label}
-                  </a>
-                </li>
-              ))
+              nav.map((item) => {
+                if (!item.essay) {
+                  return (
+                    <li>
+                      <a
+                        href={item.href}
+                        title={item.hint}
+                        aria-current={path === item.href ? 'page' : undefined}
+                      >
+                        {item.label}
+                      </a>
+                    </li>
+                  );
+                }
+                // The dropdown is rendered once, where the first essay sits.
+                if (item !== essayNav[0]) return null;
+                return (
+                  <li class="navmenu__item">
+                    {/* <details> opens and closes with no JavaScript at all;
+                        the script below only adds closing on outside click
+                        and Escape. */}
+                    <details class="navmenu" data-navmenu>
+                      <summary
+                        class:list={['navmenu__toggle', inEssay && 'is-current']}
+                        aria-current={inEssay ? 'true' : undefined}
+                      >
+                        {PERSPECTIVES_LABEL}
+                        <svg class="navmenu__chev" viewBox="0 0 12 12" aria-hidden="true">
+                          <path d="M2.5 4.5 6 8l3.5-3.5" />
+                        </svg>
+                      </summary>
+                      <ul class="list-plain navmenu__panel">
+                        {essayNav.map((e) => (
+                          <li>
+                            <a
+                              class="navmenu__link"
+                              href={e.href}
+                              aria-current={path === e.href ? 'page' : undefined}
+                            >
+                              <span class="navmenu__no" aria-hidden="true">
+                                {e.no}
+                              </span>
+                              <span>
+                                <span class="navmenu__label">{e.label}</span>
+                                <span class="navmenu__hint">{e.hint}</span>
+                              </span>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  </li>
+                );
+              })
             }
           </ul>
-          <a class="masthead__cta" href={`mailto:${SITE.email}`}>Contact</a>
+          {/* Goes to the contact section every page ends with, rather than
+              straight to mailto: a mailto link does nothing on a machine
+              with no mail app set up, which is most shared computers. */}
+          <a class="masthead__cta" href="#contact">Contact</a>
         </nav>
       </div>
     </header>
@@ -133,31 +194,72 @@ const canonical = canonicalUrl(path, Astro.site!);
       <slot />
     </main>
 
-    <footer class="footer">
+    <!-- Every page ends on the same invitation. It is the page's last word,
+         so it is set large: the email address is the single most useful
+         thing on the site for someone who has read this far. -->
+    <footer class="footer" id="contact">
       <div class="shell">
-        <hr class="rule rule--strong" />
-        <div class="footer__grid">
-          <div>
-            <p class="footer__lede">
-              Building reliable hardware, and better ways to decide when it is ready.
-            </p>
-            <p class="num">Taiwan · open to speaking and sharing invitations</p>
-          </div>
-          <ul class="list-plain footer__links">
-            <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
-            <li>
-              <a href={SITE.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
-            </li>
-            <li>
-              <a href={SITE.github} rel="me noopener" target="_blank">GitHub</a>
-            </li>
-          </ul>
+        <div class="footer__contact">
+          <p class="label footer__kicker">Contact</p>
+          <h2 class="footer__heading">Let's talk.</h2>
+          <p class="footer__lede">
+            Speaking invitations, career conversations, or a question about hardware, reliability
+            or NPI. I read everything and reply to most.
+          </p>
+          <p class="footer__email">
+            <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          </p>
+          <p class="footer__actions">
+            <a class="btn btn--primary" href={`mailto:${SITE.email}`}>Email me</a>
+            <a class="btn" href={SITE.linkedin} rel="me noopener" target="_blank">LinkedIn ↗</a>
+            <a class="btn" href={SITE.github} rel="me noopener" target="_blank">GitHub ↗</a>
+          </p>
         </div>
-        <p class="num footer__colophon">
-          © {new Date().getFullYear()} Flora Liu · Set in IBM Plex · Built with Astro
-        </p>
+
+        <div class="footer__base">
+          <p class="num">© {new Date().getFullYear()} Flora Liu · Taiwan</p>
+          <p class="num footer__visits" data-visits hidden>
+            <span data-visits-count></span> visits since Sep 2026
+          </p>
+        </div>
       </div>
     </footer>
+
+    <!-- Perspectives menu: close on outside click and on Escape. Opening and
+         closing themselves are native <details> behaviour. -->
+    <script is:inline>
+      (() => {
+        const menu = document.querySelector('[data-navmenu]');
+        if (!menu) return;
+        document.addEventListener('click', (e) => {
+          if (menu.open && !menu.contains(e.target)) menu.open = false;
+        });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && menu.open) {
+            menu.open = false;
+            menu.querySelector('summary').focus();
+          }
+        });
+      })();
+    </script>
+
+    <!-- Visit count from GoatCounter's public counter. Stays hidden unless
+         the request succeeds, so a disabled counter, an ad blocker or a
+         network failure costs nothing but the line itself. -->
+    <script is:inline define:vars={{ code: GOATCOUNTER }}>
+      (() => {
+        const el = document.querySelector('[data-visits]');
+        if (!el || location.hostname === 'localhost') return;
+        fetch(`https://${code}.goatcounter.com/counter/TOTAL.json`)
+          .then((r) => (r.ok ? r.json() : Promise.reject()))
+          .then((d) => {
+            if (!d || !d.count) return;
+            el.querySelector('[data-visits-count]').textContent = d.count;
+            el.hidden = false;
+          })
+          .catch(() => {});
+      })();
+    </script>
 
     <style>
       .masthead {
@@ -180,19 +282,32 @@ const canonical = canonicalUrl(path, Astro.site!);
 
       .masthead__id {
         display: flex;
-        flex-direction: column;
-        gap: 0.1rem;
+        align-items: center;
+        gap: 0.7rem;
         text-decoration: none;
         color: var(--ink);
       }
 
+      .masthead__text {
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+      }
+
+      /* Sized to the two-line name block beside it. */
+      .masthead__id :global(.masthead__mark) {
+        width: 2rem;
+        height: 2rem;
+      }
+
       .masthead__name {
-        font-weight: 600;
-        letter-spacing: -0.01em;
+        font-weight: 700;
+        letter-spacing: -0.015em;
+        line-height: 1.2;
       }
 
       .masthead__role {
-        font-size: var(--fs-label);
+        font-size: 0.75rem;
       }
 
       .masthead__navwrap {
@@ -204,21 +319,25 @@ const canonical = canonicalUrl(path, Astro.site!);
 
       .masthead__nav {
         display: flex;
+        align-items: center;
         flex-wrap: wrap;
         gap: clamp(0.85rem, 2.2vw, 1.6rem);
-        font-family: var(--font-mono);
+        font-family: var(--font-sans);
         font-size: var(--fs-meta);
       }
 
       .masthead__cta {
-        font-family: var(--font-mono);
+        font-family: var(--font-sans);
         font-size: var(--fs-meta);
+        font-weight: 600;
         text-decoration: none;
         color: var(--paper);
         background: var(--ink);
         border: 1px solid var(--ink);
-        padding: 0.3rem 0.85rem;
+        border-radius: 8px;
+        padding: 0.45rem 1rem;
         white-space: nowrap;
+        transition: background 150ms ease;
       }
 
       .masthead__cta:hover {
@@ -229,9 +348,10 @@ const canonical = canonicalUrl(path, Astro.site!);
 
       .masthead__nav a {
         color: var(--ink-muted);
+        font-weight: 500;
         text-decoration: none;
         padding-block: 0.2rem;
-        border-bottom: 1px solid transparent;
+        border-bottom: 2px solid transparent;
       }
 
       .masthead__nav a:hover {
@@ -243,9 +363,121 @@ const canonical = canonicalUrl(path, Astro.site!);
         border-bottom-color: var(--accent);
       }
 
-      .masthead__navno {
+      /* --- Perspectives dropdown --- */
+
+      .navmenu__item {
+        position: relative;
+      }
+
+      /* Items are flex rows so the <summary> and the plain links share one
+         box model and sit on the same line. */
+      .masthead__nav > li {
+        display: flex;
+        align-items: center;
+      }
+
+      .navmenu__toggle {
+        display: flex;
+        line-height: inherit;
+        align-items: center;
+        gap: 0.3rem;
+        list-style: none;
+        cursor: pointer;
+        color: var(--ink-muted);
+        font-weight: 500;
+        padding-block: 0.2rem;
+        border-bottom: 2px solid transparent;
+        user-select: none;
+      }
+
+      /* Hide the native disclosure triangle in every engine. */
+      .navmenu__toggle::-webkit-details-marker {
+        display: none;
+      }
+
+      .navmenu__toggle:hover,
+      .navmenu[open] .navmenu__toggle {
+        color: var(--ink);
+      }
+
+      .navmenu__toggle.is-current {
+        color: var(--ink);
+        border-bottom-color: var(--accent);
+      }
+
+      .navmenu__chev {
+        width: 0.75rem;
+        height: 0.75rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        transition: transform 150ms ease;
+      }
+
+      .navmenu[open] .navmenu__chev {
+        transform: rotate(180deg);
+      }
+
+      .navmenu__panel {
+        position: absolute;
+        top: calc(100% + 0.6rem);
+        left: -1rem;
+        z-index: 10;
+        width: 19rem;
+        padding: 0.4rem;
+        background: var(--paper);
+        border-radius: var(--radius);
+        box-shadow:
+          0 0 0 1px rgb(0 0 0 / 0.06),
+          0 12px 32px -8px rgb(0 0 0 / 0.18);
+        animation: navmenu-in 140ms ease-out;
+      }
+
+      @keyframes navmenu-in {
+        from {
+          opacity: 0;
+        }
+      }
+
+      .masthead__nav .navmenu__link {
+        display: grid;
+        grid-template-columns: 1.75rem 1fr;
+        gap: 0.4rem;
+        padding: 0.65rem 0.75rem;
+        border: 0;
+        border-radius: 8px;
+        color: var(--ink);
+        white-space: normal;
+      }
+
+      .masthead__nav .navmenu__link:hover {
+        background: var(--paper-sunk);
+      }
+
+      .masthead__nav .navmenu__link[aria-current='page'] {
+        background: var(--accent-soft);
+      }
+
+      .navmenu__no {
         color: var(--accent);
-        margin-right: 0.3em;
+        font-weight: 600;
+        font-variant-numeric: tabular-nums;
+      }
+
+      .navmenu__label {
+        display: block;
+        font-weight: 600;
+        line-height: 1.3;
+      }
+
+      .navmenu__hint {
+        display: block;
+        margin-top: 0.1rem;
+        font-size: 0.8125rem;
+        color: var(--ink-muted);
+        line-height: 1.4;
       }
 
       /* Phones: identity + Contact on the first row, then the nav wrapping
@@ -285,10 +517,17 @@ const canonical = canonicalUrl(path, Astro.site!);
           white-space: nowrap;
         }
 
-        /* The numbers are a desktop nicety; on a phone they cost the width
-           that would push a link off the row. */
-        .masthead__navno {
-          display: none;
+        /* Phones: the menu opens as a full-width panel under the bar rather
+           than a narrow popover that could run off the screen edge. */
+        .navmenu__item {
+          position: static;
+        }
+
+        .navmenu__panel {
+          left: var(--gutter, 1.125rem);
+          right: var(--gutter, 1.125rem);
+          top: calc(100% - 0.25rem);
+          width: auto;
         }
       }
 
@@ -310,33 +549,69 @@ const canonical = canonicalUrl(path, Astro.site!);
 
       .footer {
         margin-top: clamp(3rem, 8vw, 6rem);
-        padding-bottom: 2.5rem;
+        background: var(--paper-sunk);
+        padding-top: clamp(3.5rem, 8vw, 6rem);
+        padding-bottom: 2rem;
       }
 
-      .footer__grid {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 2rem;
-        padding-top: 2rem;
+      .footer__kicker {
+        margin: 0 0 0.9rem;
+        color: var(--accent);
+      }
+
+      .footer__heading {
+        font-size: clamp(2.25rem, 5.5vw, 3.5rem);
+        line-height: 1.05;
+        letter-spacing: -0.025em;
       }
 
       .footer__lede {
-        margin-bottom: 0.35rem;
-        max-width: 34ch;
+        margin: 1.1rem 0 0;
+        max-width: 46ch;
+        font-size: var(--fs-lede);
+        color: var(--ink-muted);
       }
 
-      .footer__links {
+      .footer__email {
+        margin: 1.75rem 0 0;
+        font-size: clamp(1.25rem, 3vw, 1.75rem);
+        font-weight: 600;
+        letter-spacing: -0.015em;
+        overflow-wrap: anywhere;
+      }
+
+      .footer__email a {
+        color: var(--ink);
+        text-decoration-color: var(--rule-strong);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 0.25em;
+      }
+
+      .footer__email a:hover {
+        color: var(--accent);
+        text-decoration-color: var(--accent);
+      }
+
+      .footer__actions {
         display: flex;
-        flex-direction: column;
-        gap: 0.35rem;
-        font-family: var(--font-mono);
-        font-size: var(--fs-meta);
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin: 1.75rem 0 0;
       }
 
-      .footer__colophon {
-        margin-top: 2.5rem;
-        font-size: 0.75rem;
+      .footer__base {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 0.5rem 2rem;
+        margin-top: clamp(3rem, 7vw, 5rem);
+        padding-top: 1.25rem;
+        border-top: 1px solid var(--rule);
+      }
+
+      .footer__base p {
+        margin: 0;
+        font-size: 0.875rem;
       }
     </style>
   </body>

@@ -1,0 +1,66 @@
+---
+/**
+ * The site's mark: the cost-of-change staircase from the favicon, drawn
+ * inline so it inherits the design tokens and follows the colour scheme.
+ *
+ * Three treads, three gates, each one making the same change more expensive.
+ * The same three treads double as the three seats on the supply chain
+ * (lab, system company, brand), which is why the vantage cards use it with
+ * `step` to say "this card is this tread".
+ *
+ * - No `step`: the brand mark. The first two treads in ink, the last, most
+ *   costly one in the signal colour, exactly as in public/favicon.svg.
+ * - `step` 1–3: a position marker. Treads already climbed are ink, the current
+ *   one is signal, the ones still ahead are faint.
+ *
+ * Decorative only: every place it is used already says the same thing in text.
+ */
+interface Props {
+  step?: 1 | 2 | 3;
+  class?: string;
+}
+
+const { step, class: className } = Astro.props;
+
+// Each tread includes the riser that leads up to it.
+const treads = ['3,27 12,27', '12,27 12,18 21,18', '21,18 21,9 30,9'];
+
+const tone = (i: number) => {
+  const n = i + 1;
+  if (step === undefined) return n === 3 ? 'signal' : 'ink';
+  if (n === step) return 'signal';
+  return n < step ? 'ink' : 'faint';
+};
+---
+
+<svg
+  class:list={['mark', className]}
+  viewBox="0 0 32 32"
+  aria-hidden="true"
+  focusable="false"
+>
+  <g fill="none" stroke-width="3.5" stroke-linecap="square" stroke-linejoin="miter">
+    {treads.map((points, i) => <polyline class={`mark__${tone(i)}`} points={points} />)}
+  </g>
+</svg>
+
+<style>
+  .mark {
+    display: block;
+    width: 1.75rem;
+    height: 1.75rem;
+    flex: none;
+  }
+
+  .mark__ink {
+    stroke: var(--ink);
+  }
+
+  .mark__signal {
+    stroke: var(--signal);
+  }
+
+  .mark__faint {
+    stroke: var(--rule-strong);
+  }
+</style>

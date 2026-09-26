@@ -1,27 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
 import DraftNote from '../components/DraftNote.astro';
+import Entry from '../components/Entry.astro';
 import { Image } from 'astro:assets';
-import {
-  SITE,
-  EXPERIENCE,
-  EDUCATION,
-  TOOLS,
-  LANGUAGES,
-  METHODS,
-  PROJECTS,
-  CERTS,
-} from '../data/site';
+import { SITE, EXPERIENCE, EDUCATION, SKILLS, PROJECTS, CERTS } from '../data/site';
 import headshot from '../assets/headshot.jpg';
 
-// Lead with the three strongest; keep the rest available but out of the way.
+// Lead with the strongest; keep the rest available but out of the way.
 const featured = PROJECTS.filter((p) => p.featured);
 const rest = PROJECTS.filter((p) => !p.featured);
+
+/* Section order follows what a recruiter reads first: the record
+   (experience, education), then what she can do (skills, certifications),
+   then evidence (work), and only then the personal. */
 ---
 
 <Base
   title="About"
-  description="Flora Liu, hardware engineer at Amazon, working across reliability, NPI and AI-assisted engineering workflows. Experience, tools, methods and selected work."
+  description="Flora Liu, hardware engineer at Amazon, working across reliability, NPI and AI-assisted engineering workflows. Experience, education, skills, certifications and selected work."
   docNo="05"
 >
   <div class="shell about">
@@ -63,137 +59,124 @@ const rest = PROJECTS.filter((p) => !p.featured);
           sizes="(max-width: 800px) 60vw, 20rem"
           loading="eager"
         />
-        <div class="docmeta intro__meta">
-          <div class="docmeta__cell">
-            <span class="docmeta__key">Based in</span>
-            <span class="docmeta__val">{SITE.location}</span>
-          </div>
-          <div class="docmeta__cell">
-            <span class="docmeta__key">Currently</span>
-            <span class="docmeta__val">Amazon · Product Integrity</span>
-          </div>
-        </div>
+        <!-- The spot under the photo is the most-seen place on the page after
+             the headline, so it holds what a recruiter acts on: ways to reach
+             her, not facts the page already states. -->
+        <ul class="list-plain intro__links">
+          <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+          <li><a href={SITE.linkedin} target="_blank" rel="me noopener">LinkedIn →</a></li>
+          <li><a href={SITE.github} target="_blank" rel="me noopener">GitHub →</a></li>
+        </ul>
       </div>
     </section>
 
     <nav class="contents" aria-label="On this page">
       <p class="label contents__title">Contents</p>
       <ol class="list-plain contents__list">
-        <li><span class="num">5.1</span> <a href="#outside">Outside the lab</a></li>
-        <li><span class="num">5.2</span> <a href="#experience">Experience</a></li>
-        <li><span class="num">5.3</span> <a href="#profile">Technical profile</a></li>
-        <li><span class="num">5.4</span> <a href="#work">Selected work</a></li>
-        <li><span class="num">5.5</span> <a href="#education">Education</a></li>
-        <li><span class="num">5.6</span> <a href="#certifications">Certifications</a></li>
+        <li><span class="num">5.1</span> <a href="#experience">Experience</a></li>
+        <li><span class="num">5.2</span> <a href="#education">Education</a></li>
+        <li><span class="num">5.3</span> <a href="#skills">Skills</a></li>
+        <li><span class="num">5.4</span> <a href="#certifications">Certifications</a></li>
+        <li><span class="num">5.5</span> <a href="#work">Selected work</a></li>
+        <li><span class="num">5.6</span> <a href="#outside">Outside the lab</a></li>
       </ol>
     </nav>
-
-    <section class="section" id="outside">
-      <div class="section-head">
-        <span class="section-head__num">5.1</span>
-        <h2>Outside the lab</h2>
-      </div>
-      <p>
-        I swam competitively, and it shaped how I work more than any course did: measure honestly,
-        adjust continuously, and stay consistent long enough for it to compound. Reasonable training
-        for reliability engineering, where nothing interesting happens quickly.
-      </p>
-      <DraftNote
-        needs="One honest paragraph about what you are reading, learning, or arguing about lately. This does more for a personal site than another list of tools — your 19,000-impression LinkedIn post was written in exactly this register."
-      />
-    </section>
 
     <!-- ---------- the record ---------- -->
     <section class="section" id="experience">
       <div class="section-head">
-        <span class="section-head__num">5.2</span>
+        <span class="section-head__num">5.1</span>
         <h2>Experience</h2>
       </div>
 
-      {
-        EXPERIENCE.map((job) => (
-          <article class="row">
-            <div class="row__meta">
-              <h3>{job.org}</h3>
-              <p class="num">{job.period}</p>
-            </div>
-            <div class="row__body">
-              <p class="row__title">{job.title}</p>
-              {job.note && <p class="num row__note">{job.note}</p>}
+      <div class="entries">
+        {
+          EXPERIENCE.map((job) => (
+            <Entry logo={job.logo} heading={job.org} sub={job.title} period={job.period}>
+              {job.note && <p class="num exp__note">{job.note}</p>}
               <ul>
                 {job.points.map((pt) => (
                   <li>{pt}</li>
                 ))}
               </ul>
-            </div>
-          </article>
-        ))
-      }
+            </Entry>
+          ))
+        }
+      </div>
     </section>
 
-    <section class="section" id="profile">
+    <section class="section" id="education">
+      <div class="section-head">
+        <span class="section-head__num">5.2</span>
+        <h2>Education</h2>
+      </div>
+
+      <div class="entries">
+        {
+          EDUCATION.map((e) => (
+            <Entry logo={e.logo} heading={e.school} sub={e.degree} period={e.period}>
+              <p>{e.detail}</p>
+            </Entry>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="section" id="skills">
       <div class="section-head">
         <span class="section-head__num">5.3</span>
         <div>
-          <h2>Technical profile</h2>
+          <h2>Skills</h2>
           <p class="section-head__sub">
-            What I work in, and the methods I reach for. Named specifically, because "statistical
-            analysis" is a claim and these are checkable.
+            Named specifically, because "statistical analysis" is a claim and these are checkable.
           </p>
         </div>
       </div>
 
-      <div class="tools">
+      <dl class="skills">
         {
-          TOOLS.map((t) => (
-            <div class="tools__group">
-              <h3 class="label tools__title">{t.group}</h3>
-              <ul class="list-plain tools__chips">
-                {t.items.map((i) => (
-                  <li class="chip">{i}</li>
+          SKILLS.map((s) => (
+            <div class="skills__row">
+              <dt class="skills__area">{s.area}</dt>
+              <dd class="skills__items">
+                {s.items.map((item, i) => (
+                  <>
+                    {i > 0 && <span class="skills__sep" aria-hidden="true"> · </span>}
+                    <span class="skills__item">{item}</span>
+                  </>
                 ))}
-              </ul>
+              </dd>
             </div>
           ))
         }
-        <div class="tools__group">
-          <h3 class="label tools__title">Languages</h3>
-          <ul class="list-plain tools__langs">
-            {
-              LANGUAGES.map((l) => (
-                <li>
-                  <strong>{l.name}</strong> · <span class="num">{l.level}</span>
-                </li>
-              ))
-            }
-          </ul>
-        </div>
+      </dl>
+    </section>
+
+    <section class="section" id="certifications">
+      <div class="section-head">
+        <span class="section-head__num">5.4</span>
+        <h2>Certifications</h2>
       </div>
 
-      <details class="more more--inset">
-        <summary class="more__summary">
-          Show the full method list: reliability, measurement, simulation, data
-        </summary>
-        <div class="methods">
-          {
-            METHODS.map((m) => (
-              <div>
-                <h3 class="label methods__title">{m.group}</h3>
-                <ul class="list-plain methods__list">
-                  {m.items.map((i) => (
-                    <li>{i}</li>
-                  ))}
-                </ul>
-              </div>
-            ))
-          }
-        </div>
-      </details>
+      <div class="entries certs">
+        {
+          CERTS.map((c) => (
+            <Entry
+              logo={c.logo}
+              heading={c.name}
+              href={c.url}
+              sub={c.issuer}
+              period={c.date}
+              compact
+            />
+          ))
+        }
+      </div>
     </section>
 
     <section class="section" id="work">
       <div class="section-head">
-        <span class="section-head__num">5.4</span>
+        <span class="section-head__num">5.5</span>
         <div>
           <h2>Selected work</h2>
           <p class="section-head__sub">
@@ -250,58 +233,19 @@ const rest = PROJECTS.filter((p) => !p.featured);
       </details>
     </section>
 
-    <section class="section" id="education">
-      <div class="section-head">
-        <span class="section-head__num">5.5</span>
-        <h2>Education</h2>
-      </div>
-
-      {
-        EDUCATION.map((e) => (
-          <article class="row">
-            <div class="row__meta">
-              <h3>{e.school}</h3>
-              <p class="num">{e.period}</p>
-            </div>
-            <div class="row__body">
-              <p class="row__title">{e.degree}</p>
-              <p>{e.detail}</p>
-            </div>
-          </article>
-        ))
-      }
-    </section>
-
-    <section class="section" id="certifications">
+    <section class="section" id="outside">
       <div class="section-head">
         <span class="section-head__num">5.6</span>
-        <h2>Certifications</h2>
+        <h2>Outside the lab</h2>
       </div>
-
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Credential</th>
-            <th scope="col">Issuer</th>
-            <th scope="col">Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {
-            CERTS.map((c) => (
-              <tr>
-                <td>
-                  <a href={c.url} target="_blank" rel="noopener">
-                    {c.name}
-                  </a>
-                </td>
-                <td>{c.issuer}</td>
-                <td class="mono">{c.date}</td>
-              </tr>
-            ))
-          }
-        </tbody>
-      </table>
+      <p>
+        I swam competitively, and it shaped how I work more than any course did: measure honestly,
+        adjust continuously, and stay consistent long enough for it to compound. Reasonable training
+        for reliability engineering, where nothing interesting happens quickly.
+      </p>
+      <DraftNote
+        needs="One honest paragraph about what you are reading, learning, or arguing about lately. This does more for a personal site than another list of tools — your 19,000-impression LinkedIn post was written in exactly this register."
+      />
     </section>
   </div>
 </Base>
@@ -345,21 +289,18 @@ const rest = PROJECTS.filter((p) => !p.featured);
     display: block;
     width: 100%;
     height: auto;
-    border: 1px solid var(--rule-strong);
-    margin-bottom: 1.25rem;
+    border-radius: var(--radius);
+    margin-bottom: 1rem;
   }
 
-  .intro__meta {
-    grid-template-columns: 1fr;
-  }
-
-  .intro__meta .docmeta__cell {
-    border-right: 0;
-    border-bottom: 1px solid var(--rule);
-  }
-
-  .intro__meta .docmeta__cell:last-child {
-    border-bottom: 0;
+  .intro__links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    font-family: var(--font-sans);
+    font-size: var(--fs-meta);
+    font-weight: 600;
+    overflow-wrap: anywhere;
   }
 
   .section-head__sub {
@@ -378,7 +319,7 @@ const rest = PROJECTS.filter((p) => !p.featured);
   .contents {
     margin-top: 2rem;
     padding: 1.1rem 1.35rem;
-    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
     background: var(--paper-sunk);
   }
 
@@ -399,81 +340,51 @@ const rest = PROJECTS.filter((p) => !p.featured);
     align-items: baseline;
   }
 
-  /* experience / education rows */
-  .row {
+  /* entries (experience, education, certifications) */
+  .entries {
+    max-width: 52rem;
+  }
+
+  .exp__note {
+    margin: 0.35rem 0 0;
+  }
+
+  /* Certifications are short: two columns on a wide screen. */
+  .certs {
     display: grid;
-    grid-template-columns: minmax(11rem, 16rem) 1fr;
-    gap: 1.5rem;
-    padding-block: 1.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    column-gap: 2.5rem;
+    max-width: none;
+  }
+
+  /* skills: area on the left, one readable line on the right */
+  .skills {
+    margin: 0;
+    max-width: 52rem;
     border-top: 1px solid var(--rule);
   }
 
-  .row__meta h3 {
-    margin-bottom: 0.25rem;
+  .skills__row {
+    display: grid;
+    grid-template-columns: minmax(10rem, 14rem) minmax(0, 1fr);
+    gap: 0.35rem 1.5rem;
+    padding-block: 0.95rem;
+    border-bottom: 1px solid var(--rule);
   }
 
-  .row__title {
-    font-family: var(--font-mono);
-    font-size: var(--fs-meta);
-    color: var(--accent);
-    margin-bottom: 0.5rem;
+  .skills__area {
+    font-weight: 600;
+    font-size: var(--fs-small);
   }
 
-  .row__note {
-    margin-top: -0.25rem;
-    margin-bottom: 0.75rem;
-  }
-
-  .row__body ul {
+  .skills__items {
     margin: 0;
-    padding-left: 1.15rem;
-    max-width: var(--measure);
-  }
-
-  .row__body li {
-    margin-bottom: 0.45rem;
-  }
-
-  /* tools */
-  .tools {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
-    gap: 1.75rem 2.5rem;
-  }
-
-  .tools__title,
-  .methods__title {
-    margin-bottom: 0.85rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 1px solid var(--rule-strong);
-    color: var(--ink);
-  }
-
-  .tools__chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-
-  .tools__langs {
     font-size: var(--fs-small);
+    line-height: 1.6;
   }
 
-  .tools__langs li {
-    margin-bottom: 0.3rem;
-  }
-
-  /* methods */
-  .methods {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
-    gap: 1.75rem 2.5rem;
-  }
-
-  .methods__list li {
-    font-size: var(--fs-small);
-    margin-bottom: 0.45rem;
-    color: var(--ink-muted);
+  .skills__sep {
+    color: var(--rule-strong);
   }
 
   /* projects */
@@ -506,15 +417,10 @@ const rest = PROJECTS.filter((p) => !p.featured);
     border-top: 1px solid var(--rule);
   }
 
-  /* The method list is a sub-part of Technical profile, not a peer section. */
-  .more--inset {
-    margin-top: 1.75rem;
-  }
-
   .more__summary {
     cursor: pointer;
     padding-block: 1.1rem;
-    font-family: var(--font-mono);
+    font-family: var(--font-sans);
     font-size: var(--fs-meta);
     color: var(--accent);
   }
@@ -545,10 +451,13 @@ const rest = PROJECTS.filter((p) => !p.featured);
     }
   }
 
-  @media (max-width: 720px) {
-    .row {
+  @media (max-width: 40rem) {
+    .skills__row {
       grid-template-columns: 1fr;
-      gap: 0.75rem;
+    }
+
+    .certs {
+      grid-template-columns: 1fr;
     }
   }
 </style>

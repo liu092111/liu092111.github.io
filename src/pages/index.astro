@@ -1,8 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import { Image } from 'astro:assets';
-import { PILLARS, VANTAGE, TALKS, NDA, SITE } from '../data/site';
+import DraftNote from '../components/DraftNote.astro';
+import { PILLARS, VANTAGE, TALKS, NDA, PROOF } from '../data/site';
 import stage from '../assets/techie-talk-stage.png';
+
+/* Home is document 00, so its sections are 0.1–0.4. Two-digit numbers are
+   reserved for pages (see the numbering scheme in site.ts), which is what
+   stops "01" here colliding with essay 01 in the nav. */
 
 const description =
   'Flora Liu is a hardware engineer writing about how products get designed, how they earn confidence, and how engineering decisions create value.';
@@ -12,7 +17,10 @@ const description =
   <section class="hero shell">
     <div class="hero__grid">
       <div class="hero__text">
-        <p class="label hero__eyebrow">Product integrity · NPI · reliability</p>
+        <!-- Who, before what: a first-time visitor should know what she does and
+             why to trust it before reading the thesis. The name is already in the
+             masthead directly above, so it is not repeated here. -->
+        <p class="label hero__id">Hardware engineer at Amazon · Product integrity &amp; NPI</p>
 
         <h1>
           I study how products<br />
@@ -25,10 +33,15 @@ const description =
             Someone has to decide when all three are true.
           </p>
           <p>
-            I am a hardware engineer at Amazon. I have made that decision from three seats on the
-            same supply chain.
+            I have made that decision from three seats on the same supply chain: a test lab, a system
+            company, and a global brand.
           </p>
         </div>
+
+        <p class="hero__actions">
+          <a class="btn btn--primary" href="#perspective">Read my perspectives ↓</a>
+          <a class="btn" href="/speaking">Invite me to speak</a>
+        </p>
       </div>
 
       <figure class="hero__figure">
@@ -39,19 +52,111 @@ const description =
           sizes="(max-width: 900px) 95vw, 21rem"
           loading="eager"
         />
-        <figcaption class="fig__cap">
-          <span>Techie Talk, 2026: explaining how hardware moves from engineering work to product
-            decisions.</span>
+        <figcaption class="hero__cap">
+          Techie Talk, 2026: explaining how hardware moves from engineering work to product
+          decisions.
         </figcaption>
       </figure>
     </div>
 
+    <!-- Two proof points, set as large figures between hairlines. No box: the
+         numbers carry the weight, a frame around them would only compete. -->
+    <dl class="readout" aria-label="At a glance">
+      {
+        PROOF.map((p) => (
+          <div class="readout__cell">
+            <dt class="label readout__label">{p.label}</dt>
+            <dd class="readout__value">
+              {/* The final number is in the HTML, so it is correct with no
+                  JavaScript and for search engines. Screen readers get a
+                  static copy; the animated one is hidden from them so they
+                  never announce "0". */}
+              <span class="visually-hidden">{p.count.toLocaleString('en-US')}</span>
+              <span data-count={p.count} aria-hidden="true">
+                {p.count.toLocaleString('en-US')}
+              </span>
+            </dd>
+            {
+              /* Each " · " segment is kept whole, so a line can only break
+                 between facts, never inside one ("Sep 2025–Sep / 2026"). */
+              p.detail && (
+                <dd class="readout__detail">
+                  {p.detail.split(' · ').map((seg, i) => (
+                    <>
+                      {i > 0 && <span class="readout__dot"> · </span>}
+                      <span class="readout__seg">{seg}</span>
+                    </>
+                  ))}
+                </dd>
+              )
+            }
+            {
+              p.links && (
+                <dd class="readout__links">
+                  {p.links.map((l) => (
+                    <a href={l.href} target="_blank" rel="noopener">
+                      {l.text} ↗
+                    </a>
+                  ))}
+                </dd>
+              )
+            }
+          </div>
+        ))
+      }
+    </dl>
+
+    <!-- Count-up, held back until the visitor's first scroll. On a large
+         screen the readout is already on screen at load, and an animation
+         that plays while the eye is still on the headline is an animation
+         nobody sees. So the figures stay hidden until the first scroll, then
+         fade in and count up once the readout is in view.
+         Progressive enhancement: inline and synchronous, so the figures are
+         hidden before first paint (no flash of the final value). Without
+         JavaScript or IntersectionObserver they simply show, final and
+         static. Plays under reduced motion too: a changing number moves
+         nothing on screen (see the motion policy in global.css). -->
+    <script is:inline>
+      (() => {
+        const readout = document.querySelector('.readout');
+        const els = document.querySelectorAll('.readout [data-count]');
+        if (!readout || !els.length || !('IntersectionObserver' in window)) return;
+        const fmt = (n) => n.toLocaleString('en-US');
+        const run = (el) => {
+          const target = Number(el.dataset.count);
+          const ms = 1400;
+          const t0 = performance.now();
+          const tick = (now) => {
+            const p = Math.min(1, (now - t0) / ms);
+            const eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = fmt(Math.round(target * eased));
+            if (p < 1) requestAnimationFrame(tick);
+          };
+          el.textContent = '0';
+          requestAnimationFrame(tick);
+        };
+        readout.classList.add('is-pending');
+        const start = () => {
+          const io = new IntersectionObserver(
+            (entries) => {
+              if (!entries.some((e) => e.isIntersecting)) return;
+              io.disconnect();
+              readout.classList.remove('is-pending');
+              els.forEach(run);
+            },
+            { threshold: 0.4 }
+          );
+          io.observe(readout);
+        };
+        window.addEventListener('scroll', start, { once: true, passive: true });
+      })();
+    </script>
   </section>
 
-  <!-- ============ 01 · the argument ============ -->
+  <!-- ============ 0.1 · the argument ============ -->
   <section class="section shell shell--read" id="perspective">
     <div class="section-head">
-      <span class="section-head__num">01</span>
+      <span class="section-head__num">0.1</span>
       <div>
         <h2>Three questions I keep answering</h2>
         <p class="section-head__sub">
@@ -82,12 +187,17 @@ const description =
     </ul>
   </section>
 
-  <!-- ============ 02 · why I can say this ============ -->
+  <!-- ============ 0.2 · why I can say this ============ -->
   <section class="section shell shell--read" id="vantage">
     <div class="section-head">
-      <span class="section-head__num">02</span>
+      <span class="section-head__num">0.2</span>
       <div>
-        <h2>Tested by one company. Built by another. Decided by a third.</h2>
+        <!-- One sentence per line: three parallel beats read as a rhythm. -->
+        <h2 class="vantage__heading">
+          Tested by one company.<br />
+          Built by another.<br />
+          Decided by a third.
+        </h2>
         <p class="section-head__sub">
           The same product looks different from each seat on a supply chain. I have sat in all three,
           and the disagreements between them are where the real engineering happens.
@@ -99,45 +209,54 @@ const description =
       {
         VANTAGE.map((v) => (
           <article class="vantage__card">
+            {/* Period first: all three sit on the same top line, so the
+                dates read as one timeline across the row. */}
+            <p class="num vantage__period">{v.period}</p>
             <header class="vantage__head">
-              <span class="num">{v.no}</span>
-              <span class="chip">{v.kind}</span>
+              {/* Decorative: the organisation's name is right beside it. */}
+              <Image class="logo" src={v.logo} alt="" width={96} height={96} loading="lazy" />
+              <div>
+                <h3 class="vantage__org">{v.org}</h3>
+                <p class="vantage__kind">{v.kind}</p>
+              </div>
             </header>
-            <h3 class="vantage__org">{v.org}</h3>
             <p class="vantage__verb">{v.verb}</p>
             <p class="vantage__learned">{v.learned}</p>
-            <p class="num">{v.period}</p>
           </article>
         ))
       }
     </div>
 
     <p class="vantage__foot">
-      <a href="/about">See the experience behind this →</a>
+      <a class="textlink" href="/about">See the experience behind this →</a>
     </p>
   </section>
 
-  <!-- ============ 03 · the constraint, stated as a position ============ -->
-  <section class="section band" id="confidentiality">
-    <div class="shell shell--read">
-      <header class="nda__head">
-        <p class="label nda__kicker">
-          <span class="nda__num">03</span> {NDA.kicker}
-        </p>
-        <h2>{NDA.headline}</h2>
-      </header>
+  <!-- ============ 0.3 · the constraint, stated as a position ============
+       Same white ground as every other section. It stands out through type,
+       not a background: the headline is set as a statement behind an accent
+       bar, the same device the talk entry below uses. A background band here
+       (black, then grey) broke the page's rhythm and read as its end. -->
+  <section class="section shell shell--read" id="confidentiality">
+    <div class="section-head">
+      <span class="section-head__num">0.3</span>
+      <p class="label nda__kicker">{NDA.kicker}</p>
+    </div>
 
-      <div class="nda">
-        {NDA.body.map((para) => <p>{para}</p>)}
-        <p class="nda__closing">{NDA.closing}</p>
-      </div>
+    <blockquote class="nda__statement">
+      <p>{NDA.headline}</p>
+    </blockquote>
+
+    <div class="nda">
+      {NDA.body.map((para) => <p>{para}</p>)}
+      <p class="nda__closing">{NDA.closing}</p>
     </div>
   </section>
 
-  <!-- ============ 04 · speaking ============ -->
+  <!-- ============ 0.4 · speaking ============ -->
   <section class="section shell shell--read" id="speaking">
     <div class="section-head">
-      <span class="section-head__num">04</span>
+      <span class="section-head__num">0.4</span>
       <div>
         <h2>I like explaining this out loud</h2>
         <p class="section-head__sub">
@@ -148,22 +267,36 @@ const description =
 
     {
       TALKS.map((t) => (
-        <div class="talk">
+        <article class="talk">
           <div class="talk__meta">
             <span class="chip chip--accent">{t.role}</span>
             <span class="num">
-              {t.event} · {t.year}
+              {t.event} · {t.organiser} · {t.year}
             </span>
           </div>
           <p class="talk__summary">{t.summary}</p>
-        </div>
+          <p class="talk__links">
+            {t.eventUrl && (
+              <a href={t.eventUrl} target="_blank" rel="noopener">
+                About the event ↗
+              </a>
+            )}
+            {t.link && (
+              <a href={t.link} target="_blank" rel="noopener">
+                My write-up ↗
+              </a>
+            )}
+          </p>
+        </article>
       ))
     }
 
+    <DraftNote
+      needs="One sentence of feedback from the Techie Talk organiser or an attendee, with their name and role (ask first). It is the single strongest thing an event organiser can read here: someone else saying the talk was worth the slot. Add it to TALKS in src/data/site.ts as a `quote` and render it under the summary."
+    />
+
     <p class="speaking__cta">
-      Running an event, a career talk, or a student session?
-      <a href="/speaking">See what I can talk about</a> or
-      <a href={`mailto:${SITE.email}`}>get in touch</a>.
+      <a class="textlink" href="/speaking">See what I can talk about →</a>
     </p>
   </section>
 </Base>
@@ -178,20 +311,31 @@ const description =
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(14rem, 21rem);
     gap: clamp(2rem, 4.5vw, 3.5rem);
-    align-items: start;
+    /* The portrait photo is taller than the text; centring stops the text
+       column ending with a large empty block beneath it. */
+    align-items: center;
   }
 
-  .hero__eyebrow {
+  .hero__id {
     margin: 0 0 1.5rem;
+    color: var(--accent);
   }
 
   .hero__lede {
     margin-top: 2rem;
     font-size: var(--fs-lede);
+    color: var(--ink);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 2rem 0 0;
   }
 
   /* Portrait-orientation photo shown uncropped; the column width, not a
-     crop, is what keeps its height in check. */
+     crop, is what keeps its height in check. Rounded, not framed. */
   .hero__figure {
     margin: 0;
   }
@@ -200,17 +344,12 @@ const description =
     display: block;
     width: 100%;
     height: auto;
-    border: 1px solid var(--rule-strong);
+    border-radius: var(--radius);
   }
 
-  /* Figure.astro's caption styles are scoped to that component, so the
-     hero figure needs its own copy. */
-  .hero__figure .fig__cap {
-    display: flex;
-    gap: 0.7rem;
-    align-items: baseline;
-    padding-top: 0.6rem;
-    font-size: var(--fs-meta);
+  .hero__cap {
+    padding-top: 0.75rem;
+    font-size: 0.875rem;
     color: var(--ink-muted);
     line-height: 1.5;
   }
@@ -232,15 +371,121 @@ const description =
       padding-top: 1.75rem;
     }
 
-    .hero__eyebrow {
+    .hero__id {
       margin-bottom: 1rem;
+    }
+
+    /* Full-width tap targets on a phone. */
+    .hero__actions :global(.btn) {
+      flex: 1 1 100%;
     }
   }
 
   .section-head__sub {
-    margin: 0.6rem 0 0;
+    margin: 0.75rem 0 0;
     color: var(--ink-muted);
     max-width: 62ch;
+  }
+
+  /* A standalone link that ends a section: body size and weight, not the
+     small metadata size, so it reads as the next step rather than a footnote. */
+  .textlink {
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .textlink:hover {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  /* --- readout --- */
+
+  .readout {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    margin: clamp(3rem, 7vw, 4.5rem) 0 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .readout__cell {
+    display: flex;
+    flex-direction: column;
+    padding: 1.75rem 2rem 0 0;
+  }
+
+  .readout__cell + .readout__cell {
+    padding-left: 2rem;
+    border-left: 1px solid var(--rule);
+  }
+
+  /* dt comes first in the markup (label, then value) for screen readers;
+     visually the value leads. */
+  .readout__value {
+    order: -1;
+    margin: 0 0 0.5rem;
+    font-size: clamp(2.5rem, 5vw, 3.25rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.035em;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+  }
+
+  .readout__label {
+    color: var(--ink);
+  }
+
+  /* Before the first scroll the figures are hidden (the label and sources
+     stay, so the row never looks empty); they fade in as the count starts.
+     Opacity only, so nothing shifts when they appear. */
+  .readout__value {
+    transition: opacity 450ms ease;
+  }
+
+  .readout.is-pending .readout__value {
+    opacity: 0;
+  }
+
+  .readout__detail,
+  .readout__links {
+    margin: 0.55rem 0 0;
+    font-size: var(--fs-meta);
+    color: var(--ink-muted);
+    line-height: 1.55;
+  }
+
+  .readout__seg {
+    white-space: nowrap;
+  }
+
+  .readout__dot {
+    color: var(--rule-strong);
+  }
+
+  /* Sources stack one per line, so a long title never breaks mid-name. */
+  .readout__links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-weight: 500;
+  }
+
+  /* Phones: one figure per row, full width, so nothing wraps awkwardly. */
+  @media (max-width: 40rem) {
+    .readout {
+      grid-template-columns: 1fr;
+    }
+
+    .readout__cell {
+      padding: 1.5rem 0;
+    }
+
+    .readout__cell + .readout__cell {
+      padding-left: 0;
+      border-left: 0;
+      border-top: 1px solid var(--rule);
+    }
   }
 
   /* --- pillars --- */
@@ -261,11 +506,11 @@ const description =
     padding: 1.6rem 1.25rem 1.6rem 0;
     text-decoration: none;
     color: inherit;
-    transition: background 120ms ease;
+    transition: background 150ms ease;
   }
 
   .pillar__no {
-    padding-top: 0.5rem;
+    padding-top: 0.35rem;
   }
 
   /* The title carries link affordance on its own, so the row reads as
@@ -285,7 +530,7 @@ const description =
 
   .pillar__arrow {
     display: inline-block;
-    transition: transform 120ms ease;
+    transition: transform 150ms ease;
   }
 
   .pillar__link:hover {
@@ -301,9 +546,7 @@ const description =
   }
 
   /* Hierarchy: the question is the hook, so it carries the weight. The
-     promise explains it and is set one step down. Previously these were
-     reversed, which put the sharpest line in the styling reserved for
-     metadata. */
+     promise explains it and is set one step down. */
   .pillar__q {
     margin: 0.7rem 0 0;
     font-size: var(--fs-body);
@@ -321,38 +564,47 @@ const description =
 
   /* --- vantage --- */
 
+  .vantage__heading {
+    text-wrap: wrap;
+  }
+
+  /* Three columns divided by hairlines; no enclosing box. */
   .vantage {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
-    gap: 0;
-    border: 1px solid var(--rule);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--rule);
   }
 
   .vantage__card {
-    padding: 1.4rem 1.25rem;
-    border-right: 1px solid var(--rule);
+    padding: 1.75rem 1.75rem 0.5rem 0;
   }
 
-  .vantage__card:last-child {
-    border-right: 0;
+  .vantage__card + .vantage__card {
+    padding-left: 1.75rem;
+    border-left: 1px solid var(--rule);
   }
 
   .vantage__head {
     display: flex;
     align-items: center;
-    gap: 0.6rem;
-    margin-bottom: 1rem;
+    gap: 0.85rem;
+    margin-bottom: 1.1rem;
   }
 
   .vantage__org {
-    margin-bottom: 0.15rem;
+    font-size: 1.1875rem;
+  }
+
+  .vantage__kind {
+    margin: 0.1rem 0 0;
+    font-size: 0.875rem;
+    color: var(--ink-muted);
   }
 
   .vantage__verb {
-    font-family: var(--font-mono);
-    font-size: var(--fs-meta);
+    margin: 0 0 0.6rem;
+    font-weight: 700;
     color: var(--accent);
-    margin: 0 0 0.9rem;
   }
 
   .vantage__learned {
@@ -361,59 +613,76 @@ const description =
     margin-bottom: 1rem;
   }
 
+  .vantage__period {
+    margin: 0 0 0.9rem;
+    font-weight: 600;
+  }
+
   .vantage__foot {
-    margin: 1.5rem 0 0;
-    font-family: var(--font-mono);
-    font-size: var(--fs-meta);
+    margin: 2rem 0 0;
+  }
+
+  @media (max-width: 52rem) {
+    .vantage {
+      grid-template-columns: 1fr;
+    }
+
+    .vantage__card,
+    .vantage__card + .vantage__card {
+      padding: 1.5rem 0;
+      border-left: 0;
+    }
+
+    .vantage__card + .vantage__card {
+      border-top: 1px solid var(--rule);
+    }
   }
 
   /* --- confidentiality band --- */
 
-  .nda__head {
-    margin-bottom: 1.75rem;
-  }
-
   .nda__kicker {
-    margin: 0 0 0.7rem;
-    display: flex;
-    gap: 0.7rem;
+    margin: 0;
   }
 
-  .nda__num {
-    color: var(--accent);
+  /* The section's headline, set as a statement. */
+  .nda__statement {
+    margin: 0 0 2rem;
+    padding: 0.2rem 0 0.2rem 1.5rem;
+    border-left: 4px solid var(--accent);
   }
 
-  .nda__head h2 {
-    max-width: 44ch;
+  .nda__statement p {
+    margin: 0;
+    max-width: 22ch;
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
   }
 
   .nda {
     max-width: 60ch;
-    font-size: var(--fs-lede);
   }
 
-  /* The payoff of the section, so it is set up a step rather than in mono.
-     Monospace here read as a system message, not as a human sentence. */
   .nda__closing {
     margin-bottom: 0;
-    padding-top: 1rem;
-    border-top: 1px solid var(--rule);
-    font-size: var(--fs-lede);
+    font-weight: 700;
     color: var(--ink);
   }
 
   /* --- talks --- */
 
   .talk {
-    border-left: 2px solid var(--accent);
-    padding-left: 1.1rem;
+    border-left: 3px solid var(--accent);
+    padding-left: 1.25rem;
   }
 
   .talk__meta {
     display: flex;
     align-items: center;
-    gap: 0.7rem;
-    margin-bottom: 0.6rem;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
     flex-wrap: wrap;
   }
 
@@ -422,26 +691,23 @@ const description =
     max-width: 62ch;
   }
 
+  .talk__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.5rem;
+    margin: 0.85rem 0 0;
+    font-size: var(--fs-meta);
+    font-weight: 600;
+  }
+
   .speaking__cta {
-    margin-top: 2rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--rule);
-    max-width: 62ch;
+    margin: 2.25rem 0 0;
   }
 
   @media (max-width: 640px) {
     .pillar__link {
       grid-template-columns: 1fr;
       gap: 0.6rem;
-    }
-
-    .vantage__card {
-      border-right: 0;
-      border-bottom: 1px solid var(--rule);
-    }
-
-    .vantage__card:last-child {
-      border-bottom: 0;
     }
   }
 </style>
