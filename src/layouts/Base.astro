@@ -6,7 +6,8 @@ import headshot from '../assets/headshot.jpg';
 import { routePath, canonicalUrl } from '../lib/url';
 import { isWritingLive } from '../lib/writing';
 import Mark from '../components/Mark.astro';
-import socialSource from '../assets/techie-talk-stage.png';
+// Branded 1200×630 link-preview card, rendered from tools/og-card.html.
+import socialSource from '../assets/og-card.png';
 
 interface Props {
   title: string;
@@ -37,12 +38,15 @@ const fullTitle = path === '/' ? `${SITE.name} — ${SITE.role}` : `${title} · 
 
 // Link previews need a real, absolutely-addressed image; declaring a large
 // summary card without one leaves LinkedIn and Slack with a blank block.
+// The card is already exactly 1200×630, so this only re-encodes it: JPEG at
+// high quality keeps the type crisp at a fraction of the PNG's size.
 const social = await getImage({
   src: socialSource,
   width: 1200,
   height: 630,
   fit: 'cover',
   format: 'jpeg',
+  quality: 90,
 });
 const socialUrl = new URL(social.src, Astro.site).href;
 const canonical = canonicalUrl(path, Astro.site!);
@@ -119,7 +123,7 @@ if (path === '/') {
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Flora Liu speaking at Techie Talk 2026 about hardware engineering and product decisions."
+      content="Flora Liu, Hardware Engineer at Amazon. Design · Testing · Decisions. floraliu.dev. Drawn as an engineering sheet: an exploded isometric view of her piezoelectric plate motor and a Weibull reliability plot."
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />

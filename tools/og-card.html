@@ -1,0 +1,325 @@
+<!doctype html>
+<!--
+  Source for the link-preview image (Open Graph / Twitter card), 1200×630.
+
+  To regenerate: serve the repository root over HTTP (for example
+  `python -m http.server 8765` from the repo root), open
+  http://127.0.0.1:8765/tools/og-card.html at exactly 1200×630, wait for
+  fonts, take a viewport screenshot, and save it as src/assets/og-card.png.
+  Base.astro picks it up from there.
+
+  Everything drawn here is real, on purpose: this is an engineer's card and
+  the site's own rule is that nothing looks like data unless it is.
+  - The part is the piezoelectric plate motor from her SPIE paper
+    (Proc. SPIE 13949, 2026): a 9 × 6 × 0.5 mm plate, drawn in true
+    isometric projection at that aspect ratio, with the piezo layer exploded
+    above it and a travelling wave on the plate.
+  - The plot is the Weibull reliability function R(t) = exp[-(t/η)^β],
+    computed, not sketched, for β = 0.8, 1.5 and 3.
+  - The staircase is the site mark (public/favicon.svg).
+
+  Type: Newsreader (serif) for the name and lines a person reads; Plus
+  Jakarta Sans, the site face, for drawing annotations. Keep the name, the
+  tagline and the address large: previews are shown about 500px wide.
+-->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Plus+Jakarta+Sans:wght@500;600;700&display=block"
+    />
+    <style>
+      :root {
+        --paper: #f5f0e6;
+        --ink: #1e2b3a;
+        --muted: #5d6673;
+        --blue: #3d5a80;
+        --orange: #c47a3a;
+        --hair: #cbbfa9;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+        background: var(--paper);
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .card {
+        position: relative;
+        width: 1200px;
+        height: 630px;
+        background: var(--paper);
+      }
+
+      svg.art {
+        position: absolute;
+        inset: 0;
+      }
+
+      .anno {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 600;
+        font-size: 12.5px;
+        letter-spacing: 0.08em;
+        fill: var(--muted);
+      }
+
+      .dim {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-weight: 600;
+        font-size: 15px;
+        fill: var(--ink);
+      }
+
+      /* --- text block --- */
+      .text {
+        position: absolute;
+        left: 72px;
+        top: 74px;
+        color: var(--ink);
+      }
+
+      .eyebrow {
+        margin: 0;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        font-size: 17px;
+        font-weight: 700;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--blue);
+      }
+
+      .name {
+        margin: 14px 0 0;
+        font-family: 'Newsreader', serif;
+        font-weight: 400;
+        font-size: 124px;
+        line-height: 1;
+        letter-spacing: -0.02em;
+      }
+
+      .tagline {
+        margin: 20px 0 0;
+        font-family: 'Newsreader', serif;
+        font-weight: 400;
+        font-size: 36px;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+      }
+
+      .rule {
+        margin: 26px 0 0;
+        width: 64px;
+        height: 3px;
+        background: var(--orange);
+      }
+
+      .site {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin: 22px 0 0;
+        font-family: 'Newsreader', serif;
+        font-size: 34px;
+        font-weight: 500;
+        letter-spacing: 0.02em;
+      }
+
+      .site svg {
+        width: 30px;
+        height: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <svg class="art" id="art" width="1200" height="630" viewBox="0 0 1200 630"></svg>
+
+      <div class="text">
+        <p class="eyebrow">Hardware Engineer · Amazon</p>
+        <h1 class="name">Flora Liu</h1>
+        <p class="tagline">Design · Testing · Decisions</p>
+        <div class="rule"></div>
+        <div class="site">
+          <svg viewBox="0 0 32 32" aria-hidden="true">
+            <g fill="none" stroke-width="3.5" stroke-linecap="square">
+              <polyline stroke="#1e2b3a" points="3,27 12,27 12,18 21,18" />
+              <polyline stroke="#c47a3a" points="21,18 21,9 30,9" />
+            </g>
+          </svg>
+          floraliu.dev
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const NS = 'http://www.w3.org/2000/svg';
+      const svg = document.getElementById('art');
+      const C = {
+        ink: '#1e2b3a',
+        muted: '#5d6673',
+        blue: '#3d5a80',
+        orange: '#c47a3a',
+        hair: '#cbbfa9',
+        grid: '#ebe3d4',
+        gridMajor: '#e0d5c2',
+      };
+
+      function el(name, attrs, parent = svg) {
+        const e = document.createElementNS(NS, name);
+        for (const [k, v] of Object.entries(attrs)) e.setAttribute(k, v);
+        parent.appendChild(e);
+        return e;
+      }
+      const pts = (a) => a.map((p) => p.map((n) => n.toFixed(1)).join(',')).join(' ');
+      function text(str, x, y, cls, attrs = {}) {
+        const t = el('text', { x, y, class: cls, ...attrs });
+        t.textContent = str;
+        return t;
+      }
+
+      /* ---------- background: drafting grid, fading out behind the text ---------- */
+      const defs = el('defs', {});
+      const pat = el('pattern', { id: 'grid', width: 60, height: 60, patternUnits: 'userSpaceOnUse' }, defs);
+      for (let i = 0; i < 60; i += 12) {
+        el('line', { x1: i, y1: 0, x2: i, y2: 60, stroke: i ? C.grid : C.gridMajor, 'stroke-width': 1 }, pat);
+        el('line', { x1: 0, y1: i, x2: 60, y2: i, stroke: i ? C.grid : C.gridMajor, 'stroke-width': 1 }, pat);
+      }
+      const fade = el('linearGradient', { id: 'fade', x1: 0, y1: 0, x2: 1, y2: 0 }, defs);
+      el('stop', { offset: '0', 'stop-color': '#f5f0e6', 'stop-opacity': 0.92 }, fade);
+      el('stop', { offset: '0.42', 'stop-color': '#f5f0e6', 'stop-opacity': 0.75 }, fade);
+      el('stop', { offset: '0.62', 'stop-color': '#f5f0e6', 'stop-opacity': 0 }, fade);
+      el('rect', { width: 1200, height: 630, fill: 'url(#grid)' });
+      el('rect', { width: 1200, height: 630, fill: 'url(#fade)' });
+
+      /* ---------- isometric projection ---------- */
+      const O = { x: 880, y: 250 };
+      const S = 28; // px per mm
+      const cos30 = Math.cos(Math.PI / 6);
+      const iso = (x, y, z) => [O.x + (x - y) * S * cos30, O.y + (x + y) * S * 0.5 - z * S];
+
+      // Construction arcs and centre lines, centred on the part.
+      const ctr = iso(4.5, 3, 1);
+      el('circle', { cx: ctr[0], cy: ctr[1], r: 262, fill: 'none', stroke: C.hair, 'stroke-width': 1 });
+      el('circle', {
+        cx: ctr[0], cy: ctr[1], r: 330, fill: 'none', stroke: C.hair, 'stroke-width': 1, 'stroke-dasharray': '2 6',
+      });
+      el('line', { x1: ctr[0], y1: 18, x2: ctr[0], y2: 612, stroke: C.hair, 'stroke-width': 1, 'stroke-dasharray': '10 4 2 4' });
+      el('line', { x1: 560, y1: ctr[1], x2: 1190, y2: ctr[1], stroke: C.hair, 'stroke-width': 1, 'stroke-dasharray': '10 4 2 4' });
+      for (const [a, col] of [[-62, C.orange], [28, C.blue], [205, C.orange], [118, C.blue]]) {
+        const r = a === 205 || a === 118 ? 330 : 262;
+        const t = (a * Math.PI) / 180;
+        el('circle', { cx: ctr[0] + r * Math.cos(t), cy: ctr[1] + r * Math.sin(t), r: 5, fill: col, opacity: 0.85 });
+      }
+
+      /* ---------- the plate: 9 × 6 × 0.5 mm ---------- */
+      const L = 9, W = 6, T = 0.5;
+      // Visible faces: top (z = 0), the x = L face and the y = W face.
+      el('polygon', { points: pts([iso(L, 0, 0), iso(L, W, 0), iso(L, W, -T), iso(L, 0, -T)]), fill: '#cfd9e4', stroke: C.ink, 'stroke-width': 1.3, 'stroke-linejoin': 'round' });
+      el('polygon', { points: pts([iso(0, W, 0), iso(L, W, 0), iso(L, W, -T), iso(0, W, -T)]), fill: '#dce4ec', stroke: C.ink, 'stroke-width': 1.3, 'stroke-linejoin': 'round' });
+      el('polygon', { points: pts([iso(0, 0, 0), iso(L, 0, 0), iso(L, W, 0), iso(0, W, 0)]), fill: '#edf1f5', stroke: C.ink, 'stroke-width': 1.3, 'stroke-linejoin': 'round' });
+
+      // Travelling wave along the plate's centre line: two wavelengths.
+      const wave = [];
+      for (let i = 0; i <= 120; i++) {
+        const x = 0.5 + (i / 120) * (L - 1);
+        wave.push(iso(x, W / 2, 0.32 * Math.sin((2 * Math.PI * (x - 0.5)) / ((L - 1) / 2))));
+      }
+      el('polyline', { points: pts(wave), fill: 'none', stroke: C.blue, 'stroke-width': 2 });
+      // Direction of travel.
+      const tip = iso(L - 0.25, W / 2, 0);
+      el('polyline', { points: pts([iso(L - 0.75, W / 2 - 0.35, 0), tip, iso(L - 0.75, W / 2 + 0.35, 0)]), fill: 'none', stroke: C.blue, 'stroke-width': 2 });
+
+      /* ---------- piezo layer, exploded upward ---------- */
+      const Z = 3.8, pt = 0.25, m = 0.7;
+      const P = (x, y, z) => iso(x, y, z);
+      // projection lines from the layer's corners down to the plate
+      for (const [x, y] of [[m, m], [L - m, m], [L - m, W - m], [m, W - m]]) {
+        el('line', { x1: P(x, y, Z)[0], y1: P(x, y, Z)[1], x2: P(x, y, 0)[0], y2: P(x, y, 0)[1], stroke: C.muted, 'stroke-width': 1, 'stroke-dasharray': '4 4' });
+      }
+      el('polygon', { points: pts([P(L - m, m, Z + pt), P(L - m, W - m, Z + pt), P(L - m, W - m, Z), P(L - m, m, Z)]), fill: 'rgba(61,90,128,0.32)', stroke: C.blue, 'stroke-width': 1.3 });
+      el('polygon', { points: pts([P(m, W - m, Z + pt), P(L - m, W - m, Z + pt), P(L - m, W - m, Z), P(m, W - m, Z)]), fill: 'rgba(61,90,128,0.26)', stroke: C.blue, 'stroke-width': 1.3 });
+      el('polygon', { points: pts([P(m, m, Z + pt), P(L - m, m, Z + pt), P(L - m, W - m, Z + pt), P(m, W - m, Z + pt)]), fill: 'rgba(61,90,128,0.16)', stroke: C.blue, 'stroke-width': 1.3 });
+      // electrode split into two driving regions
+      el('line', { x1: P(L / 2, m, Z + pt)[0], y1: P(L / 2, m, Z + pt)[1], x2: P(L / 2, W - m, Z + pt)[0], y2: P(L / 2, W - m, Z + pt)[1], stroke: C.blue, 'stroke-width': 1.2, 'stroke-dasharray': '6 3' });
+
+      /* ---------- dimensions ---------- */
+      function dimLine(a, b, off, label, lx, ly) {
+        const a2 = [a[0] + off[0], a[1] + off[1]], b2 = [b[0] + off[0], b[1] + off[1]];
+        el('line', { x1: a[0], y1: a[1], x2: a2[0] + off[0] * 0.25, y2: a2[1] + off[1] * 0.25, stroke: C.muted, 'stroke-width': 0.9 });
+        el('line', { x1: b[0], y1: b[1], x2: b2[0] + off[0] * 0.25, y2: b2[1] + off[1] * 0.25, stroke: C.muted, 'stroke-width': 0.9 });
+        el('line', { x1: a2[0], y1: a2[1], x2: b2[0], y2: b2[1], stroke: C.ink, 'stroke-width': 1.1 });
+        for (const p of [a2, b2]) el('circle', { cx: p[0], cy: p[1], r: 2.4, fill: C.ink });
+        text(label, lx, ly, 'dim', { 'text-anchor': 'middle' });
+      }
+      // 9.0 along the y = W bottom edge, offset toward +y (down-left)
+      const d1a = iso(0, W, -T), d1b = iso(L, W, -T);
+      dimLine(d1a, d1b, [-cos30 * 24, 12], '9.0', (d1a[0] + d1b[0]) / 2 - 38, (d1a[1] + d1b[1]) / 2 + 34);
+      // 6.0 along the x = L bottom edge, offset toward +x (down-right)
+      const d2a = iso(L, 0, -T), d2b = iso(L, W, -T);
+      dimLine(d2a, d2b, [cos30 * 24, 12], '6.0', (d2a[0] + d2b[0]) / 2 + 40, (d2a[1] + d2b[1]) / 2 + 30);
+      // 0.5 thickness at the near corner
+      const c0 = iso(L, W, 0), c1 = iso(L, W, -T);
+      text('0.5', c1[0], c1[1] + 34, 'dim', { 'text-anchor': 'middle' });
+      el('line', { x1: c1[0], y1: c1[1] + 4, x2: c1[0], y2: c1[1] + 18, stroke: C.muted, 'stroke-width': 0.9 });
+      el('line', { x1: c0[0] + 4, y1: c0[1], x2: c1[0] + 4, y2: c1[1], stroke: C.ink, 'stroke-width': 1.1 });
+
+      /* ---------- leaders and labels ---------- */
+      function leader(from, to, label, anchor = 'start') {
+        el('polyline', { points: pts([from, to, [to[0] + (anchor === 'start' ? 28 : -28), to[1]]]), fill: 'none', stroke: C.muted, 'stroke-width': 0.9 });
+        el('circle', { cx: from[0], cy: from[1], r: 2.6, fill: C.orange });
+        text(label, to[0] + (anchor === 'start' ? 34 : -34), to[1] + 4, 'anno', { 'text-anchor': anchor });
+      }
+      leader(P(1.2, 1.6, Z + pt), [700, 168], 'PIEZO LAYER', 'end');
+      leader(wave[14], [700, 262], 'TRAVELLING WAVE', 'end');
+      leader(iso(0.8, W - 0.6, 0), [700, 404], 'PLATE  9 × 6 × 0.5 MM', 'end');
+
+      // Title block, bottom right.
+      text('PIEZOELECTRIC PLATE MOTOR', 1160, 590, 'anno', { 'text-anchor': 'end', fill: C.ink });
+      text('PROC. SPIE 13949 · 2026', 1160, 608, 'anno', { 'text-anchor': 'end' });
+
+      /* ---------- Weibull reliability, bottom left ---------- */
+      const G = { x: 94, y: 470, w: 330, h: 118, tmax: 2.5 };
+      const gx = (t) => G.x + (t / G.tmax) * G.w;
+      const gy = (r) => G.y + (1 - r) * G.h;
+      el('line', { x1: G.x, y1: G.y - 6, x2: G.x, y2: G.y + G.h, stroke: C.ink, 'stroke-width': 1.1 });
+      el('line', { x1: G.x, y1: G.y + G.h, x2: G.x + G.w + 6, y2: G.y + G.h, stroke: C.ink, 'stroke-width': 1.1 });
+      for (const r of [0, 0.5, 1]) {
+        el('line', { x1: G.x - 5, y1: gy(r), x2: G.x, y2: gy(r), stroke: C.ink, 'stroke-width': 1 });
+        if (r) el('line', { x1: G.x, y1: gy(r), x2: G.x + G.w, y2: gy(r), stroke: C.hair, 'stroke-width': 0.8, 'stroke-dasharray': '3 4' });
+        text(r.toFixed(1), G.x - 10, gy(r) + 4, 'anno', { 'text-anchor': 'end' });
+      }
+      for (const t of [0, 1, 2]) {
+        el('line', { x1: gx(t), y1: G.y + G.h, x2: gx(t), y2: G.y + G.h + 5, stroke: C.ink, 'stroke-width': 1 });
+        text(String(t), gx(t), G.y + G.h + 19, 'anno', { 'text-anchor': 'middle' });
+      }
+      text('t / η', G.x + G.w + 12, G.y + G.h + 4, 'anno');
+      text('R(t) = exp[−(t/η)^β]', G.x + G.w, G.y - 12, 'anno', { 'text-anchor': 'end', fill: C.ink });
+      for (const [beta, col, dash] of [[0.8, C.muted, '4 4'], [1.5, C.orange, ''], [3, C.blue, '']]) {
+        const c = [];
+        for (let i = 0; i <= 100; i++) {
+          const t = (i / 100) * G.tmax;
+          c.push([gx(t), gy(Math.exp(-Math.pow(t, beta)))]);
+        }
+        el('polyline', { points: pts(c), fill: 'none', stroke: col, 'stroke-width': 2, 'stroke-dasharray': dash });
+      }
+      [[3, C.blue, ''], [1.5, C.orange, ''], [0.8, C.muted, '4 4']].forEach(([beta, col, dash], i) => {
+        const ly = gy(0.92) + i * 18;
+        el('line', { x1: gx(1.62), y1: ly, x2: gx(1.86), y2: ly, stroke: col, 'stroke-width': 2, 'stroke-dasharray': dash });
+        text('β = ' + beta, gx(1.92), ly + 4, 'anno', { fill: col === C.muted ? C.muted : col });
+      });
+
+    </script>
+  </body>
+</html>
