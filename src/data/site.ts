@@ -15,6 +15,10 @@ import logoNcku from '../assets/logos/ncku.jpg';
 import logoAws from '../assets/logos/aws.jpg';
 import logoOracle from '../assets/logos/oracle.jpg';
 import logoGoogleEdu from '../assets/logos/google-edu.jpg';
+import type { ImageMetadata } from 'astro';
+// Graded copy (exposure, highlights/shadows, a slightly cooler balance);
+// the untouched original is kept alongside it.
+import techieTalkGroup from '../assets/techie-talk-community-graded.jpg';
 
 export const SITE = {
   name: 'Flora Liu',
@@ -22,6 +26,10 @@ export const SITE = {
   email: 'hua.flora.liu@gmail.com',
   linkedin: 'https://www.linkedin.com/in/flora-liu-b8a905236/',
   github: 'https://github.com/liu092111',
+  /* One-page résumé in public/. Replace the file to update it; keep the
+     name, since the link may already be saved in bookmarks and emails.
+     Strip phone and home address before publishing a new version. */
+  resume: '/Hua-Flora-Liu-Resume.pdf',
   location: 'Taiwan',
 };
 
@@ -188,7 +196,7 @@ export const PROOF: Proof[] = [
     links: [
       {
         text: 'SPIE Smart Structures (Oral)',
-        href: 'https://www.linkedin.com/feed/update/urn:li:activity:7403954040453451777/',
+        href: 'https://doi.org/10.1117/12.3090434',
       },
       {
         text: 'Techie Talk (Invited)',
@@ -258,7 +266,8 @@ export const EDUCATION = [
     degree: 'M.S., Engineering Science and Ocean Engineering (Electrical & Electronic)',
     period: 'Sep 2024–Jul 2026',
     detail:
-      'Oral presentation at SPIE Smart Structures 2026, Vancouver: load-carrying and stability improvement of a miniature ultrasonic piezoelectric plate motor.',
+      'First-author paper, presented orally at SPIE Smart Structures + NDE 2026, Vancouver: load-carrying and stability improvement of a miniature ultrasonic piezoelectric plate motor.',
+    paper: { label: 'Proc. SPIE 13949 · doi:10.1117/12.3090434', href: 'https://doi.org/10.1117/12.3090434' },
   },
   {
     school: 'National Cheng Kung University',
@@ -398,12 +407,30 @@ export const SPEAKING_TOPICS = [
   },
 ];
 
-export const TALKS = [
+interface Talk {
+  event: string;
+  organiser: string;
+  year: string;
+  role: string;
+  audience?: string;
+  summary: string;
+  /** Primary source for the talk: the event page or the published record. */
+  eventUrl?: string;
+  eventUrlLabel?: string;
+  /** Her own write-up, usually a LinkedIn post. */
+  link?: string;
+  photo?: { src: ImageMetadata; alt: string; caption: string };
+}
+
+/* Newest first. Every talk here is counted by the "Talks given" figure on
+   the home page, so add the talk here and bump that count together. */
+export const TALKS: Talk[] = [
   {
     event: 'Techie Talk',
     organiser: 'Tech Network',
     /* Tech Network's own post describing the event series. */
     eventUrl: 'https://www.instagram.com/p/DbBP7hwj9rq/',
+    eventUrlLabel: 'About the event',
     audience: 'A meetup for tech-industry interns across SWE, HWE, PM and sales.',
     year: '2026',
     role: 'Invited speaker',
@@ -411,6 +438,25 @@ export const TALKS = [
       'Shared what hardware engineering looks like inside a global consumer brand: from design to mass production, the decisions that get hard, and how AI can support the workflow without replacing the engineer.',
     /* Her own write-up of the event; LinkedIn counted 5,000+ impressions. */
     link: 'https://www.linkedin.com/feed/update/urn:li:activity:7499979345533452288/',
+    photo: {
+      src: techieTalkGroup,
+      alt: 'Attendees and speakers gathered at the Techie Talk 2026 community event.',
+      caption:
+        'Techie Talk, 2026: a room of people from different backgrounds, which is the best kind of room to explain something in.',
+    },
+  },
+  {
+    event: 'SPIE Smart Structures + NDE 2026',
+    organiser: 'SPIE · Vancouver, Canada',
+    /* The DOI is the permanent address of the published paper. */
+    eventUrl: 'https://doi.org/10.1117/12.3090434',
+    eventUrlLabel: 'Paper in Proc. SPIE 13949',
+    audience: 'An international conference on smart structures, materials and non-destructive evaluation.',
+    year: '2026',
+    role: 'Oral presentation',
+    summary:
+      'Presented my master’s research, first author: a 9 × 6 × 0.5 mm ultrasonic piezoelectric plate motor with vision-based closed-loop control. Feedback cut orientation drift from 10.2° to 2.6°, reduced straight-line error by 82%, and let the motor carry nearly five times its own weight.',
+    link: 'https://www.linkedin.com/feed/update/urn:li:activity:7403954040453451777/',
   },
 ];
 

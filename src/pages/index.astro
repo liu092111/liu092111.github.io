@@ -271,14 +271,15 @@ const description =
           <div class="talk__meta">
             <span class="chip chip--accent">{t.role}</span>
             <span class="num">
-              {t.event} · {t.organiser} · {t.year}
+              {t.organiser} · {t.year}
             </span>
           </div>
+          <h3 class="talk__event">{t.event}</h3>
           <p class="talk__summary">{t.summary}</p>
           <p class="talk__links">
             {t.eventUrl && (
               <a href={t.eventUrl} target="_blank" rel="noopener">
-                About the event ↗
+                {t.eventUrlLabel ?? 'About the event'} ↗
               </a>
             )}
             {t.link && (
@@ -676,6 +677,15 @@ const description =
   .talk {
     border-left: 3px solid var(--accent);
     padding-left: 1.25rem;
+  }
+
+  .talk + .talk {
+    margin-top: 2rem;
+  }
+
+  .talk__event {
+    margin: 0 0 0.5rem;
+    font-size: 1.1875rem;
   }
 
   .talk__meta {

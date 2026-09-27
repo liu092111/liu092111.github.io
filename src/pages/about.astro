@@ -62,6 +62,9 @@ const rest = PROJECTS.filter((p) => !p.featured);
         <!-- The spot under the photo is the most-seen place on the page after
              the headline, so it holds what a recruiter acts on: ways to reach
              her, not facts the page already states. -->
+        <a class="btn btn--primary intro__resume" href={SITE.resume} target="_blank" rel="noopener">
+          Download résumé (PDF)
+        </a>
         <ul class="list-plain intro__links">
           <li><a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
           <li><a href={SITE.linkedin} target="_blank" rel="me noopener">LinkedIn →</a></li>
@@ -116,6 +119,13 @@ const rest = PROJECTS.filter((p) => !p.featured);
           EDUCATION.map((e) => (
             <Entry logo={e.logo} heading={e.school} sub={e.degree} period={e.period}>
               <p>{e.detail}</p>
+              {e.paper && (
+                <p class="edu__paper">
+                  <a href={e.paper.href} target="_blank" rel="noopener">
+                    {e.paper.label} ↗
+                  </a>
+                </p>
+              )}
             </Entry>
           ))
         }
@@ -293,6 +303,13 @@ const rest = PROJECTS.filter((p) => !p.featured);
     margin-bottom: 1rem;
   }
 
+  /* The one action a recruiter on this page most wants, so it is the one
+     filled button, directly under the photo. */
+  .intro__resume {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
   .intro__links {
     display: flex;
     flex-direction: column;
@@ -343,6 +360,12 @@ const rest = PROJECTS.filter((p) => !p.featured);
   /* entries (experience, education, certifications) */
   .entries {
     max-width: 52rem;
+  }
+
+  .edu__paper {
+    margin: 0.5rem 0 0;
+    font-size: var(--fs-meta);
+    font-weight: 600;
   }
 
   .exp__note {

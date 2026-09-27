@@ -2,9 +2,6 @@
 import Base from '../layouts/Base.astro';
 import Figure from '../components/Figure.astro';
 import { SPEAKING_TOPICS, TALKS, SITE } from '../data/site';
-// Graded copy (exposure, highlights/shadows, a slightly cooler balance);
-// the untouched original is kept alongside it.
-import community from '../assets/techie-talk-community-graded.jpg';
 ---
 
 <Base
@@ -61,7 +58,7 @@ import community from '../assets/techie-talk-community-graded.jpg';
       </div>
 
       {
-        TALKS.map((t) => (
+        TALKS.map((t, i) => (
           <article class="past">
             <div class="past__meta">
               <h3>{t.event}</h3>
@@ -75,7 +72,7 @@ import community from '../assets/techie-talk-community-graded.jpg';
             <p class="past__links">
               {t.eventUrl && (
                 <a href={t.eventUrl} target="_blank" rel="noopener">
-                  About the event ↗
+                  {t.eventUrlLabel ?? 'About the event'} ↗
                 </a>
               )}
               {t.link && (
@@ -84,17 +81,20 @@ import community from '../assets/techie-talk-community-graded.jpg';
                 </a>
               )}
             </p>
+            {/* A photo sits with the talk it shows, not after the whole
+                list, where it would read as belonging to the last entry. */}
+            {t.photo && (
+              <Figure
+                src={t.photo.src}
+                no={`4.2.${i + 1}`}
+                wide
+                alt={t.photo.alt}
+                caption={t.photo.caption}
+              />
+            )}
           </article>
         ))
       }
-
-      <Figure
-        src={community}
-        no="4.2"
-        wide
-        alt="Attendees and speakers gathered at the Techie Talk 2026 community event."
-        caption="Techie Talk, 2026: a room of people from different backgrounds, which is the best kind of room to explain something in."
-      />
     </section>
 
     <section class="section" id="invite">
@@ -166,6 +166,12 @@ import community from '../assets/techie-talk-community-graded.jpg';
     margin: 0.4rem 0 0;
     color: var(--ink-muted);
     max-width: 62ch;
+  }
+
+  .past + .past {
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--rule);
   }
 
   .past__meta {

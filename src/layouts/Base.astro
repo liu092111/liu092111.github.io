@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
 import { getImage } from 'astro:assets';
-import { SITE, NAV, GOATCOUNTER, PERSPECTIVES_LABEL } from '../data/site';
+import { SITE, NAV, GOATCOUNTER, PERSPECTIVES_LABEL, EDUCATION } from '../data/site';
+import headshot from '../assets/headshot.jpg';
 import { routePath, canonicalUrl } from '../lib/url';
 import { isWritingLive } from '../lib/writing';
 import Mark from '../components/Mark.astro';
@@ -45,6 +46,52 @@ const social = await getImage({
 });
 const socialUrl = new URL(social.src, Astro.site).href;
 const canonical = canonicalUrl(path, Astro.site!);
+
+/* Structured data, home page only: tells search engines this site is about
+   one person and ties her names together. "Hua Liu" is the name on her
+   published paper and "劉樺" on her Chinese CV, so listing both lets a search
+   for either land here. */
+let personJsonLd: string | undefined;
+if (path === '/') {
+  const portrait = await getImage({ src: headshot, width: 600, format: 'jpeg' });
+  const siteUrl = new URL('/', Astro.site).href;
+  personJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'WebSite',
+        '@id': `${siteUrl}#website`,
+        url: siteUrl,
+        name: SITE.name,
+        inLanguage: 'en',
+        publisher: { '@id': `${siteUrl}#person` },
+      },
+      {
+        '@type': 'Person',
+        '@id': `${siteUrl}#person`,
+        name: SITE.name,
+        alternateName: ['Hua Liu', '劉樺'],
+        url: siteUrl,
+        image: new URL(portrait.src, Astro.site).href,
+        jobTitle: SITE.role,
+        worksFor: { '@type': 'Organization', name: 'Amazon', url: 'https://www.amazon.com' },
+        alumniOf: EDUCATION.map((e) => ({ '@type': 'CollegeOrUniversity', name: e.school })),
+        email: `mailto:${SITE.email}`,
+        address: { '@type': 'PostalAddress', addressCountry: 'TW' },
+        knowsAbout: [
+          'Hardware engineering',
+          'Reliability engineering',
+          'New product introduction (NPI)',
+          'Reliability statistics',
+          'Weibull analysis',
+          'Finite element analysis',
+          'Test automation',
+        ],
+        sameAs: [SITE.linkedin, SITE.github],
+      },
+    ],
+  });
+}
 ---
 
 <!doctype html>
@@ -78,6 +125,9 @@ const canonical = canonicalUrl(path, Astro.site!);
     <meta name="twitter:title" content={fullTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialUrl} />
+
+    <link rel="sitemap" href="/sitemap.xml" />
+    {personJsonLd && <script is:inline type="application/ld+json" set:html={personJsonLd} />}
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -211,6 +261,7 @@ const canonical = canonicalUrl(path, Astro.site!);
           </p>
           <p class="footer__actions">
             <a class="btn btn--primary" href={`mailto:${SITE.email}`}>Email me</a>
+            <a class="btn" href={SITE.resume} target="_blank" rel="noopener">Résumé (PDF) ↗</a>
             <a class="btn" href={SITE.linkedin} rel="me noopener" target="_blank">LinkedIn ↗</a>
             <a class="btn" href={SITE.github} rel="me noopener" target="_blank">GitHub ↗</a>
           </p>
