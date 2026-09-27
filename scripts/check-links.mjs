@@ -15,7 +15,7 @@ import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const DIST = fileURLToPath(new URL('../dist/', import.meta.url));
-const SITE = 'https://liu092111.github.io';
+const SITE = 'https://floraliu.dev';
 
 if (!existsSync(DIST)) {
   console.error('dist/ not found. Run `npm run build` first.');

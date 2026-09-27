@@ -30,8 +30,11 @@ function needsPolling() {
 }
 
 // Deployed to GitHub Pages at the account root, so no `base` prefix is needed.
+// Served on the custom domain floraliu.dev (DNS at Cloudflare, "DNS only");
+// liu092111.github.io redirects there. Canonical URLs, the sitemap and
+// Open Graph images are all built from this value.
 export default defineConfig({
-  site: 'https://liu092111.github.io',
+  site: 'https://floraliu.dev',
 
   /* URL shape: `/about`, never `/about/`.
      GitHub Pages serves `/about` straight from `about.html`, but answers
