@@ -1,0 +1,102 @@
+/* Inline SVG charts inside <Figure>. Drawn with the design tokens so they
+   stay in the site palette; shared by every essay that plots something. */
+.chart {
+  width: 100%;
+  height: auto;
+  padding: 0.75rem 0.5rem 0.25rem;
+  font-family: var(--font-sans);
+}
+
+/* White and framed, not the default sunk panel: a chart reads as a
+   measured object, and the frame replaces the gridlines it no longer has. */
+.fig > .fig__frame:has(.chart) {
+  background: var(--paper);
+  border: 1px solid var(--rule-strong);
+}
+
+.chart__axisline {
+  fill: none;
+  stroke: var(--ink-muted);
+}
+
+.chart__tick,
+.chart__axis,
+.chart__key {
+  font-size: 13px;
+  fill: var(--ink-muted);
+}
+
+.chart__note {
+  font-size: 13px;
+  font-weight: 600;
+  fill: var(--ink);
+}
+
+.chart__ref {
+  stroke: var(--ink-muted);
+  stroke-dasharray: 4 4;
+}
+
+.chart__line {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.chart__line--ln {
+  stroke: var(--accent);
+}
+
+.chart__line--wb {
+  stroke: var(--ink);
+}
+
+.chart__line--ex {
+  stroke: var(--signal);
+}
+
+.chart__dot--ln {
+  fill: var(--accent);
+}
+
+.chart__dot--wb {
+  fill: var(--ink);
+}
+
+.chart__dot--ex {
+  fill: var(--signal);
+}
+
+/* A region the reader should see as "different", e.g. fast fracture. */
+.chart__zone {
+  fill: var(--signal);
+  fill-opacity: 0.08;
+}
+
+/* Flow diagrams: steps as boxes, arrows between them. */
+.chart__box {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+}
+
+.chart__box--end {
+  fill: var(--paper);
+}
+
+.chart__label {
+  font-size: 14px;
+  font-weight: 600;
+  fill: var(--ink);
+}
+
+.chart__arrow,
+.chart__loop {
+  fill: none;
+  stroke: var(--ink-muted);
+  stroke-width: 1.5;
+  marker-end: url(#arrowhead);
+}
+
+.chart__arrowhead {
+  fill: var(--ink-muted);
+}

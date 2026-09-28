@@ -13,9 +13,12 @@ interface Props {
   no: string;
   /** Break out of the text measure for wide or photographic figures. */
   wide?: boolean;
+  /** Where the figure comes from, printed as "Ref:" under the caption.
+   *  `href` links the DOI or source page. */
+  source?: { text: string; href?: string };
 }
 
-const { src, alt, caption, no, wide = false } = Astro.props;
+const { src, alt, caption, no, wide = false, source } = Astro.props;
 ---
 
 <figure class:list={['fig', wide && 'fig--wide']}>
@@ -37,7 +40,23 @@ const { src, alt, caption, no, wide = false } = Astro.props;
   </div>
   <figcaption class="fig__cap">
     <span class="label fig__no">Fig {no}</span>
-    <span>{caption}</span>
+    <span>
+      {caption}
+      {
+        source && (
+          <span class="fig__ref">
+            Ref:{' '}
+            {source.href ? (
+              <a href={source.href} target="_blank" rel="noopener">
+                {source.text} ↗
+              </a>
+            ) : (
+              source.text
+            )}
+          </span>
+        )
+      }
+    </span>
   </figcaption>
 </figure>
 
@@ -74,6 +93,12 @@ const { src, alt, caption, no, wide = false } = Astro.props;
     font-size: var(--fs-meta);
     color: var(--ink-muted);
     line-height: 1.5;
+  }
+
+  .fig__ref {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: var(--fs-label);
   }
 
   .fig__no {

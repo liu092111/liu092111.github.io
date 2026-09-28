@@ -1,22 +1,22 @@
 ---
 import Essay from '../layouts/Essay.astro';
+import Figure from '../components/Figure.astro';
+import '../styles/chart.css';
+import costTolerance from '../assets/cost-tolerance-armillotta2023.png';
+import crackStages from '../assets/crack-stages-liu2018.png';
 ---
 
 <Essay
   docNo="01"
   title="How a product gets designed"
-  description="A view of product design from three seats on the same supply chain: a third-party laboratory, a system company and a global brand."
-  thesis="No one designs the whole product. Every function designs a different version of the product. The customer only gets one."
+  description="How a design gets made and why it takes the shape it does: the design process, competing considerations, and two decisions traced to their reasons."
 >
   <div class="sub">
     <div class="sub__body">
+      <p class="opener">How should it be designed, and why that way?</p>
       <p>
-        At a third-party laboratory, I learned how claims are proven. At a system company, how
-        products are made real. At a brand, what makes one worth building.
-      </p>
-      <p>
-        Engineering taught me to follow the physics. The supply chain taught me where physics stops
-        being the whole decision.
+        A design is a set of decisions. Every dimension, material and radius answers a question.
+        Good design can say which one.
       </p>
     </div>
   </div>
@@ -24,32 +24,95 @@ import Essay from '../layouts/Essay.astro';
   <section class="sub">
     <div class="sub__head">
       <span class="sub__no">1.1</span>
-      <h2>Everyone is right, locally</h2>
+      <h2>Design is a loop, not a line</h2>
     </div>
     <div class="sub__body">
       <p>
-        Mechanical can protect the structure. Firmware can recover around it. Manufacturing can hold
-        the process. A supplier can meet every drawing.
+        Design starts before any drawing. Someone recognises a need, and the need has to become a
+        problem specific enough to solve. Then come a candidate design, analysis and optimization,
+        and evaluation against the original need.
       </p>
-      <div class="pullquote"><p>The product can still be wrong.</p></div>
-      <p>Local correctness is not product coherence.</p>
+      <Figure
+        no="1.1"
+        caption="The design process. The loops back are the point."
+        source={{
+          text: "Adapted from R. G. Budynas and J. K. Nisbett, Shigley's Mechanical Engineering Design, 11th ed., Fig. 1–1",
+        }}
+      >
+        <svg
+          class="chart"
+          viewBox="0 0 640 382"
+          role="img"
+          aria-label="The design process as six steps in sequence: identification of need, definition of problem, synthesis, analysis and optimization, evaluation, and presentation. Arrows loop back from evaluation and analysis to earlier steps."
+        >
+          <defs>
+            <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" class="chart__arrowhead" />
+            </marker>
+          </defs>
+          <line class="chart__arrow" x1="320.0" y1="56" x2="320.0" y2="75" />
+          <line class="chart__arrow" x1="320.0" y1="118" x2="320.0" y2="137" />
+          <line class="chart__arrow" x1="320.0" y1="180" x2="320.0" y2="199" />
+          <line class="chart__arrow" x1="320.0" y1="242" x2="320.0" y2="261" />
+          <line class="chart__arrow" x1="320.0" y1="304" x2="320.0" y2="323" />
+          <path class="chart__loop" d="M450 284.0 H520 V36.0 H454" />
+          <path class="chart__loop" d="M450 228.0 H490 V160.0 H454" />
+          <path class="chart__loop" d="M190 284.0 H150 V98.0 H186" />
+          <text class="chart__tick" x="528" y="164.0">Iteration</text>
+          <rect class="chart__box" x="190" y="16" width="260" height="40" rx="6" />
+          <text class="chart__label" x="320.0" y="41" text-anchor="middle">Identification of need</text>
+          <rect class="chart__box" x="190" y="78" width="260" height="40" rx="6" />
+          <text class="chart__label" x="320.0" y="103" text-anchor="middle">Definition of problem</text>
+          <rect class="chart__box" x="190" y="140" width="260" height="40" rx="6" />
+          <text class="chart__label" x="320.0" y="165" text-anchor="middle">Synthesis</text>
+          <rect class="chart__box" x="190" y="202" width="260" height="40" rx="6" />
+          <text class="chart__label" x="320.0" y="227" text-anchor="middle">Analysis and optimization</text>
+          <rect class="chart__box" x="190" y="264" width="260" height="40" rx="6" />
+          <text class="chart__label" x="320.0" y="289" text-anchor="middle">Evaluation</text>
+          <rect class="chart__box chart__box--end" x="190" y="326" width="260" height="40" rx="6" />
+          <text class="chart__label" x="320.0" y="351" text-anchor="middle">Presentation</text>
+        </svg>
+      </Figure>
+      <p>
+        The arrows that matter point backwards. Evaluation can send a design back to analysis, or
+        show that the problem was defined wrong. Iteration is not a sign the design failed. It is how
+        the design learns.
+      </p>
     </div>
   </section>
 
   <section class="sub">
     <div class="sub__head">
       <span class="sub__no">1.2</span>
-      <h2>Design happens at the interfaces</h2>
+      <h2>Every decision answers to more than one requirement</h2>
     </div>
     <div class="sub__body">
       <p>
-        A tolerance changes tooling. Tooling changes variation. Variation changes margin. Margin
-        changes what the customer experiences.
+        A design has to be functional, safe, reliable, competitive, usable, manufacturable and
+        marketable. Those requirements rarely agree.
       </p>
-      <p>The hard part is seeing the chain while the product can still change.</p>
       <p>
-        A supplier sees a process. The system team sees an architecture. The brand sees a promise.
-        Product design makes those views agree.
+        Tolerance is the clearest example. A tighter tolerance can make a fit more functional and
+        more reliable. It also changes how the part is made, and what it costs.
+      </p>
+      <Figure
+        no="1.2"
+        src={costTolerance}
+        alt="Cost of a pin-hole clearance fit against the variation of the clearance, for ISO tolerance grades IT5 to IT11. Cost falls steeply from IT5 at about 0.01 mm to IT8 at about 0.05 mm, then flattens toward IT11 at about 0.22 mm."
+        caption="Cost of a pin-hole clearance fit across ISO tolerance grades IT5 to IT11."
+        source={{
+          text: 'A. Armillotta (2023), Int. J. Adv. Manuf. Technol. 129, 3695–3711, Fig. 2. CC BY 4.0',
+          href: 'https://doi.org/10.1007/s00170-023-12551-2',
+        }}
+      />
+      <p>
+        In one analysis of a pin-hole fit, ±0.14 mm (IT10) may not need finish machining at all.
+        Tightening it to ±0.03 mm (IT7) roughly doubles the cost; ±0.02 mm (IT6) roughly triples it.
+        The right tolerance is the loosest one the function allows.
+      </p>
+      <p>
+        The effect does not stop at the part. A tolerance changes tooling, tooling changes variation,
+        variation changes margin, and margin changes what the customer experiences.
       </p>
     </div>
   </section>
@@ -57,18 +120,85 @@ import Essay from '../layouts/Essay.astro';
   <section class="sub">
     <div class="sub__head">
       <span class="sub__no">1.3</span>
-      <h2>The customer inherits the compromise</h2>
+      <h2>Knowing why: a radius</h2>
     </div>
     <div class="sub__body">
       <p>
-        Customers never see the debate. They experience weight, heat, latency, durability, price,
-        and whether the product still works years later.
+        Why does a shaft shoulder get a generous radius instead of a sharp corner? Because of how
+        parts actually fail.
       </p>
       <p>
-        A product earns the right to exist when the compromise is coherent: it survives reality, can
-        be built repeatedly, and creates enough value to justify its trade-offs.
+        A static check uses the stress–strain curve for yield and ultimate strength, Mohr's circle
+        for principal stresses, and a failure theory such as von Mises. Many parts pass it and still
+        crack. They fail in fatigue: a load well below yield, repeated millions of times.
       </p>
-      <p><strong>Everything before that is a proposal.</strong></p>
+      <Figure
+        no="1.3"
+        src={crackStages}
+        alt="Log crack growth rate da/dN against log stress intensity range ΔK, divided into three regions: I crack initiation above a threshold, II crack propagation following da/dN = C(ΔK)^m, and III fracture where the rate rises sharply."
+        caption="Three stages of crack growth."
+        source={{
+          text: 'D. Liu and D. J. Pons (2018), Metals 8(8), 623, Fig. 1. CC BY 4.0',
+          href: 'https://doi.org/10.3390/met8080623',
+        }}
+      />
+      <p>
+        <strong>Stage I, initiation.</strong> Cyclic slip at the surface opens a microcrack along
+        shear planes, near 45° to the load. It starts where stress concentrates: a sharp corner, a
+        scratch, a void. Below a threshold stress intensity, it does not grow at all.
+      </p>
+      <p>
+        <strong>Stage II, propagation.</strong> The crack turns perpendicular to the load and grows
+        a little every cycle, leaving beach marks on the fracture surface. Its growth rate follows
+        Paris' law, da/dN = C(ΔK)<sup>m</sup>, which is what makes remaining life predictable. In
+        failure analysis, beach marks are how you know it was fatigue.
+      </p>
+      <p>
+        <strong>Stage III, final fracture.</strong> The remaining section can no longer carry the
+        load and breaks in a single cycle.
+      </p>
+      <p>
+        A sharp corner concentrates stress where Stage I begins. A radius spreads it out. That is
+        the reason for the radius, and why surface finish and residual stress belong in the same
+        decision.
+      </p>
+    </div>
+  </section>
+
+  <section class="sub">
+    <div class="sub__head">
+      <span class="sub__no">1.4</span>
+      <h2>Knowing why: a fan</h2>
+    </div>
+    <div class="sub__body">
+      <p>
+        Why not pick a fan from its datasheet? A fan rated at 43.7 CFM delivers that only with
+        nothing in its way. Inside an enclosure, every wall, grille and component pushes back, and
+        the airflow it actually delivers drops.
+      </p>
+      <Figure no="1.4" caption="CFD of a commercial 80 mm fan in a duct, which I modelled in Ansys Fluent. Air runs fast along the walls; behind the hub, a long wake stays nearly still.">
+        <img
+          src="/media/fan-velocity-duct.gif"
+          alt="CFD velocity contour of an 80 mm fan in a rectangular duct. Air accelerates along the duct walls and forms a long low-velocity wake behind the fan hub."
+          width="1040"
+          height="480"
+          loading="lazy"
+          decoding="async"
+        />
+      </Figure>
+      <p>
+        The model shows where the air really goes. So a fan is chosen from the system, not the
+        datasheet: estimate how hard the enclosure pushes back first, then pick a fan that still
+        delivers the airflow the design needs.
+      </p>
+      <p>
+        <strong>A design is finished when every feature can answer "why".</strong>
+      </p>
+      <p class="aside">
+        Reference: R. G. Budynas and J. K. Nisbett, <cite>Shigley's Mechanical Engineering Design</cite>,
+        11th ed., McGraw-Hill, 2020. Design process, design considerations and fatigue mechanisms
+        from chapters 1 and 6.
+      </p>
     </div>
   </section>
 </Essay>

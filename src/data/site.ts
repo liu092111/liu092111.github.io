@@ -82,16 +82,16 @@ export const PILLARS = [
     href: '/designed',
     title: 'How a product gets designed',
     promise:
-      'No one designs the whole product. Every function designs a different version of the product. The customer only gets one.',
-    question: 'How do partial truths become one coherent product?',
+      'A design is a set of decisions. Every feature should be able to answer why.',
+    question: 'How should it be designed, and why that way?',
   },
   {
     no: '02',
     href: '/confidence',
     title: 'How a product earns confidence',
     promise:
-      'A working design is only the beginning. NPI has to turn failure into knowledge, correction into evidence, and evidence into confidence at scale.',
-    question: 'How does NPI turn failure into confidence?',
+      'A pass is a data point. Confidence needs enough samples.',
+    question: 'How much evidence is enough?',
   },
   {
     no: '03',
@@ -119,8 +119,8 @@ export const VANTAGE = [
     no: '01',
     org: 'SGS',
     logo: logoSgs,
-    kind: 'Third-party laboratory',
-    verb: 'Observe failure',
+    kind: 'Intern · Third-party laboratory',
+    verb: 'Test to failure',
     period: '2023–2024',
     learned:
       'Evidence is manufactured, not found. I learned where a fixture can lie to you, and what a defensible conclusion requires.',
@@ -129,8 +129,8 @@ export const VANTAGE = [
     no: '02',
     org: 'Delta Electronics',
     logo: logoDelta,
-    kind: 'System company',
-    verb: 'Understand design',
+    kind: 'Intern · System company',
+    verb: 'Model the design',
     period: '2024',
     learned:
       'Simulation and automation showed me how early design choices set the cost of every later iteration. Much of engineering is removing friction between tools.',
@@ -139,11 +139,11 @@ export const VANTAGE = [
     no: '03',
     org: 'Amazon',
     logo: logoAmazon,
-    kind: 'Global consumer brand',
-    verb: 'Decide readiness',
-    period: '2025–2026',
+    kind: 'Engineer · Global consumer brand',
+    verb: 'Build the case for readiness',
+    period: '2025–present',
     learned:
-      'Across EVT, DVT, PVT, HVT and mass production, the question stops being "did it pass" and becomes "do we ship". Evidence, statistics and business context arrive at the same table.',
+      'Across EVT, DVT, PVT, HVT and mass production, the question stops being "did it pass" and becomes "do we ship". Evidence, statistics and business context arrive at the same table. My job is to make the evidence strong enough to answer that question.',
   },
 ];
 

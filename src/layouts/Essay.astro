@@ -193,6 +193,19 @@ const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
     margin-bottom: 0;
   }
 
+  /* The question an essay opens with, set a step above body text. */
+  .opener {
+    font-size: var(--fs-lede);
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* Sources and repo links: present, but below the argument. */
+  .aside {
+    font-size: var(--fs-meta);
+    color: var(--ink-muted);
+  }
+
   .essay__body ul {
     max-width: var(--measure);
     padding-left: 1.15rem;

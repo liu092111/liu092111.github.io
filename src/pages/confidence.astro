@@ -1,59 +1,162 @@
 ---
 import Essay from '../layouts/Essay.astro';
+import Figure from '../components/Figure.astro';
+import '../styles/chart.css';
 ---
 
 <Essay
   docNo="02"
   title="How a product earns confidence"
-  description="How validation, failure analysis, statistics, and revalidation turn NPI into a learning system."
+  description="How much evidence is enough: sample size, the tail of the distribution, and the explanation behind a failure."
 >
   <div class="sub">
     <div class="sub__body">
+      <p class="opener">How much evidence is enough?</p>
       <p>
-        At a third-party laboratory, I learned that evidence has to survive outside the team that
-        created it. For regulated products, it can decide market access.
+        Every NPI build ends with someone deciding to move on. My work is the evidence behind that
+        decision, and the hard part is knowing when there is enough of it.
       </p>
-      <p>
-        In NPI, its deeper job is to turn what failed into what the product becomes next.
-      </p>
+      <p>Statistics answers most of that question. Not all of it.</p>
     </div>
   </div>
 
   <section class="sub">
     <div class="sub__head">
       <span class="sub__no">2.1</span>
-      <h2>Validation challenges the claim</h2>
+      <h2>Three passes are not proof</h2>
     </div>
     <div class="sub__body">
+      <p>Three units pass a test. It feels like good news. Statistically, it says very little.</p>
       <p>
-        A test is useful when it can change the team's model of the product. A pass confirms a
-        condition. A gap reveals an assumption.
+        To claim 90% reliability at 90% confidence, 22 units have to chartive the test with zero
+        failures. Three passes support a claim of about 46% at the same confidence.
       </p>
-      <div class="pullquote">
-        <p>
-          Validation is not approval. It is a challenge to the design.
-        </p>
-      </div>
-      <p>The point is not to finish the test. It is to sharpen the next decision.</p>
+      <p>
+        The count only matters if the measurement can be trusted, which is why Gage R&amp;R comes
+        first. Sample size is not a formality. It sets what a result is allowed to mean.
+      </p>
+      <p class="aside">
+        From the success-run theorem, n = ln(1 − C) / ln(R).
+        <a href="https://accendoreliability.com/sample-size-success-testing/" target="_blank"
+          rel="noopener">Reference ↗</a
+        >
+      </p>
     </div>
   </section>
 
   <section class="sub">
     <div class="sub__head">
       <span class="sub__no">2.2</span>
-      <h2>A failure is not yet an explanation</h2>
+      <h2>The mean can pass while the tail fails</h2>
     </div>
     <div class="sub__body">
       <p>
-        Root cause is the chain of conditions that made the failure possible. The failed component
-        may be the endpoint, not the origin.
+        Failures do not arrive evenly. Over a product's life, the failure rate traces a bathtub:
+        early failures from defects that escaped the line, a flat stretch of random failures, then
+        wear-out.
+      </p>
+      <Figure
+        no="2.1"
+        caption="The bathtub curve. Weibull's shape parameter β says which region a failure mode belongs to."
+      >
+        <svg
+          class="chart"
+          viewBox="0 0 640 300"
+          role="img"
+          aria-label="Bathtub curve of failure rate over product life: a falling rate of early failures, a flat stretch of random failures, and a rising rate of wear-out failures."
+        >
+          <path class="chart__axisline" d="M64 24 V250 H624" />
+          <line class="chart__ref" x1="176" y1="24" x2="176" y2="250" />
+          <line class="chart__ref" x1="484" y1="24" x2="484" y2="250" />
+          <polyline class="chart__line chart__line--wb" points="64.0,39.8 69.7,66.1 75.3,88.3 81.0,107.0 86.6,122.9 92.3,136.3 97.9,147.6 103.6,157.2 109.3,165.2 114.9,172.1 120.6,177.8 126.2,182.7 131.9,186.8 137.5,190.3 143.2,193.3 148.8,195.7 154.5,197.8 160.2,199.6 165.8,201.1 171.5,202.4 177.1,203.5 182.8,204.4 188.4,205.1 194.1,205.8 199.8,206.3 205.4,206.8 211.1,207.2 216.7,207.5 222.4,207.8 228.0,208.0 233.7,208.2 239.4,208.3 245.0,208.5 250.7,208.6 256.3,208.7 262.0,208.7 267.6,208.8 273.3,208.9 278.9,208.9 284.6,208.9 290.3,208.9 295.9,208.9 301.6,209.0 307.2,208.9 312.9,208.9 318.5,208.9 324.2,208.9 329.9,208.9 335.5,208.8 341.2,208.8 346.8,208.7 352.5,208.7 358.1,208.6 363.8,208.5 369.5,208.4 375.1,208.3 380.8,208.2 386.4,208.1 392.1,207.9 397.7,207.8 403.4,207.6 409.1,207.4 414.7,207.2 420.4,206.9 426.0,206.6 431.7,206.3 437.3,206.0 443.0,205.6 448.6,205.1 454.3,204.6 460.0,204.1 465.6,203.5 471.3,202.8 476.9,202.0 482.6,201.1 488.2,200.1 493.9,199.1 499.6,197.8 505.2,196.5 510.9,195.0 516.5,193.2 522.2,191.3 527.8,189.2 533.5,186.8 539.2,184.1 544.8,181.1 550.5,177.8 556.1,174.1 561.8,169.9 567.4,165.2 573.1,159.9 578.7,154.1 584.4,147.5 590.1,140.2 595.7,132.0 601.4,122.8 607.0,112.5 612.7,101.0 618.3,88.1 624.0,73.7" />
+
+          <g text-anchor="middle">
+            <text class="chart__note" x="120" y="272">Early failures</text>
+            <text class="chart__tick" x="120" y="290">falling · β &lt; 1</text>
+            <text class="chart__note" x="330" y="272">Random failures</text>
+            <text class="chart__tick" x="330" y="290">constant · β = 1</text>
+            <text class="chart__note" x="554" y="272">Wear-out</text>
+            <text class="chart__tick" x="554" y="290">rising · β &gt; 1</text>
+          </g>
+          <text class="chart__axis" x="56" y="36" text-anchor="end">Failure</text>
+          <text class="chart__axis" x="56" y="52" text-anchor="end">rate</text>
+          <text class="chart__axis" x="618" y="243" text-anchor="end">Time in use →</text>
+        </svg>
+      </Figure>
+      <p>
+        Each region needs different evidence. Screening and build quality catch early failures. Life
+        tests prove wear-out. A model that assumes the flat bottom, like the exponential, can miss
+        both ends.
       </p>
       <p>
-        Design, process, material, firmware and use environment can all belong to the same
-        mechanism.
+        The mean is where statistics is most reassuring and least useful. In one life test we ran in
+        the lab, 70 units cycled to failure. Three models fit the data with the same MTTF, about
+        21,500 cycles. They disagreed on when the first 10% would fail by more than four times.
+        The Weibull shape, β ≈ 2.3, puts this data in wear-out, which is why the exponential fits
+        worst.
       </p>
+      <Figure
+        no="2.2"
+        caption="Life test, 70 units cycled to failure. Three models, one mean: MTTF ≈ 21,500 cycles for all three. B10 life ranges from 2,300 to 10,400 cycles."
+      >
+        <svg
+          class="chart"
+          viewBox="0 0 640 340"
+          role="img"
+          aria-label="Survival curves for Weibull, lognormal and exponential fits to the same life-test data. All three share a mean life of about 21,500 cycles, but they reach 90% chartival at 2,300, 9,200 and 10,400 cycles."
+        >
+          <path class="chart__axisline" d="M64 24 V300 H624" />
+          <g class="chart__tick" text-anchor="middle">
+        <text x="64.0" y="318">0k</text>
+        <text x="188.4" y="318">10k</text>
+        <text x="312.9" y="318">20k</text>
+        <text x="437.3" y="318">30k</text>
+        <text x="561.8" y="318">40k</text>
+          </g>
+          <g class="chart__tick" text-anchor="end">
+        <text x="56" y="28">100%</text>
+        <text x="56" y="97">75%</text>
+        <text x="56" y="166">50%</text>
+        <text x="56" y="235">25%</text>
+        <text x="56" y="304">0%</text>
+          </g>
+          <text class="chart__axis" x="344" y="336" text-anchor="middle">Lifetime cycles</text>
+
+          <line class="chart__ref" x1="331.1" y1="60" x2="331.1" y2="300" />
+          <text class="chart__note" x="338" y="140">MTTF ≈ 21,500</text>
+          <text class="chart__note" x="338" y="156">same for all three</text>
+
+          <line class="chart__ref" x1="64" y1="51.6" x2="193.3" y2="51.6" />
+
+          <polyline class="chart__line chart__line--ex" points="64.0,24.0 68.7,28.8 73.4,33.6 78.1,38.2 82.8,42.8 87.5,47.3 92.2,51.8 96.9,56.1 101.6,60.4 106.4,64.6 111.1,68.7 115.8,72.7 120.5,76.7 125.2,80.6 129.9,84.5 134.6,88.2 139.3,92.0 144.0,95.6 148.7,99.2 153.4,102.7 158.1,106.1 162.8,109.5 167.5,112.9 172.2,116.1 176.9,119.4 181.6,122.5 186.4,125.6 191.1,128.7 195.8,131.7 200.5,134.6 205.2,137.5 209.9,140.4 214.6,143.2 219.3,145.9 224.0,148.6 228.7,151.3 233.4,153.9 238.1,156.4 242.8,158.9 247.5,161.4 252.2,163.8 256.9,166.2 261.6,168.6 266.4,170.9 271.1,173.1 275.8,175.3 280.5,177.5 285.2,179.7 289.9,181.8 294.6,183.9 299.3,185.9 304.0,187.9 308.7,189.8 313.4,191.8 318.1,193.7 322.8,195.5 327.5,197.4 332.2,199.2 336.9,200.9 341.6,202.7 346.4,204.4 351.1,206.0 355.8,207.7 360.5,209.3 365.2,210.9 369.9,212.4 374.6,214.0 379.3,215.5 384.0,217.0 388.7,218.4 393.4,219.8 398.1,221.3 402.8,222.6 407.5,224.0 412.2,225.3 416.9,226.6 421.6,227.9 426.4,229.2 431.1,230.4 435.8,231.6 440.5,232.8 445.2,234.0 449.9,235.2 454.6,236.3 459.3,237.4 464.0,238.5 468.7,239.6 473.4,240.6 478.1,241.7 482.8,242.7 487.5,243.7 492.2,244.7 496.9,245.7 501.6,246.6 506.4,247.5 511.1,248.5 515.8,249.4 520.5,250.3 525.2,251.1 529.9,252.0 534.6,252.8 539.3,253.6 544.0,254.5 548.7,255.3 553.4,256.0 558.1,256.8 562.8,257.6 567.5,258.3 572.2,259.0 576.9,259.8 581.6,260.5 586.4,261.2 591.1,261.8 595.8,262.5 600.5,263.2 605.2,263.8 609.9,264.4 614.6,265.1 619.3,265.7 624.0,266.3" />
+          <polyline class="chart__line chart__line--wb" points="64.0,24.0 68.7,24.0 73.4,24.1 78.1,24.2 82.8,24.5 87.5,24.8 92.2,25.2 96.9,25.6 101.6,26.2 106.4,26.9 111.1,27.7 115.8,28.6 120.5,29.7 125.2,30.8 129.9,32.0 134.6,33.4 139.3,34.9 144.0,36.5 148.7,38.2 153.4,40.1 158.1,42.0 162.8,44.1 167.5,46.3 172.2,48.6 176.9,51.0 181.6,53.5 186.4,56.1 191.1,58.8 195.8,61.7 200.5,64.6 205.2,67.6 209.9,70.8 214.6,74.0 219.3,77.3 224.0,80.7 228.7,84.1 233.4,87.7 238.1,91.3 242.8,95.0 247.5,98.7 252.2,102.5 256.9,106.3 261.6,110.2 266.4,114.2 271.1,118.1 275.8,122.1 280.5,126.1 285.2,130.2 289.9,134.3 294.6,138.3 299.3,142.4 304.0,146.5 308.7,150.6 313.4,154.6 318.1,158.7 322.8,162.7 327.5,166.7 332.2,170.7 336.9,174.7 341.6,178.6 346.4,182.5 351.1,186.3 355.8,190.1 360.5,193.9 365.2,197.6 369.9,201.2 374.6,204.8 379.3,208.3 384.0,211.8 388.7,215.1 393.4,218.5 398.1,221.7 402.8,224.9 407.5,228.0 412.2,231.0 416.9,233.9 421.6,236.8 426.4,239.6 431.1,242.3 435.8,245.0 440.5,247.5 445.2,250.0 449.9,252.4 454.6,254.7 459.3,256.9 464.0,259.1 468.7,261.2 473.4,263.2 478.1,265.1 482.8,267.0 487.5,268.8 492.2,270.5 496.9,272.1 501.6,273.7 506.4,275.2 511.1,276.6 515.8,278.0 520.5,279.3 525.2,280.6 529.9,281.7 534.6,282.9 539.3,283.9 544.0,285.0 548.7,285.9 553.4,286.8 558.1,287.7 562.8,288.5 567.5,289.3 572.2,290.0 576.9,290.7 581.6,291.4 586.4,292.0 591.1,292.5 595.8,293.1 600.5,293.6 605.2,294.1 609.9,294.5 614.6,294.9 619.3,295.3 624.0,295.7" />
+          <polyline class="chart__line chart__line--ln" points="64.0,24.0 68.7,24.0 73.4,24.0 78.1,24.0 82.8,24.0 87.5,24.0 92.2,24.0 96.9,24.0 101.6,24.0 106.4,24.0 111.1,24.1 115.8,24.2 120.5,24.3 125.2,24.6 129.9,25.0 134.6,25.5 139.3,26.2 144.0,27.0 148.7,28.2 153.4,29.5 158.1,31.1 162.8,33.0 167.5,35.1 172.2,37.5 176.9,40.2 181.6,43.2 186.4,46.4 191.1,49.8 195.8,53.5 200.5,57.5 205.2,61.6 209.9,65.9 214.6,70.4 219.3,75.0 224.0,79.7 228.7,84.6 233.4,89.5 238.1,94.5 242.8,99.5 247.5,104.6 252.2,109.7 256.9,114.8 261.6,119.9 266.4,125.0 271.1,130.1 275.8,135.1 280.5,140.0 285.2,144.9 289.9,149.7 294.6,154.5 299.3,159.1 304.0,163.7 308.7,168.2 313.4,172.6 318.1,176.9 322.8,181.0 327.5,185.1 332.2,189.1 336.9,193.0 341.6,196.8 346.4,200.4 351.1,204.0 355.8,207.4 360.5,210.8 365.2,214.0 369.9,217.2 374.6,220.2 379.3,223.2 384.0,226.0 388.7,228.8 393.4,231.5 398.1,234.0 402.8,236.5 407.5,238.9 412.2,241.2 416.9,243.5 421.6,245.6 426.4,247.7 431.1,249.7 435.8,251.6 440.5,253.5 445.2,255.3 449.9,257.0 454.6,258.6 459.3,260.2 464.0,261.8 468.7,263.2 473.4,264.7 478.1,266.0 482.8,267.3 487.5,268.6 492.2,269.8 496.9,271.0 501.6,272.1 506.4,273.2 511.1,274.2 515.8,275.2 520.5,276.2 525.2,277.1 529.9,278.0 534.6,278.8 539.3,279.7 544.0,280.4 548.7,281.2 553.4,281.9 558.1,282.6 562.8,283.3 567.5,283.9 572.2,284.5 576.9,285.1 581.6,285.7 586.4,286.3 591.1,286.8 595.8,287.3 600.5,287.8 605.2,288.2 609.9,288.7 614.6,289.1 619.3,289.5 624.0,289.9" />
+
+          <circle class="chart__dot chart__dot--ex" cx="92.1" cy="51.6" r="4.5" />
+          <circle class="chart__dot chart__dot--wb" cx="178.2" cy="51.6" r="4.5" />
+          <circle class="chart__dot chart__dot--ln" cx="193.3" cy="51.6" r="4.5" />
+          <text class="chart__note" x="204" y="46">B10: 2.3k · 9.2k · 10.4k</text>
+
+          <g class="chart__key">
+            <line class="chart__line chart__line--ln" x1="452" y1="44" x2="476" y2="44" />
+            <text x="484" y="48">Lognormal (best fit)</text>
+            <line class="chart__line chart__line--wb" x1="452" y1="66" x2="476" y2="66" />
+            <text x="484" y="70">Weibull</text>
+            <line class="chart__line chart__line--ex" x1="452" y1="88" x2="476" y2="88" />
+            <text x="484" y="92">Exponential</text>
+          </g>
+        </svg>
+      </Figure>
       <p>
-        A correction matters only when it breaks that chain. Revalidation proves whether it did.
+        Warranty returns live in that early tail, and the tail depends on the model. A mean that
+        clears the target can still hide a problem. Until the data can tell the models apart, there
+        is not enough evidence yet.
+      </p>
+      <p class="aside">
+        Analysis built with my open-source
+        <a href="https://github.com/liu092111/Test2Fail-Toolkit" target="_blank" rel="noopener"
+          >Test2Fail Toolkit ↗</a
+        >.
       </p>
     </div>
   </section>
@@ -61,20 +164,27 @@ import Essay from '../layouts/Essay.astro';
   <section class="sub">
     <div class="sub__head">
       <span class="sub__no">2.3</span>
-      <h2>Confidence has to scale</h2>
+      <h2>A failure is not yet an explanation</h2>
     </div>
     <div class="sub__body">
-      <p>One explained failure is knowledge. Statistics decides whether it travels.</p>
       <p>
-        Gage R&amp;R separates measurement variation from product variation. LSL and USL define the
-        margin. Cp and Cpk compare it with the 6σ process spread. Reliability tests whether time
-        takes it away.
+        Statistics can tell you that something is wrong. It cannot tell you why. That is the work of
+        failure analysis and corrective action (FACA).
+      </p>
+      <p>
+        Root cause is the chain of conditions that made the failure possible. The failed component
+        may be the endpoint, not the origin. Design, process, material, firmware and use environment
+        can all belong to the same mechanism.
+      </p>
+      <p>
+        A corrective action matters only when it breaks that chain. Revalidation proves whether it did.
       </p>
       <p>
         <strong>
-          Confidence is not a stack of passes. It is an explanation that survives scale.
+          Confidence is not a stack of passes. It is an explanation that chartives scale.
         </strong>
       </p>
     </div>
   </section>
 </Essay>
+
