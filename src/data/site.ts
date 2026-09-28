@@ -7,7 +7,6 @@
    profile shows them: a recruiter scans logos before reading titles.
    Taken from each organisation's LinkedIn page at 100×100. */
 import logoAmazon from '../assets/logos/amazon.jpg';
-import logoTsmc from '../assets/logos/tsmc.jpg';
 import logoDelta from '../assets/logos/delta.jpg';
 import logoSgs from '../assets/logos/sgs.jpg';
 import logoNtu from '../assets/logos/ntu.jpg';
@@ -225,15 +224,6 @@ export const EXPERIENCE = [
       'Built a test-data platform (MySQL + dashboards) so reliability evidence could be queried instead of reassembled by hand.',
       'AI-assisted failure analysis on test and field-return data, in collaboration with manufacturing partners.',
       'Automated the coordination layer of NPI (issue tracking, status queries, reporting) so engineering time goes to judgement, not status chasing.',
-    ],
-  },
-  {
-    org: 'TSMC',
-    logo: logoTsmc,
-    title: 'Campus Ambassador',
-    period: 'Mar 2025–Mar 2026',
-    points: [
-      'Represented TSMC to students at National Taiwan University: campus job fairs and recruiting sessions for internships, pre-hire offers and R&D alternative service.',
     ],
   },
   {

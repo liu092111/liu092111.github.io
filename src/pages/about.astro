@@ -5,6 +5,9 @@ import Entry from '../components/Entry.astro';
 import { Image } from 'astro:assets';
 import { SITE, EXPERIENCE, EDUCATION, SKILLS, PROJECTS, CERTS } from '../data/site';
 import headshot from '../assets/headshot.jpg';
+import tsmcBooth from '../assets/tsmc-ambassador-booth.jpg';
+import gtcTaipei from '../assets/gtc-taipei-2026.jpg';
+import compass from '../assets/compass-fellowship.jpg';
 
 // Lead with the strongest; keep the rest available but out of the way.
 const featured = PROJECTS.filter((p) => p.featured);
@@ -12,7 +15,8 @@ const rest = PROJECTS.filter((p) => !p.featured);
 
 /* Section order follows what a recruiter reads first: the record
    (experience, education), then what she can do (skills, certifications),
-   then evidence (work), and only then the personal. */
+   then what she does beyond the job (ambassador work, events), and last the
+   repositories, which are the most detailed and least often read. */
 ---
 
 <Base
@@ -80,8 +84,8 @@ const rest = PROJECTS.filter((p) => !p.featured);
         <li><span class="num">5.2</span> <a href="#education">Education</a></li>
         <li><span class="num">5.3</span> <a href="#skills">Skills</a></li>
         <li><span class="num">5.4</span> <a href="#certifications">Certifications</a></li>
-        <li><span class="num">5.5</span> <a href="#work">Selected work</a></li>
-        <li><span class="num">5.6</span> <a href="#outside">Outside the lab</a></li>
+        <li><span class="num">5.5</span> <a href="#outside">Outside the lab</a></li>
+        <li><span class="num">5.6</span> <a href="#work">Selected work</a></li>
       </ol>
     </nav>
 
@@ -184,9 +188,126 @@ const rest = PROJECTS.filter((p) => !p.featured);
       </div>
     </section>
 
-    <section class="section" id="work">
+    <section class="section" id="outside">
       <div class="section-head">
         <span class="section-head__num">5.5</span>
+        <h2>Outside the lab</h2>
+      </div>
+      <p>
+        Beyond the day job: representing TSMC on campus, hearing where the industry is heading, and
+        working through problems with people from other fields.
+      </p>
+
+      <article class="side">
+        <div class="side__text">
+          <h3>TSMC Campus Ambassador, National Taiwan University</h3>
+          <p class="side__meta num">Mar 2025–Mar 2026</p>
+          <p>
+            Represented TSMC at NTU job fairs and recruiting sessions, and wrote the event posts. The
+            job-fair post:
+          </p>
+          <dl class="side__stats">
+            <div>
+              <dt>Impressions</dt>
+              <dd class="num">11,000+</dd>
+            </div>
+            <div>
+              <dt>Reactions</dt>
+              <dd class="num">370+</dd>
+            </div>
+            <div>
+              <dt>Comments</dt>
+              <dd class="num">90+</dd>
+            </div>
+          </dl>
+          <p class="side__note">
+            Impressions: LinkedIn only. Reactions and comments: LinkedIn and Facebook.
+            <a
+              href="https://www.linkedin.com/feed/update/urn:li:activity:7308291229178376193/"
+              target="_blank"
+              rel="noopener">Read the post ↗</a
+            >
+          </p>
+        </div>
+        <Image
+          src={tsmcBooth}
+          alt="Flora at the TSMC booth during the NTU job fair, talking with a student."
+          widths={[320, 640, 960]}
+          sizes="(max-width: 44rem) 100vw, 16rem"
+          loading="lazy"
+          class="side__photo"
+        />
+      </article>
+
+      <article class="side side--landscape">
+        <div class="side__text">
+          <h3>NVIDIA GTC Taipei 2026</h3>
+          <p class="side__meta num">Jun 2026 · Taipei Music Center</p>
+          <p>From Jensen Huang's keynote:</p>
+          <p class="side__formula">Agent = LLM + Harness</p>
+          <p>
+            The agent is the application, the LLM is the code, the harness is the operating system.
+            To build agents, we need LLMs that write code inside that operating system.
+          </p>
+          <p class="side__note">
+            <a
+              href="https://www.nvidia.com/en-us/on-demand/session/gtctaipei26-stw61044/"
+              target="_blank"
+              rel="noopener">Watch the keynote ↗</a
+            >
+            ·
+            <a href="https://www.nvidia.com/en-tw/gtc/taipei/" target="_blank" rel="noopener"
+              >About GTC Taipei ↗</a
+            >
+          </p>
+        </div>
+        <Image
+          src={gtcTaipei}
+          alt="Flora's NVIDIA GTC 2026 Taipei badge held up in front of the keynote stage."
+          widths={[320, 640]}
+          sizes="(max-width: 44rem) 100vw, 16rem"
+          loading="lazy"
+          class="side__photo"
+        />
+      </article>
+
+      <article class="side side--landscape">
+        <div class="side__text">
+          <h3>Compass Fellowship</h3>
+          <p class="side__meta num">Jan 2026 · Taipei</p>
+          <p>
+            A five-day live-in fellowship, run in partnership with SparkLabs Taiwan. Workshops on
+            modelling the world accurately, examining one's own values, and executing on them, led by
+            instructors from Harvard, MIT and Google.
+          </p>
+          <p class="side__note">
+            <a href="https://compassfellowship.app/" target="_blank" rel="noopener"
+              >About the fellowship ↗</a
+            >
+            ·
+            <a href="https://www.sparklabstaiwan.com/" target="_blank" rel="noopener"
+              >SparkLabs Taiwan ↗</a
+            >
+          </p>
+        </div>
+        <Image
+          src={compass}
+          alt="A small-group workshop at Compass Fellowship, sketching ideas on a shared sheet."
+          widths={[320, 640]}
+          sizes="(max-width: 44rem) 100vw, 16rem"
+          loading="lazy"
+          class="side__photo"
+        />
+      </article>
+
+      <DraftNote
+        needs="One honest paragraph about what you are reading, learning, or arguing about lately. This does more for a personal site than another list of tools — your 19,000-impression LinkedIn post was written in exactly this register."
+      />
+    </section>
+
+    <section class="section" id="work">
+      <div class="section-head">
+        <span class="section-head__num">5.6</span>
         <div>
           <h2>Selected work</h2>
           <p class="section-head__sub">
@@ -241,21 +362,6 @@ const rest = PROJECTS.filter((p) => !p.featured);
           ))
         }
       </details>
-    </section>
-
-    <section class="section" id="outside">
-      <div class="section-head">
-        <span class="section-head__num">5.6</span>
-        <h2>Outside the lab</h2>
-      </div>
-      <p>
-        I swam competitively, and it shaped how I work more than any course did: measure honestly,
-        adjust continuously, and stay consistent long enough for it to compound. Reasonable training
-        for reliability engineering, where nothing interesting happens quickly.
-      </p>
-      <DraftNote
-        needs="One honest paragraph about what you are reading, learning, or arguing about lately. This does more for a personal site than another list of tools — your 19,000-impression LinkedIn post was written in exactly this register."
-      />
     </section>
   </div>
 </Base>
@@ -318,6 +424,94 @@ const rest = PROJECTS.filter((p) => !p.featured);
     font-size: var(--fs-meta);
     font-weight: 600;
     overflow-wrap: anywhere;
+  }
+
+  /* A side activity: text and its photo together, so the numbers sit next to
+     the day they came from. The photo is supporting, not the subject, so it
+     stays in a narrow column rather than taking the text measure. */
+  .side {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 16rem;
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+    align-items: start;
+    margin: 2rem 0;
+    max-width: 60rem;
+  }
+
+  /* Same light hairline as every other item on the page (entries, skills,
+     projects); the dark rule is reserved for numbered sections. */
+  .side + .side {
+    border-top: 1px solid var(--rule);
+    padding-top: 2rem;
+  }
+
+  /* A landscape photo is much shorter than its text; centring it on the
+     text block keeps it from hanging off the top corner. */
+  .side--landscape {
+    align-items: center;
+  }
+
+  .side__formula {
+    font-family: var(--font-mono);
+    font-size: var(--fs-lede);
+    font-weight: 600;
+    color: var(--accent);
+    margin: 0.5rem 0 1rem;
+  }
+
+  .side h3 {
+    margin: 0;
+  }
+
+  .side__meta {
+    margin: 0.25rem 0 1rem;
+    font-size: var(--fs-meta);
+    color: var(--ink-muted);
+  }
+
+  .side__photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+  }
+
+  .side__stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 2.5rem;
+    margin: 1rem 0;
+  }
+
+  .side__stats dt {
+    font-size: var(--fs-meta);
+    color: var(--ink-muted);
+  }
+
+  .side__stats dd {
+    margin: 0;
+    font-size: var(--fs-lede);
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .side__note {
+    font-size: var(--fs-meta);
+    color: var(--ink-muted);
+  }
+
+  .side__note a {
+    white-space: nowrap;
+  }
+
+  @media (max-width: 44rem) {
+    .side {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .side__photo {
+      max-width: 20rem;
+    }
   }
 
   .section-head__sub {
