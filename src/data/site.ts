@@ -98,8 +98,8 @@ export const PILLARS = [
     href: '/value',
     title: 'How a product creates value',
     promise:
-      'A request is only the beginning. Product development turns the problem behind it into something real, then keeps learning from use.',
-    question: 'How does a customer problem become a product that keeps solving it?',
+      'Value is not fixed at ship. It is what the product keeps solving.',
+    question: 'Once a product ships, is its value fixed?',
   },
 ];
 

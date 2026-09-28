@@ -5,18 +5,14 @@ import Essay from '../layouts/Essay.astro';
 <Essay
   docNo="03"
   title="How a product creates value"
-  description="A view of product value as a continuous conversation: understanding the problem behind a request, making it buildable, and learning from real use."
-  thesis="Product development starts with the problem behind a request. It turns that understanding into a product, then keeps learning from the people who use it. Value is the continuing ability to solve a problem that matters."
+  description="Whether a product's value is fixed at ship: the problem behind a request, the hardware that sets what can grow, and what use teaches the next generation."
 >
   <div class="sub">
     <div class="sub__body">
+      <p class="opener">Once a product ships, is its value fixed?</p>
       <p>
-        Following products from design through NPI, mass production, and sustaining changed how I
-        understand value.
-      </p>
-      <p>
-        A product creates value when development stays connected to the problem that matters, from
-        the first conversation through real use.
+        Software can change after launch. Hardware mostly cannot. Much of a product's future value
+        is decided before it ships. The rest is learned from use.
       </p>
     </div>
   </div>
@@ -28,13 +24,21 @@ import Essay from '../layouts/Essay.astro';
     </div>
     <div class="sub__body">
       <p>
-        Customers do not arrive with requirements. They describe what gets in the way, ask for a
-        feature, or explain what they are trying to accomplish.
+        Customers rarely arrive with requirements. They ask for a feature, and a feature is already
+        one interpretation of the problem.
       </p>
       <p>
-        A requested feature is already one interpretation of the problem. Product development starts
-        by listening past the proposed solution: what is the customer trying to do, why is it
-        difficult now, and what would make the outcome meaningfully better?
+        "I want a sensor on that window" sounds complete. Often the real obstacle is that Wi-Fi does
+        not reach the window, and nobody wants another hub. Ring's 2026 sensors run on Amazon
+        Sidewalk, with no hub or base station. They answer the problem behind the request.
+      </p>
+      <p class="aside">
+        Ring Sensors, announced at CES 2026.
+        <a
+          href="https://www.aboutamazon.com/news/devices/amazon-ces-2026-fire-tv-ring-alexa-plus"
+          target="_blank"
+          rel="noopener">Reference ↗</a
+        >
       </p>
       <div class="pullquote">
         <p>The request is the beginning. The problem behind it is the work.</p>
@@ -45,23 +49,35 @@ import Essay from '../layouts/Essay.astro';
   <section class="sub">
     <div class="sub__head">
       <span class="sub__no">3.2</span>
-      <h2>Understanding has to become buildable</h2>
+      <h2>Hardware sets what can grow</h2>
     </div>
     <div class="sub__body">
       <p>
-        A customer problem cannot go straight to a drawing or a factory. It has to become
-        requirements specific enough for design, firmware, manufacturing, reliability, and the rest
-        of the team to act on.
+        The sensor, processor, radio, battery and enclosure are fixed at ship. Together they set the
+        ceiling for every update that follows.
       </p>
       <p>
-        Those requirements meet reality throughout development. Performance, quality, cost, and
-        schedule all change the solution. The work is to keep those changes connected to the problem
-        they were meant to solve.
+        Fire Watch, announced at CES 2026, looks for smoke and fire in video from cameras already
+        installed. A feature like that can only arrive later if the hardware in the field can
+        already carry it.
       </p>
       <p>
-        Completing a product does not mean preserving the first solution. It means building one that
-        can be repeated, delivered, and supported without losing the reason it exists.
+        Where the hardware meets a limit, an accessory can extend it. A battery camera mounted far
+        from an outlet runs only as long as its charge. A solar panel removes that limit. Later
+        panels deliver up to twice the power and need less sunlight.
       </p>
+      <p class="aside">
+        Fire Watch:
+        <a
+          href="https://www.aboutamazon.com/news/devices/amazon-ces-2026-fire-tv-ring-alexa-plus"
+          target="_blank"
+          rel="noopener">Reference ↗</a
+        >. Super Solar Panel:
+        <a href="https://ring.com/products/super-solar-panel" target="_blank" rel="noopener"
+          >Reference ↗</a
+        >
+      </p>
+      <p><strong>Headroom costs money today. It buys value later.</strong></p>
     </div>
   </section>
 
@@ -72,19 +88,18 @@ import Essay from '../layouts/Essay.astro';
     </div>
     <div class="sub__body">
       <p>
-        Once the product is in use, the conversation changes. Feedback, real behaviour, returns, and
-        changing expectations reveal what the requirements captured and what they missed.
+        A return is the most direct message a customer sends. Read one at a time, a return is a
+        failure. Read together, returns show a pattern: the use the specification did not foresee.
       </p>
       <p>
-        Sustaining closes that loop. It corrects the product, sharpens the team's understanding, and
-        informs what should be built next. The product may need to change. The understanding of the
-        problem may change with it.
+        Many returned units test fine. The product met its spec. The spec did not meet the use.
+      </p>
+      <p>
+        Sustaining closes the loop. It corrects the product in the field, and the next generation's
+        requirements start from what the field taught.
       </p>
       <div class="pullquote">
-        <p>
-          A valuable product keeps solving a problem that matters, even as the product and the need
-          evolve.
-        </p>
+        <p>Value is not fixed at ship. It is what the product keeps solving.</p>
       </div>
     </div>
   </section>
