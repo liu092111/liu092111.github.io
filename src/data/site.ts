@@ -351,7 +351,7 @@ export const PROJECTS = [
     kind: 'Reliability statistics',
     repo: 'https://github.com/liu092111/Test2Fail-Toolkit',
     summary:
-      'Fits life distributions to test-to-failure data and generates a report: survival-function comparison, cumulative failure curves, and distribution contribution. Anonymised datasets only.',
+      'Fits life distributions to test-to-failure data and generates a report: survival-function comparison, cumulative failure curves, and distribution contribution. Ships with synthetic sample data only.',
   },
   {
     title: 'Neural-network surrogates for flow regression',
