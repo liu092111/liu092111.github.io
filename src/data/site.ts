@@ -325,15 +325,17 @@ export const SKILLS = [
      linked from here regardless of their visibility setting.
    - `Keysight-33600A-SCPI-programming`: learning notes rather than a finished
      tool, so it cannot carry an argument.
-   - `film-tracking`, `IMU-control`, `AD9106_SRAM-function`,
-     `weathering-report`: real work, but not yet mapped to a claim. Add one
-     here the moment an essay needs it. */
+   - `AD9106_SRAM-function`: real work, but not yet mapped to a claim. Add it
+     here the moment an essay needs it.
+   - `film-tracking`, `IMU-control`: private; superseded by
+     `piezo-motor-visual-servo`. (`weathering-report` was merged into
+     `outdoor-weathering-monitor`.) */
 export const PROJECTS = [
   {
     title: 'Closed-loop control of a miniature physical system',
     featured: true,
     kind: 'Research instrumentation',
-    repo: 'https://github.com/liu092111/camera_function_generator_multithreaded',
+    repo: 'https://github.com/liu092111/piezo-motor-visual-servo',
     summary:
       'A measurement and control rig built end to end for my thesis work: multithreaded camera tracking at 120 fps, synchronised multi-channel waveform excitation over SCPI, and closed-loop attitude correction.',
     detail: [
@@ -354,14 +356,14 @@ export const PROJECTS = [
   {
     title: 'Neural-network surrogates for flow regression',
     kind: 'Machine learning',
-    repo: 'https://github.com/liu092111/Deep-Learning',
+    repo: 'https://github.com/liu092111/deep-learning-coursework',
     summary:
       'Regression of Couette and Hagen–Poiseuille flow fields, with a deliberate architecture ablation (baseline against deeper, wider and different-activation variants) to see what mattered.',
   },
   {
     title: 'Instrument data pipeline',
     kind: 'Data engineering',
-    repo: 'https://github.com/liu092111/weather-data-MySQL-system',
+    repo: 'https://github.com/liu092111/outdoor-weathering-monitor',
     summary:
       'Automated ingest of logger spreadsheets into MySQL with hash-based duplicate protection, scheduled backup and cleanup, rolling statistics and alerting: the unglamorous layer that makes measurement data usable.',
   },
