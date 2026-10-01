@@ -352,7 +352,14 @@ kbd {
   transition:
     background 150ms ease,
     border-color 150ms ease,
-    color 150ms ease;
+    color 150ms ease,
+    transform 100ms ease-out;
+}
+
+/* Feedback lands on the press, not the release: a button that only reacts
+   to hover gives a touch screen nothing at all. */
+.btn:active {
+  transform: scale(0.97);
 }
 
 .btn:hover {
@@ -466,5 +473,15 @@ kbd {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+}
+
+/* Visitors who ask the OS for more contrast get firmer rules and darker
+   secondary text; nothing else about the page changes. */
+@media (prefers-contrast: more) {
+  :root {
+    --rule: #b9b9b3;
+    --rule-strong: #8e8e88;
+    --ink-muted: #3d4148;
   }
 }
