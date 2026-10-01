@@ -108,7 +108,7 @@ export const NDA = {
   kicker: 'Working under confidentiality',
   headline: 'The product can be confidential. The thinking does not have to be.',
   body: [
-    'I cannot publish the devices, datasets or conclusions I work with. For a while that seemed like a reason to write nothing. Then it became obvious that the confidential part was never the interesting part.',
+    'I cannot publish the devices, datasets or conclusions I work with. For a while that seemed like a reason to write nothing. Then I realised the reasoning was the part worth sharing anyway.',
     'What transfers is the reasoning: how to frame uncertainty, how to design evidence worth trusting, how to recognise a failure mode that is hiding, and how to turn technical context into a recommendation somebody can act on. None of that belongs to any one employer.',
   ],
   closing: 'This site argues about method. The programmes stay out of it.',
@@ -123,7 +123,7 @@ export const VANTAGE = [
     verb: 'Test to failure',
     period: '2023–2024',
     learned:
-      'Evidence is manufactured, not found. I learned where a fixture can lie to you, and what a defensible conclusion requires.',
+      'Evidence is only as good as the setup that produced it. I learned where a fixture can lie to you, and what a defensible conclusion requires.',
   },
   {
     no: '02',
