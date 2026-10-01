@@ -16,9 +16,18 @@ interface Props {
 
 const { docNo, title, description, thesis } = Astro.props;
 
-// The three essays are a loop: whichever you land on, there is a next one.
+// The essays read in order. The last one hands the reader to the person who
+// wrote them, rather than looping back to the first essay.
 const here = PILLARS.findIndex((p) => p.no === docNo);
-const next = PILLARS[(here + 1) % PILLARS.length];
+const isLast = here === PILLARS.length - 1;
+const next = isLast
+  ? {
+      href: '/about',
+      kicker: 'Next · About',
+      title: 'About Flora',
+      promise: 'Experience, education, and what I do beyond the job.',
+    }
+  : { ...PILLARS[here + 1], kicker: `Next · ${PILLARS[here + 1].no}` };
 const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
 ---
 
@@ -35,22 +44,25 @@ const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
 
     <footer class="essay__end">
       <a class="nextup" href={next.href}>
-        <span class="label nextup__kicker">Next · {next.no}</span>
+        <span class="label nextup__kicker">{next.kicker}</span>
         <span class="nextup__title">{next.title}</span>
         <span class="nextup__promise">{next.promise}</span>
       </a>
 
-      <div class="essay__cta">
-        <p>
-          If any of this is useful to your team, I am glad to talk it through. I speak at career
-          talks, student sessions and community events.
-        </p>
-        <p class="essay__ctalinks">
-          <a href="/speaking">What I can talk about</a>
-          <span aria-hidden="true">·</span>
-          <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
-        </p>
-      </div>
+      {/* The invitation closes the series once, not every essay. */}
+      {isLast && (
+        <div class="essay__cta">
+          <p>
+            If any of this is useful to your team, I am glad to talk it through. I speak at career
+            talks, student sessions and community events.
+          </p>
+          <p class="essay__ctalinks">
+            <a href="/speaking">What I can talk about</a>
+            <span aria-hidden="true">·</span>
+            <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          </p>
+        </div>
+      )}
     </footer>
   </article>
 </Base>

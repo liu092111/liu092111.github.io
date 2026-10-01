@@ -98,8 +98,8 @@ export const PILLARS = [
     href: '/value',
     title: 'How a product creates value',
     promise:
-      'Value is not fixed at ship. It is what the product keeps solving.',
-    question: 'Once a product ships, is its value fixed?',
+      'The ship date is set early. What ships with it is not.',
+    question: 'If the ship date is fixed, what does engineering still decide?',
   },
 ];
 
