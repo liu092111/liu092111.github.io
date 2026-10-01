@@ -83,7 +83,7 @@ const rest = PROJECTS.filter((p) => !p.featured);
         <li><span class="num">5.1</span> <a href="#experience">Experience</a></li>
         <li><span class="num">5.2</span> <a href="#education">Education</a></li>
         <li><span class="num">5.3</span> <a href="#skills">Skills</a></li>
-        <li><span class="num">5.4</span> <a href="#certifications">Certifications</a></li>
+        <li><span class="num">5.4</span> <a href="#certifications">Certifications &amp; training</a></li>
         <li><span class="num">5.5</span> <a href="#outside">Outside the lab</a></li>
         <li><span class="num">5.6</span> <a href="#work">Selected work</a></li>
       </ol>
@@ -169,23 +169,31 @@ const rest = PROJECTS.filter((p) => !p.featured);
     <section class="section" id="certifications">
       <div class="section-head">
         <span class="section-head__num">5.4</span>
-        <h2>Certifications</h2>
+        <h2>Certifications &amp; training</h2>
       </div>
 
-      <div class="entries certs">
-        {
-          CERTS.map((c) => (
-            <Entry
-              logo={c.logo}
-              heading={c.name}
-              href={c.url}
-              sub={c.issuer}
-              period={c.date}
-              compact
-            />
-          ))
-        }
-      </div>
+      {
+        [
+          { tier: 'cert', label: 'Certifications' },
+          { tier: 'training', label: 'Training' },
+        ].map((g) => (
+          <>
+            <h3 class="certs__group">{g.label}</h3>
+            <div class="entries certs">
+              {CERTS.filter((c) => c.tier === g.tier).map((c) => (
+                <Entry
+                  logo={c.logo}
+                  heading={c.name}
+                  href={c.url}
+                  sub={c.issuer}
+                  period={c.date}
+                  compact
+                />
+              ))}
+            </div>
+          </>
+        ))
+      }
     </section>
 
     <section class="section" id="outside">
@@ -571,6 +579,17 @@ const rest = PROJECTS.filter((p) => !p.featured);
     grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
     column-gap: 2.5rem;
     max-width: none;
+  }
+
+  .certs__group {
+    margin: 1.5rem 0 0;
+    font-size: var(--fs-meta);
+    font-weight: 600;
+    color: var(--ink-muted);
+  }
+
+  .certs__group:first-of-type {
+    margin-top: 0;
   }
 
   /* skills: area on the left, one readable line on the right */

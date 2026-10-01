@@ -222,7 +222,7 @@ export const EXPERIENCE = [
       'Hardware qualification across the full NPI lifecycle: EVT, DVT, PVT, HVT through mass production.',
       'Reliability statistics for risk-based quality decisions: lifetime modelling, distribution fitting, and uncertainty quantification rather than point estimates.',
       'Built a test-data platform (MySQL + dashboards) so reliability evidence could be queried instead of reassembled by hand.',
-      'AI-assisted failure analysis on test and field-return data, in collaboration with manufacturing partners.',
+      'Applied data and AI-assisted workflows to reliability and failure-analysis problems.',
       'Automated the coordination layer of NPI (issue tracking, status queries, reporting) so engineering time goes to judgement, not status chasing.',
     ],
   },
@@ -312,7 +312,7 @@ export const SKILLS = [
   },
   {
     area: 'Languages',
-    items: ['Mandarin (native)', 'English (professional, TOEIC 770)'],
+    items: ['Mandarin (native)', 'English (professional working proficiency)'],
   },
 ];
 
@@ -452,10 +452,13 @@ export const TALKS: Talk[] = [
   },
 ];
 
-/* Newest first. An expired credential is dropped rather than listed. */
+/* Newest first. An expired credential is dropped rather than listed.
+   `tier` keeps proctored certifications apart from course and training
+   badges, so the two never read as the same weight. */
 export const CERTS = [
   {
     name: 'AWS Certified AI Practitioner',
+    tier: 'cert',
     issuer: 'Amazon Web Services',
     logo: logoAws,
     date: 'Sep 2026',
@@ -463,6 +466,7 @@ export const CERTS = [
   },
   {
     name: 'Agentic AI Certified Foundations Associate',
+    tier: 'cert',
     issuer: 'Oracle',
     logo: logoOracle,
     date: 'Sep 2026',
@@ -470,6 +474,7 @@ export const CERTS = [
   },
   {
     name: 'Cloud Practitioner: Foundations',
+    tier: 'training',
     issuer: 'AWS Skills Center',
     logo: logoAws,
     date: 'Apr 2026',
@@ -477,6 +482,7 @@ export const CERTS = [
   },
   {
     name: 'Gemini Certified Faculty',
+    tier: 'training',
     issuer: 'Google for Education',
     logo: logoGoogleEdu,
     date: 'Dec 2025',
@@ -484,6 +490,7 @@ export const CERTS = [
   },
   {
     name: 'Gemini Certified University Student',
+    tier: 'training',
     issuer: 'Google for Education',
     logo: logoGoogleEdu,
     date: 'Dec 2025',
