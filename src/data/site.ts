@@ -115,16 +115,18 @@ export const NDA = {
   closing: 'This site argues about method. The programmes stay out of it.',
 };
 
+/* Newest first, the order a résumé reads in; the home heading above the
+   row (Decided / Built / Tested) follows the same order. */
 export const VANTAGE = [
   {
     no: '01',
-    org: 'SGS',
-    logo: logoSgs,
-    kind: 'Intern · Third-party laboratory',
-    verb: 'Test to failure',
-    period: '2023–2024',
+    org: 'Amazon',
+    logo: logoAmazon,
+    kind: 'Engineer · Global consumer brand',
+    verb: 'Build the case for readiness',
+    period: '2025–present',
     learned:
-      'Evidence is only as good as the setup that produced it. I learned where a fixture can lie to you, and what a defensible conclusion requires.',
+      'Across EVT, DVT, PVT, HVT and mass production, the question stops being "did it pass" and becomes "do we ship". Evidence, statistics and business context arrive at the same table. My job is to make the evidence strong enough to answer that question.',
   },
   {
     no: '02',
@@ -138,13 +140,13 @@ export const VANTAGE = [
   },
   {
     no: '03',
-    org: 'Amazon',
-    logo: logoAmazon,
-    kind: 'Engineer · Global consumer brand',
-    verb: 'Build the case for readiness',
-    period: '2025–present',
+    org: 'SGS',
+    logo: logoSgs,
+    kind: 'Intern · Third-party laboratory',
+    verb: 'Test to failure',
+    period: '2023–2024',
     learned:
-      'Across EVT, DVT, PVT, HVT and mass production, the question stops being "did it pass" and becomes "do we ship". Evidence, statistics and business context arrive at the same table. My job is to make the evidence strong enough to answer that question.',
+      'Evidence is only as good as the setup that produced it. I learned where a fixture can lie to you, and what a defensible conclusion requires.',
   },
 ];
 
@@ -435,7 +437,7 @@ export const TALKS: Talk[] = [
       src: techieTalkGroup,
       alt: 'Attendees and speakers gathered at the Techie Talk 2026 community event.',
       caption:
-        'Techie Talk, 2026: a room of people from different backgrounds, which is the best kind of room to explain something in.',
+        'Techie Talk 2026: a room of mixed backgrounds, the best kind to explain to.',
     },
   },
   {
@@ -454,7 +456,7 @@ export const TALKS: Talk[] = [
       src: spieTalk,
       alt: 'Flora Liu at the lectern at SPIE Smart Structures + NDE 2026, beside a slide titled "Structure Design of the Miniature piezoelectric motor".',
       caption:
-        'SPIE Smart Structures + NDE 2026, Vancouver: walking through the structure design of the piezoelectric plate motor.',
+        'SPIE 2026, Vancouver: presenting the motor’s structure design.',
     },
   },
 ];

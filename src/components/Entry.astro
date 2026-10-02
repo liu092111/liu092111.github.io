@@ -19,11 +19,15 @@ interface Props {
   /** Role, degree or issuer: the line under the heading. */
   sub?: string;
   period?: string;
-  /** Tighter spacing for short entries such as certifications. */
+  /** Tighter spacing for short entries such as certifications. The period
+   *  joins the sub line instead of sitting at the right, so a long heading
+   *  never pushes it onto a third line and every compact entry in a grid row
+   *  stays the same height. */
   compact?: boolean;
 }
 
-const { logo, heading, href, sub, period, compact = false } = Astro.props;
+const { logo, heading, href, period, compact = false } = Astro.props;
+const sub = compact && period ? [Astro.props.sub, period].filter(Boolean).join(' · ') : Astro.props.sub;
 ---
 
 <article class:list={['entry', compact && 'entry--compact']}>
@@ -42,7 +46,7 @@ const { logo, heading, href, sub, period, compact = false } = Astro.props;
         </h3>
         {sub && <p class="entry__sub">{sub}</p>}
       </div>
-      {period && <p class="num entry__period">{period}</p>}
+      {period && !compact && <p class="num entry__period">{period}</p>}
     </header>
     <slot />
   </div>

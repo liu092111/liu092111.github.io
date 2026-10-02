@@ -99,7 +99,7 @@ import crackStages from '../assets/crack-stages-liu2018.png';
         no="1.2"
         src={costTolerance}
         alt="Cost of a pin-hole clearance fit against the variation of the clearance, for ISO tolerance grades IT5 to IT11. Cost falls steeply from IT5 at about 0.01 mm to IT8 at about 0.05 mm, then flattens toward IT11 at about 0.22 mm."
-        caption="Cost of a pin-hole clearance fit across ISO tolerance grades IT5 to IT11."
+        caption="Fit cost climbs steeply as tolerance tightens, IT11 to IT5."
         source={{
           text: 'A. Armillotta (2023), Int. J. Adv. Manuf. Technol. 129, 3695–3711, Fig. 2. CC BY 4.0',
           href: 'https://doi.org/10.1007/s00170-023-12551-2',
@@ -177,7 +177,7 @@ import crackStages from '../assets/crack-stages-liu2018.png';
         nothing in its way. Inside an enclosure, every wall, grille and component pushes back, and
         the airflow it actually delivers drops.
       </p>
-      <Figure no="1.4" caption="CFD of a commercial 80 mm fan in a duct, which I modelled in Ansys Fluent. Air runs fast along the walls; behind the hub, a long wake stays nearly still.">
+      <Figure no="1.4" caption="My Ansys Fluent model of an 80 mm fan in a duct: fast air at the walls, a still wake behind the hub.">
         <img
           src="/media/fan-velocity-duct.gif"
           alt="CFD velocity contour of an 80 mm fan in a rectangular duct. Air accelerates along the duct walls and forms a long low-velocity wake behind the fan hub."
