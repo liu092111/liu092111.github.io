@@ -9,9 +9,6 @@ import tsmcBooth from '../assets/tsmc-ambassador-booth.jpg';
 import gtcTaipei from '../assets/gtc-taipei-2026.jpg';
 import compass from '../assets/compass-fellowship.jpg';
 
-// Lead with the strongest; keep the rest available but out of the way.
-const featured = PROJECTS.filter((p) => p.featured);
-const rest = PROJECTS.filter((p) => !p.featured);
 
 /* Section order follows what a recruiter reads first: the record
    (experience, education), then what she can do (skills, certifications),
@@ -141,9 +138,6 @@ const rest = PROJECTS.filter((p) => !p.featured);
         <span class="section-head__num">5.3</span>
         <div>
           <h2>Skills</h2>
-          <p class="section-head__sub">
-            Named specifically, because "statistical analysis" is a claim and these are checkable.
-          </p>
         </div>
       </div>
 
@@ -324,51 +318,43 @@ const rest = PROJECTS.filter((p) => !p.featured);
         </div>
       </div>
 
+      <!-- Same layout as "Outside the lab": text and figures on the left,
+           the repo's README images on the right. -->
       {
-        featured.map((p) => (
-          <article class="proj">
-            <div class="proj__head">
-              <h3>{p.title}</h3>
-              <span class="chip">{p.kind}</span>
-            </div>
-            <p class="proj__summary">{p.summary}</p>
-            {p.detail && (
-              <ul class="proj__detail">
-                {p.detail.map((d) => (
-                  <li>{d}</li>
-                ))}
-              </ul>
-            )}
-            <p class="num">
-              <a href={p.repo} target="_blank" rel="noopener">
-                Repository →
-              </a>
-            </p>
-          </article>
-        ))
-      }
-
-      <details class="more">
-        <summary class="more__summary">
-          {rest.length} more projects: data pipelines, machine learning, undergraduate archive
-        </summary>
-        {
-          rest.map((p) => (
-            <article class="proj">
+        PROJECTS.map((p) => (
+          <article class:list={['side', !p.media && 'side--solo']}>
+            <div class="side__text">
               <div class="proj__head">
                 <h3>{p.title}</h3>
                 <span class="chip">{p.kind}</span>
               </div>
-              <p class="proj__summary">{p.summary}</p>
-              <p class="num">
-                <a href={p.repo} target="_blank" rel="noopener">
-                  Repository →
+              <p>{p.summary}</p>
+              {p.stats && (
+                <dl class="side__stats">
+                  {p.stats.map((st) => (
+                    <div>
+                      <dt>{st.label}</dt>
+                      <dd class="num">{st.value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+              <p class="side__note">
+                <a class="proj__repo" href={`${SITE.github}/${p.repo}`} target="_blank" rel="noopener">
+                  github.com/liu092111/{p.repo} ↗
                 </a>
               </p>
-            </article>
-          ))
-        }
-      </details>
+            </div>
+            {p.media && (
+              <div class:list={['proj__media', p.media.length >= 3 && 'proj__media--grid']}>
+                {p.media.map((m) => (
+                  <img src={m.src} alt={m.alt} loading="lazy" decoding="async" />
+                ))}
+              </div>
+            )}
+          </article>
+        ))
+      }
     </section>
   </div>
 </Base>
@@ -669,11 +655,6 @@ const rest = PROJECTS.filter((p) => !p.featured);
   }
 
   /* projects */
-  .proj {
-    padding-block: 1.6rem;
-    border-top: 1px solid var(--rule);
-  }
-
   .proj__head {
     display: flex;
     align-items: center;
@@ -682,42 +663,46 @@ const rest = PROJECTS.filter((p) => !p.featured);
     margin-bottom: 0.6rem;
   }
 
-  .proj__summary {
-    margin-bottom: 0.75rem;
+  /* Repo URLs are long and have no spaces: unlike the other side notes,
+     let them break on a phone instead of overflowing the page. */
+  .side__note .proj__repo {
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
-  .proj__detail {
-    margin: 0 0 0.85rem;
-    padding-left: 1.15rem;
-    max-width: var(--measure);
-    font-size: var(--fs-small);
-    color: var(--ink-muted);
+  /* A project with no README image uses the full text width. */
+  .side--solo {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .more {
-    border-top: 1px solid var(--rule);
+  /* The repo's README images in the right-hand column: one or two stack,
+     three or more form a two-up grid of equal cells. */
+  .proj__media {
+    display: grid;
+    gap: 0.5rem;
   }
 
-  .more__summary {
-    cursor: pointer;
-    padding-block: 1.1rem;
-    font-family: var(--font-sans);
-    font-size: var(--fs-meta);
-    color: var(--accent);
+  .proj__media--grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .more__summary:hover {
-    text-decoration: underline;
-    text-underline-offset: 0.2em;
+  .proj__media img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
   }
 
-  .more[open] .more__summary {
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: 0.5rem;
+  .proj__media--grid img {
+    aspect-ratio: 4 / 3;
+    object-fit: contain;
+    background: var(--paper-sunk);
   }
 
-  .more .proj:first-of-type {
-    border-top: 0;
+  @media (max-width: 44rem) {
+    .proj__media {
+      max-width: 20rem;
+    }
   }
 
   @media (max-width: 800px) {

@@ -271,113 +271,131 @@ export const EDUCATION = [
   },
 ];
 
-/* One readable table rather than a wall of chips plus a collapsed methods
-   list. A recruiter scans the left column for the area, then reads one line
-   to confirm a keyword; methods and tools for the same area sit on the same
-   row, so "does she know LabVIEW" and "can she do HALT" are one glance.
-   Ordered design → test → software → statistics, so the table reads as
-   hardware breadth first rather than as a reliability specialist's. */
+/* Keywords, not sentences: recruiters and ATS search this table for tool
+   and method names, so each item is the term someone would type. Ordered
+   product development → design → test → software → statistics, so it reads
+   as hardware breadth first. */
 export const SKILLS = [
   {
+    area: 'Product development',
+    items: ['NPI (EVT, DVT, PVT, MP)', 'Hardware qualification', 'Failure analysis'],
+  },
+  {
     area: 'Simulation & CAD',
-    items: [
-      'Ansys and COMSOL FEA, scripted',
-      'Simulation-to-test correlation',
-      'SolidWorks, AutoCAD',
-    ],
+    items: ['Ansys', 'COMSOL', 'FEA', 'CFD', 'SolidWorks', 'AutoCAD'],
   },
   {
     area: 'Test & instrumentation',
-    items: [
-      'Vibration, shock, thermal, ingress and HALT testing',
-      'LabVIEW and NI DAQ',
-      'SCPI instrument control',
-      'Camera-based motion measurement',
-      'Simulink, LTspice, Keil',
-    ],
+    items: ['Vibration', 'Shock', 'Thermal', 'HALT', 'LabVIEW', 'NI DAQ', 'SCPI', 'Simulink', 'LTspice', 'Keil'],
   },
   {
-    area: 'Data & software',
-    items: ['Python (pandas, NumPy, PyTorch)', 'MATLAB', 'C++', 'SQL and MySQL', 'Docker', 'Git'],
+    area: 'Software & data',
+    items: ['Python', 'PyTorch', 'MATLAB', 'C++', 'SQL', 'MySQL', 'Docker', 'Git'],
   },
   {
     area: 'AI workflow',
-    items: ['LLM agents', 'MCP', 'LangChain, LangGraph', 'AWS'],
+    items: ['LLM agents', 'MCP', 'LangChain', 'LangGraph', 'AWS'],
   },
   {
     area: 'Reliability & statistics',
-    items: [
-      'Weibull and lognormal life fitting',
-      'B10 life, MTTF',
-      'Bootstrap and Monte Carlo uncertainty bounds',
-      'KS goodness-of-fit',
-      'Accelerated ageing',
-      'Annual return rate (ARR)',
-    ],
+    items: ['Weibull analysis', 'Life data analysis', 'Accelerated life testing', 'Monte Carlo'],
   },
   {
     area: 'Languages',
-    items: ['Mandarin (native)', 'English (professional working proficiency)'],
+    items: ['Mandarin (native)', 'English (professional)'],
   },
 ];
 
-/* This list is evidence for the essays, not a portfolio. A repository earns a
-   place here only by backing a claim one of the three pages makes; breadth is
-   not the point and a weak entry drags the strong ones down.
-
-   Deliberately excluded:
-   - `Amazon` and `Acoustic-Analysis`: employer-confidential material, never
-     linked from here regardless of their visibility setting.
-   - `Keysight-33600A-SCPI-programming`: learning notes rather than a finished
-     tool, so it cannot carry an argument.
-   - `AD9106_SRAM-function`: real work, but not yet mapped to a claim. Add it
-     here the moment an essay needs it.
-   - `film-tracking`, `IMU-control`: private; superseded by
-     `piezo-motor-visual-servo`. (`weathering-report` was merged into
-     `outdoor-weathering-monitor`.) */
-export const PROJECTS = [
+/* Public repositories only. Never listed: `Amazon` and `Acoustic-Analysis`,
+   employer-confidential material, regardless of their visibility setting. */
+/* Shown in this order, all at once, laid out like "Outside the lab": text
+   and figures on the left, the repo's README images in a narrow column on
+   the right. `stats` are copied from each repo's README, which is where a
+   visitor can check them; update both together. `media` is copied into
+   public/media/work/ (GIFs live in public/ so they stay animated instead of
+   being turned into a still by astro:assets). */
+export const PROJECTS: {
+  title: string;
+  kind: string;
+  /** Repository name under github.com/liu092111. */
+  repo: string;
+  summary: string;
+  stats?: { label: string; value: string }[];
+  media?: { src: string; alt: string; caption?: string }[];
+}[] = [
   {
-    title: 'Closed-loop control of a miniature physical system',
-    featured: true,
-    kind: 'Research instrumentation',
-    repo: 'https://github.com/liu092111/piezo-motor-visual-servo',
+    title: 'Deep learning coursework',
+    kind: 'Machine learning',
+    repo: 'deep-learning-coursework',
     summary:
-      'A measurement and control rig built end to end for my thesis work: multithreaded camera tracking at 120 fps, synchronised multi-channel waveform excitation over SCPI, and closed-loop attitude correction.',
-    detail: [
-      'Separate acquisition, processing and display threads behind a lock-protected shared state',
-      'Kalman and exponential-moving-average filtering; thin-plate-spline lens distortion correction',
-      'PID attitude correction with differential-voltage steering across two channels',
-      'Automatic scale calibration, CSV export, and generated trajectory/velocity figures',
+      'Graduate homework in PyTorch: regression on analytic fluid flows with an architecture ablation, a CNN on CIFAR-10, neural style transfer (VGG19, L-BFGS) and a physics-informed network for the 1D wave equation.',
+    stats: [
+      { label: 'Assignments', value: '5' },
+      { label: 'Levels each', value: '3' },
+    ],
+    media: [
+      { src: '/media/work/dl-style-transfer.gif', alt: 'Neural style transfer converging: a content photo taking on Starry Night style over the iterations.' },
+      { src: '/media/work/dl-style-basic.png', alt: 'A campus photo plus Zodiac style gives the stylised result.' },
     ],
   },
   {
-    title: 'Test-to-failure analysis toolkit',
-    featured: true,
-    kind: 'Reliability statistics',
-    repo: 'https://github.com/liu092111/Test2Fail-Toolkit',
-    summary:
-      'Fits life distributions to test-to-failure data and generates a report: survival-function comparison, cumulative failure curves, and distribution contribution. Ships with synthetic sample data only.',
-  },
-  {
-    title: 'Neural-network surrogates for flow regression',
-    kind: 'Machine learning',
-    repo: 'https://github.com/liu092111/deep-learning-coursework',
-    summary:
-      'Regression of Couette and Hagen–Poiseuille flow fields, with a deliberate architecture ablation (baseline against deeper, wider and different-activation variants) to see what mattered.',
-  },
-  {
-    title: 'Instrument data pipeline',
-    kind: 'Data engineering',
-    repo: 'https://github.com/liu092111/outdoor-weathering-monitor',
-    summary:
-      'Automated ingest of logger spreadsheets into MySQL with hash-based duplicate protection, scheduled backup and cleanup, rolling statistics and alerting: the unglamorous layer that makes measurement data usable.',
-  },
-  {
     title: 'Undergraduate portfolio',
-    kind: 'Archive',
-    repo: 'https://github.com/liu092111/College_Portfolio',
+    kind: 'Mechanical engineering',
+    repo: 'College_Portfolio',
     summary:
-      'Mechanical engineering coursework and projects from NCKU: kinematics, mechanism design, mechanical drawing, numerical analysis, robot design, instrumentation and reliability.',
+      'Coursework, projects and an internship from my B.S. at NCKU: a two-robot retrieve-and-transport system, vibration control research, fan CFD at SGS, FEA, mechanism design and CAD.',
+    stats: [
+      { label: 'Areas', value: '10' },
+      { label: 'Years', value: '2020–2024' },
+    ],
+    media: [
+      { src: '/media/work/college-robot-handoff.gif', alt: 'Retrieval and transport robots handing off a part.' },
+      { src: '/media/work/college-ev3-line-following.gif', alt: 'An EV3 robot following a line.' },
+      { src: '/media/work/college-fan-cfd.gif', alt: 'Fan CFD in Ansys Fluent, from the SGS internship.' },
+      { src: '/media/work/college-gear-motion.gif', alt: 'Gear train simulation.' },
+      { src: '/media/work/college-spiral-trajectory.gif', alt: '3D spiral trajectory plotted in MATLAB.' },
+      { src: '/media/work/college-ansys-stress.png', alt: 'Ansys stress and displacement analysis of a computer stand.' },
+    ],
+  },
+  {
+    title: 'Visual servo control of a piezoelectric motor',
+    kind: 'Research instrumentation',
+    repo: 'piezo-motor-visual-servo',
+    summary:
+      'The measurement and control rig behind my thesis: a camera tracks the motor, a Keysight 33600A drives it over SCPI, and a PID loop holds its heading.',
+    stats: [
+      { label: 'Tracking', value: '120 FPS' },
+      { label: 'Frame P99', value: '3.6 ms' },
+      { label: 'Mode switch', value: '<2 ms' },
+      { label: 'Heading drift', value: '10.2° → 2.6°' },
+    ],
+    media: [
+      { src: '/media/work/piezo-position-comparison.png', alt: 'Motor trajectory with and without closed-loop control: the controlled run stays nearly straight.' },
+    ],
+  },
+  {
+    title: 'Test2Fail Toolkit',
+    kind: 'Life data analysis',
+    repo: 'Test2Fail-Toolkit',
+    summary:
+      'Test-to-failure data in, report out: fits life distributions, puts confidence intervals on them, estimates B10, B50 and MTTF, and writes a PDF. Ships with synthetic sample data only.',
+    stats: [
+      { label: 'Distributions', value: '3' },
+      { label: 'Bootstrap resamples', value: '1,000' },
+      { label: 'Monte Carlo samples', value: '10,000' },
+    ],
+  },
+  {
+    title: 'Outdoor weathering monitor',
+    kind: 'Data engineering',
+    repo: 'outdoor-weathering-monitor',
+    summary:
+      'Imports weather-logger and station data into MySQL and turns a month of readings into charts and a PDF report: the unglamorous layer that makes measurement data usable.',
+    stats: [
+      { label: 'Fewer rows', value: '30×' },
+      { label: 'Readings a day', value: '1,440' },
+      { label: 'Channels', value: '5' },
+    ],
   },
 ];
 
