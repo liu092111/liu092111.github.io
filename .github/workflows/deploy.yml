@@ -9,7 +9,7 @@ name: Deploy to GitHub Pages
 # step, and the branch's raw files keep being served instead.
 on:
   push:
-    branches: [master]
+    branches: [main]
   workflow_dispatch:
 
 permissions:

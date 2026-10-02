@@ -16,7 +16,7 @@ a small inline count-up on the home readout; the page is complete without it.
 LinkedIn reach on the home page is copied by hand into `LINKEDIN_STATS` in
 `src/data/site.ts` (LinkedIn → Analytics → Content, past 365 days). It cannot be fetched
 live: creator analytics are private to the account. Update the numbers and `asOf` together.
-Every push to `master` builds, link-checks and deploys through `.github/workflows/deploy.yml`.
+Every push to `main` builds, link-checks and deploys through `.github/workflows/deploy.yml`.
 
 ```bash
 npm install
