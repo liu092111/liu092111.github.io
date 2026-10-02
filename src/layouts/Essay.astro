@@ -92,6 +92,14 @@ const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
     padding-top: 1rem;
   }
 
+  /* Prose fills the reading spine, edge to edge with the section rules,
+     instead of stopping at the global 44rem measure: on the essay pages
+     that left a strip of empty column beside every paragraph. */
+  .essay__body p,
+  .essay__body ul {
+    max-width: none;
+  }
+
   /* numbered subsection inside an essay */
   .sub {
     padding-block: clamp(2rem, 5vw, 3rem);
@@ -219,7 +227,6 @@ const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
   }
 
   .essay__body ul {
-    max-width: var(--measure);
     padding-left: 1.15rem;
   }
 

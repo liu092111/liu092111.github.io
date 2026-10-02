@@ -161,12 +161,12 @@ export const VANTAGE = [
    together; the readout prints `asOf` so a stale figure is never passed
    off as current. */
 export const LINKEDIN_STATS = {
-  impressions: 48707,
-  membersReached: 17884,
+  impressions: 51114,
+  membersReached: 18813,
   /** Year-over-year change in impressions, as LinkedIn reports it. */
-  growthPct: 38,
+  growthPct: 45,
   /** LinkedIn's window is always the trailing 365 days; name it exactly. */
-  period: 'Sep 2025–Sep 2026',
+  period: 'Oct 2025–Oct 2026',
 };
 
 /* GoatCounter site code (https://<code>.goatcounter.com). Counting only
@@ -223,10 +223,10 @@ export const EXPERIENCE = [
     note: 'Joined as Hardware Development Engineer Intern; engineer since Mar 2026.',
     points: [
       'Hardware qualification across the full NPI lifecycle: EVT, DVT, PVT, HVT through mass production.',
-      'Reliability statistics for risk-based quality decisions: lifetime modelling, distribution fitting, and uncertainty quantification rather than point estimates.',
-      'Built a test-data platform (MySQL + dashboards) so reliability evidence could be queried instead of reassembled by hand.',
-      'Applied data and AI-assisted workflows to reliability and failure-analysis problems.',
       'Automated the coordination layer of NPI (issue tracking, status queries, reporting) so engineering time goes to judgement, not status chasing.',
+      'Built a test-data platform (MySQL + dashboards) so test evidence could be queried instead of reassembled by hand.',
+      'Statistical analysis for risk-based ship decisions: lifetime modelling, distribution fitting, and uncertainty quantification rather than point estimates.',
+      'Applied data and AI-assisted workflows to failure-analysis problems.',
     ],
   },
   {
@@ -274,17 +274,16 @@ export const EDUCATION = [
 /* One readable table rather than a wall of chips plus a collapsed methods
    list. A recruiter scans the left column for the area, then reads one line
    to confirm a keyword; methods and tools for the same area sit on the same
-   row, so "does she know LabVIEW" and "can she do HALT" are one glance. */
+   row, so "does she know LabVIEW" and "can she do HALT" are one glance.
+   Ordered design → test → software → statistics, so the table reads as
+   hardware breadth first rather than as a reliability specialist's. */
 export const SKILLS = [
   {
-    area: 'Reliability & statistics',
+    area: 'Simulation & CAD',
     items: [
-      'Weibull and lognormal life fitting',
-      'B10 life, MTTF',
-      'Bootstrap and Monte Carlo uncertainty bounds',
-      'KS goodness-of-fit',
-      'Accelerated ageing',
-      'Annual return rate (ARR)',
+      'Ansys and COMSOL FEA, scripted',
+      'Simulation-to-test correlation',
+      'SolidWorks, AutoCAD',
     ],
   },
   {
@@ -298,20 +297,23 @@ export const SKILLS = [
     ],
   },
   {
-    area: 'Simulation & CAD',
-    items: [
-      'Ansys and COMSOL FEA, scripted',
-      'Simulation-to-test correlation',
-      'SolidWorks, AutoCAD',
-    ],
-  },
-  {
     area: 'Data & software',
     items: ['Python (pandas, NumPy, PyTorch)', 'MATLAB', 'C++', 'SQL and MySQL', 'Docker', 'Git'],
   },
   {
     area: 'AI workflow',
     items: ['LLM agents', 'MCP', 'LangChain, LangGraph', 'AWS'],
+  },
+  {
+    area: 'Reliability & statistics',
+    items: [
+      'Weibull and lognormal life fitting',
+      'B10 life, MTTF',
+      'Bootstrap and Monte Carlo uncertainty bounds',
+      'KS goodness-of-fit',
+      'Accelerated ageing',
+      'Annual return rate (ARR)',
+    ],
   },
   {
     area: 'Languages',

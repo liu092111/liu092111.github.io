@@ -29,7 +29,7 @@ const { src, alt, caption, no, wide = false, source } = Astro.props;
           src={src}
           alt={alt ?? ''}
           widths={[480, 800, 1280]}
-          sizes={wide ? '(max-width: 50rem) 100vw, 60rem' : '(max-width: 36rem) 100vw, 36rem'}
+          sizes={wide ? '(max-width: 50rem) 100vw, 60rem' : '(max-width: 32rem) 100vw, 32rem'}
           loading="lazy"
           decoding="async"
         />
@@ -61,11 +61,11 @@ const { src, alt, caption, no, wide = false, source } = Astro.props;
 </figure>
 
 <style>
-  /* Narrower than the 44rem text measure: a figure supports the prose
-     beside it and should not outweigh it on a laptop screen. */
+  /* Narrower than the text and centred under it: a figure supports the
+     prose around it and should not outweigh it on a laptop screen. */
   .fig {
-    margin: 2rem 0;
-    max-width: 36rem;
+    margin: 2rem auto;
+    max-width: 32rem;
   }
 
   .fig--wide {

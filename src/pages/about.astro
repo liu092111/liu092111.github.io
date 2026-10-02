@@ -21,7 +21,7 @@ const rest = PROJECTS.filter((p) => !p.featured);
 
 <Base
   title="About"
-  description="Flora Liu, hardware engineer at Amazon, working across reliability, NPI and AI-assisted engineering workflows. Experience, education, skills, certifications and selected work."
+  description="Flora Liu, hardware engineer at Amazon, working across hardware development, NPI and AI-assisted engineering workflows. Experience, education, skills, certifications and selected work."
   docNo="05"
 >
   <div class="shell about">
@@ -30,27 +30,27 @@ const rest = PROJECTS.filter((p) => !p.featured);
       <div class="intro__lead">
         <h1>About</h1>
         <p class="intro__lede">
-          I am Flora Liu, a hardware engineer at Amazon, working on the product integrity side of new
-          product introduction.
+          I am Flora Liu, a hardware engineer at Amazon, working on the product integrity side of NPI.
         </p>
       </div>
 
+      <!-- Condensed from four paragraphs. The three seats are set like the
+           GTC formula below, each with the role it plays, so the middle of the
+           story reads at a glance; the sentences around it keep the voice. -->
       <div class="intro__body">
         <p>
-          Mechanical engineering gave me a physical foundation. Reliability work, product development
-          and research taught me to connect that foundation to data, and then to decisions. That
-          turned out to be the harder half.
+          Mechanical engineering gave me the physics. Testing, product development and research taught
+          me to turn it into data, then decisions. That turned out to be the harder half.
         </p>
+        <ol class="list-plain seats" aria-label="Three seats on the same supply chain">
+          <li><span class="seats__org">SGS</span><span class="seats__verb">produces evidence</span></li>
+          <li><span class="seats__org">Delta</span><span class="seats__verb">builds and pushes back</span></li>
+          <li><span class="seats__org">Amazon</span><span class="seats__verb">decides and lives with it</span></li>
+        </ol>
+        <p>I write about what happens in between, because almost nobody writes that down.</p>
         <p>
-          I have been useful in three different seats: a third-party laboratory that produces
-          evidence, a system company that builds and pushes back, and a global brand that has to
-          decide and live with the consequence. I write because the interesting part of engineering is
-          what happens in between, and almost nobody writes that down.
-        </p>
-        <p>
-          Lately my curiosity goes into two things: making reliability evidence legible to the people
-          who carry the business risk, and using agents to remove coordination friction in hardware
-          development without handing over the judgement.
+          Now: turning hardware evidence into decisions the business can act on, and using agents to cut
+          coordination friction without handing over the judgement.
         </p>
       </div>
 
@@ -381,6 +381,9 @@ const rest = PROJECTS.filter((p) => !p.featured);
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(14rem, 20rem);
     grid-template-areas: 'lead aside' 'body aside';
+    /* The photo column is taller than the text; the spare height goes to
+       the body row, so the lede and the seats stay together. */
+    grid-template-rows: auto 1fr;
     gap: 0 clamp(2rem, 5vw, 4rem);
     padding-top: clamp(1.5rem, 4vw, 2.5rem);
     padding-bottom: 1rem;
@@ -397,6 +400,49 @@ const rest = PROJECTS.filter((p) => !p.featured);
 
   .intro__aside {
     grid-area: aside;
+  }
+
+  /* SGS → Delta → Amazon, each seat's verb under its name. The arrows are
+     decoration; the list order already carries the sequence. */
+  .seats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    margin: 1.75rem 0 2rem;
+    font-family: var(--font-mono);
+  }
+
+  .seats li {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .seats li + li::before {
+    content: '→';
+    position: absolute;
+    margin-left: -1.6rem;
+    font-size: var(--fs-lede);
+    color: var(--ink-muted);
+  }
+
+  .seats li + li {
+    position: relative;
+    padding-left: 1.6rem;
+  }
+
+  .seats__org {
+    font-size: var(--fs-lede);
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  /* Wraps to two short lines, so the three columns stay narrow. */
+  .seats__verb {
+    max-width: 8.5rem;
+    font-family: var(--font-sans);
+    font-size: var(--fs-meta);
+    line-height: 1.4;
+    color: var(--ink-muted);
   }
 
   .intro__lede {

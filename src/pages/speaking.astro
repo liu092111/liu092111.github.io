@@ -6,7 +6,7 @@ import { SPEAKING_TOPICS, TALKS, SITE } from '../data/site';
 
 <Base
   title="Speaking"
-  description="Talks and sharing sessions on NPI decisions, reliability evidence, AI in hardware workflows, and career paths into hardware engineering."
+  description="Talks and sharing sessions on hardware development, NPI decisions, AI in hardware workflows, and career paths into hardware engineering."
   docNo="04"
 >
   <div class="shell speak">
@@ -194,6 +194,12 @@ import { SPEAKING_TOPICS, TALKS, SITE } from '../data/site';
   .past__summary {
     max-width: 62ch;
     margin: 0;
+  }
+
+  /* Centre the photo under the 62ch text above it, not under the full
+     page width, which would push it off to the right of the words. */
+  .past :global(.fig) {
+    margin-left: max(0px, calc((min(100%, 62ch) - 32rem) / 2));
   }
 
   .past__links {
