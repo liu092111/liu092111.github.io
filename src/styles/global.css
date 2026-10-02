@@ -43,9 +43,12 @@
   --lh-body: 1.65;
 
   --measure: 44rem;
-  --page: 76rem;
+  /* Kept close to the reading spine: the spine narrows on the right only,
+     so a much wider page leaves a block of empty space on the right and the
+     whole site reads as left-heavy on a laptop screen. */
+  --page: 68rem;
   /* The reading spine. Matches the essay pages so the whole site shares one
-     column; 76rem is now reserved for blocks that deliberately break out. */
+     column; the full page width is reserved for blocks that break out. */
   --page-read: 56rem;
   --gap: clamp(1.5rem, 4vw, 3rem);
 
@@ -423,9 +426,11 @@ kbd {
 
 /* --- lists ----------------------------------------------------- */
 
+/* Block margin only: lists have no inline margin by default, and resetting
+   it here would cancel .breakout's negative right margin on a list. */
 .list-plain {
   list-style: none;
-  margin: 0;
+  margin-block: 0;
   padding: 0;
 }
 

@@ -167,7 +167,10 @@ const description =
       </div>
     </div>
 
-    <ul class="list-plain pillars">
+    <!-- Three parallel questions, scanned side by side: they break out to the
+         full page width and share the vantage row's three-column grid, so the
+         two rows below the hero line up. -->
+    <ul class="list-plain pillars breakout">
       {
         PILLARS.map((p) => (
           <li class="pillar">
@@ -492,27 +495,37 @@ const description =
 
   /* --- pillars --- */
 
+  /* Same three-column, hairline-divided grid as .vantage below. */
   .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     border-top: 1px solid var(--rule);
-  }
-
-  .pillar {
     border-bottom: 1px solid var(--rule);
   }
 
+  .pillar + .pillar {
+    border-left: 1px solid var(--rule);
+  }
+
+  /* The whole column is the link, so the hover tint fills it edge to edge;
+     the text keeps the vantage cards' 1.75rem inset from each hairline. */
   .pillar__link {
-    display: grid;
-    grid-template-columns: 3.5rem 1fr;
-    gap: 0.5rem;
-    align-items: start;
-    padding: 1.6rem 1.25rem 1.6rem 0;
+    display: block;
+    height: 100%;
+    padding: 1.75rem 1.75rem 1.75rem 0;
     text-decoration: none;
     color: inherit;
     transition: background 150ms ease;
   }
 
+  .pillar + .pillar .pillar__link {
+    padding-left: 1.75rem;
+  }
+
   .pillar__no {
-    padding-top: 0.35rem;
+    display: block;
+    margin-bottom: 0.9rem;
+    font-weight: 600;
   }
 
   /* The title carries link affordance on its own, so the row reads as
@@ -715,10 +728,20 @@ const description =
     margin: 2.25rem 0 0;
   }
 
-  @media (max-width: 640px) {
-    .pillar__link {
+  /* Same breakpoint as .vantage: stack into rows divided by hairlines. */
+  @media (max-width: 52rem) {
+    .pillars {
       grid-template-columns: 1fr;
-      gap: 0.6rem;
+    }
+
+    .pillar + .pillar {
+      border-left: 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .pillar__link,
+    .pillar + .pillar .pillar__link {
+      padding: 1.5rem 0;
     }
   }
 </style>
