@@ -18,6 +18,7 @@ import type { ImageMetadata } from 'astro';
 // Graded copy (exposure, highlights/shadows, a slightly cooler balance);
 // the untouched original is kept alongside it.
 import techieTalkGroup from '../assets/techie-talk-community-graded.jpg';
+import spieTalk from '../assets/spie-2026-talk.jpg';
 
 export const SITE = {
   name: 'Flora Liu',
@@ -449,6 +450,12 @@ export const TALKS: Talk[] = [
     summary:
       'Presented my master’s research, first author: a 9 × 6 × 0.5 mm ultrasonic piezoelectric plate motor with vision-based closed-loop control. Feedback cut orientation drift from 10.2° to 2.6°, reduced straight-line error by 82%, and let the motor carry nearly five times its own weight.',
     link: 'https://www.linkedin.com/feed/update/urn:li:activity:7403954040453451777/',
+    photo: {
+      src: spieTalk,
+      alt: 'Flora Liu at the lectern at SPIE Smart Structures + NDE 2026, beside a slide titled "Structure Design of the Miniature piezoelectric motor".',
+      caption:
+        'SPIE Smart Structures + NDE 2026, Vancouver: walking through the structure design of the piezoelectric plate motor.',
+    },
   },
 ];
 
