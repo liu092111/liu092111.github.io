@@ -384,6 +384,9 @@ export const PROJECTS: {
       { label: 'Bootstrap resamples', value: '1,000' },
       { label: 'Monte Carlo samples', value: '10,000' },
     ],
+    media: [
+      { src: '/media/work/test2fail-workflow.mp4', alt: 'The Test2Fail GUI: picking dataset-2, entering 20,000 expected cycles, running the analysis, then scrolling through the whole PDF report.' },
+    ],
   },
   {
     title: 'Outdoor weathering monitor',
