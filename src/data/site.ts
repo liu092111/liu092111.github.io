@@ -312,8 +312,8 @@ export const SKILLS = [
    and figures on the left, the repo's README images in a narrow column on
    the right. `stats` are copied from each repo's README, which is where a
    visitor can check them; update both together. `media` is copied into
-   public/media/work/ (GIFs live in public/ so they stay animated instead of
-   being turned into a still by astro:assets). */
+   public/media/work/. README GIFs are converted to small looping MP4s first
+   (about a tenth of the size), sized to roughly twice their displayed width. */
 export const PROJECTS: {
   title: string;
   kind: string;
@@ -334,12 +334,12 @@ export const PROJECTS: {
       { label: 'Levels each', value: '3' },
     ],
     media: [
-      { src: '/media/work/dl-style-transfer.gif', alt: 'Neural style transfer converging: a content photo taking on Starry Night style over the iterations.' },
-      { src: '/media/work/dl-style-basic.png', alt: 'A campus photo plus Zodiac style gives the stylised result.' },
+      { src: '/media/work/dl-style-transfer.mp4', alt: 'Neural style transfer converging: a content photo taking on Starry Night style over the iterations.' },
+      { src: '/media/work/dl-style-basic.jpg', alt: 'A campus photo plus Zodiac style gives the stylised result.' },
     ],
   },
   {
-    title: 'Undergraduate portfolio',
+    title: 'College portfolio',
     kind: 'Mechanical engineering',
     repo: 'College_Portfolio',
     summary:
@@ -349,11 +349,11 @@ export const PROJECTS: {
       { label: 'Years', value: '2020–2024' },
     ],
     media: [
-      { src: '/media/work/college-robot-handoff.gif', alt: 'Retrieval and transport robots handing off a part.' },
-      { src: '/media/work/college-ev3-line-following.gif', alt: 'An EV3 robot following a line.' },
-      { src: '/media/work/college-fan-cfd.gif', alt: 'Fan CFD in Ansys Fluent, from the SGS internship.' },
-      { src: '/media/work/college-gear-motion.gif', alt: 'Gear train simulation.' },
-      { src: '/media/work/college-spiral-trajectory.gif', alt: '3D spiral trajectory plotted in MATLAB.' },
+      { src: '/media/work/college-robot-handoff.mp4', alt: 'Retrieval and transport robots handing off a part.' },
+      { src: '/media/work/college-ev3-line-following.mp4', alt: 'An EV3 robot following a line.' },
+      { src: '/media/work/college-fan-cfd.mp4', alt: 'Fan CFD in Ansys Fluent, from the SGS internship.' },
+      { src: '/media/work/college-gear-motion.mp4', alt: 'Gear train simulation.' },
+      { src: '/media/work/college-spiral-trajectory.mp4', alt: '3D spiral trajectory plotted in MATLAB.' },
       { src: '/media/work/college-ansys-stress.png', alt: 'Ansys stress and displacement analysis of a computer stand.' },
     ],
   },

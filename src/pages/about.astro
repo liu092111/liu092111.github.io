@@ -347,9 +347,15 @@ import compass from '../assets/compass-fellowship.jpg';
             </div>
             {p.media && (
               <div class:list={['proj__media', p.media.length >= 3 && 'proj__media--grid']}>
-                {p.media.map((m) => (
-                  <img src={m.src} alt={m.alt} loading="lazy" decoding="async" />
-                ))}
+                {/* Animations ship as small looping MP4s, not GIFs: the same
+                    clip is a fraction of the size, so the page stays fast. */}
+                {p.media.map((m) =>
+                  m.src.endsWith('.mp4') ? (
+                    <video src={m.src} aria-label={m.alt} autoplay muted loop playsinline preload="metadata" />
+                  ) : (
+                    <img src={m.src} alt={m.alt} loading="lazy" decoding="async" />
+                  )
+                )}
               </div>
             )}
           </article>
@@ -686,14 +692,16 @@ import compass from '../assets/compass-fellowship.jpg';
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .proj__media img {
+  .proj__media img,
+  .proj__media video {
     display: block;
     width: 100%;
     height: auto;
     border-radius: 6px;
   }
 
-  .proj__media--grid img {
+  .proj__media--grid img,
+  .proj__media--grid video {
     aspect-ratio: 4 / 3;
     object-fit: contain;
     background: var(--paper-sunk);
