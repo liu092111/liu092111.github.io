@@ -1,0 +1,59 @@
+---
+/**
+ * A short looping clip that stands in for a GIF. It downloads only when it
+ * comes within 300px of the viewport and pauses once it scrolls away, so a
+ * page with several clips does not fetch them all on load. Until then the
+ * poster shows: the clip's first frame, a sibling .jpg next to the .mp4
+ * (generated with ffmpeg alongside the clip).
+ */
+interface Props {
+  src: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
+const { src, alt, width, height } = Astro.props;
+---
+
+<video
+  class="loop-video"
+  data-src={src}
+  poster={src.replace(/\.mp4$/, '.jpg')}
+  aria-label={alt}
+  width={width}
+  height={height}
+  muted
+  loop
+  playsinline
+  preload="none"
+></video>
+
+<script>
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const { target, isIntersecting } of entries) {
+        const video = target as HTMLVideoElement;
+        if (!isIntersecting) {
+          video.pause();
+          continue;
+        }
+        if (video.dataset.src) {
+          video.src = video.dataset.src;
+          delete video.dataset.src;
+        }
+        video.play().catch(() => {});
+      }
+    },
+    { rootMargin: '300px' }
+  );
+  document.querySelectorAll<HTMLVideoElement>('video.loop-video').forEach((v) => io.observe(v));
+</script>
+
+<style>
+  .loop-video {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 import Essay from '../layouts/Essay.astro';
 import Figure from '../components/Figure.astro';
+import LoopVideo from '../components/LoopVideo.astro';
 import '../styles/chart.css';
 import costTolerance from '../assets/cost-tolerance-armillotta2023.png';
 import crackStages from '../assets/crack-stages-liu2018.png';
@@ -178,13 +179,11 @@ import crackStages from '../assets/crack-stages-liu2018.png';
         the airflow it actually delivers drops.
       </p>
       <Figure no="1.4" caption="My Ansys Fluent model of an 80 mm fan in a duct: fast air at the walls, a still wake behind the hub.">
-        <img
-          src="/media/fan-velocity-duct.gif"
+        <LoopVideo
+          src="/media/fan-velocity-duct.mp4"
           alt="CFD velocity contour of an 80 mm fan in a rectangular duct. Air accelerates along the duct walls and forms a long low-velocity wake behind the fan hub."
-          width="1040"
-          height="480"
-          loading="lazy"
-          decoding="async"
+          width={1040}
+          height={480}
         />
       </Figure>
       <p>

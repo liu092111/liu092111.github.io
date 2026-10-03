@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import DraftNote from '../components/DraftNote.astro';
 import Entry from '../components/Entry.astro';
+import LoopVideo from '../components/LoopVideo.astro';
 import { Image } from 'astro:assets';
 import { SITE, EXPERIENCE, EDUCATION, SKILLS, PROJECTS, CERTS } from '../data/site';
 import headshot from '../assets/headshot.jpg';
@@ -347,11 +348,11 @@ import compass from '../assets/compass-fellowship.jpg';
             </div>
             {p.media && (
               <div class:list={['proj__media', p.media.length >= 3 && 'proj__media--grid']}>
-                {/* Animations ship as small looping MP4s, not GIFs: the same
-                    clip is a fraction of the size, so the page stays fast. */}
+                {/* Animations ship as small looping MP4s, not GIFs, and load
+                    only as they near the screen (see LoopVideo). */}
                 {p.media.map((m) =>
                   m.src.endsWith('.mp4') ? (
-                    <video src={m.src} aria-label={m.alt} autoplay muted loop playsinline preload="metadata" />
+                    <LoopVideo src={m.src} alt={m.alt} />
                   ) : (
                     <img src={m.src} alt={m.alt} loading="lazy" decoding="async" />
                   )
@@ -693,7 +694,7 @@ import compass from '../assets/compass-fellowship.jpg';
   }
 
   .proj__media img,
-  .proj__media video {
+  .proj__media :global(video) {
     display: block;
     width: 100%;
     height: auto;
@@ -701,7 +702,7 @@ import compass from '../assets/compass-fellowship.jpg';
   }
 
   .proj__media--grid img,
-  .proj__media--grid video {
+  .proj__media--grid :global(video) {
     aspect-ratio: 4 / 3;
     object-fit: contain;
     background: var(--paper-sunk);
