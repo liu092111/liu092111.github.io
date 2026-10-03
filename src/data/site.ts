@@ -390,11 +390,14 @@ export const PROJECTS: {
     kind: 'Data engineering',
     repo: 'outdoor-weathering-monitor',
     summary:
-      'Imports weather-logger and station data into MySQL and turns a month of readings into charts and a PDF report: the unglamorous layer that makes measurement data usable.',
+      'Imports weather-logger and station data into MySQL and feeds an Excel dashboard: pick one month, several, or a range across the new year, and eight linked charts follow. The demo runs on synthetic data.',
     stats: [
       { label: 'Fewer rows', value: '30×' },
       { label: 'Readings a day', value: '1,440' },
-      { label: 'Channels', value: '5' },
+      { label: 'Linked charts', value: '8' },
+    ],
+    media: [
+      { src: '/media/work/weathering-dashboard.mp4', alt: 'Excel dashboard slicers: picking July, then July to September, then December and January across the year boundary, then every month; the temperature and precipitation charts follow.' },
     ],
   },
 ];
