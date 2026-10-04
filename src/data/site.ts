@@ -25,7 +25,7 @@ export const SITE = {
   role: 'Hardware Engineer',
   email: 'hua.flora.liu@gmail.com',
   linkedin: 'https://www.linkedin.com/in/flora-liu-b8a905236/',
-  github: 'https://github.com/liu092111',
+  github: 'https://github.com/floraliu-dev',
   /* Other public profiles. Not linked on the page; listed in the home page's
      structured data so search engines treat them as the same person. */
   vocus: 'https://vocus.cc/user/6ab8ce2f5396f334ab9587ed',
@@ -321,7 +321,7 @@ export const SKILLS = [
 export const PROJECTS: {
   title: string;
   kind: string;
-  /** Repository name under github.com/liu092111. */
+  /** Repository name under github.com/floraliu-dev. */
   repo: string;
   /** Route of the project's own page on this site, when it has one. */
   page?: string;

@@ -1,13 +1,13 @@
-# liu092111.github.io
+# floraliu.dev
 
 Source for [floraliu.dev](https://floraliu.dev) — Flora Liu's personal site.
 
 Hosted on GitHub Pages with the custom domain `floraliu.dev` (set in the repository's
 Settings → Pages). DNS lives at Cloudflare: four A and four AAAA records for GitHub Pages
-on the apex, `www` as a CNAME to `liu092111.github.io`, and the `_github-pages-challenge`
+on the apex, `www` as a CNAME to `floraliu-dev.github.io`, and the `_github-pages-challenge`
 TXT record that verifies the domain for this account. All records must stay "DNS only"
 (grey cloud): proxying them stops GitHub from issuing the HTTPS certificate, and a
-`.dev` domain does not load at all without HTTPS. `liu092111.github.io` redirects to the
+`.dev` domain does not load at all without HTTPS. `floraliu-dev.github.io/floraliu.dev/` redirects to the
 custom domain, so old links keep working.
 
 Built with [Astro](https://astro.build), no UI framework. The only client-side JavaScript is
