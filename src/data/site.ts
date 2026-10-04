@@ -26,6 +26,10 @@ export const SITE = {
   email: 'hua.flora.liu@gmail.com',
   linkedin: 'https://www.linkedin.com/in/flora-liu-b8a905236/',
   github: 'https://github.com/liu092111',
+  /* Other public profiles. Not linked on the page; listed in the home page's
+     structured data so search engines treat them as the same person. */
+  vocus: 'https://vocus.cc/user/6ab8ce2f5396f334ab9587ed',
+  cake: 'https://www.cake.me/me/liu092111',
   /* One-page résumé in public/. Replace the file to update it; keep the
      name, since the link may already be saved in bookmarks and emails.
      Strip phone and home address before publishing a new version. */

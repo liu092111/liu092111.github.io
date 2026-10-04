@@ -6,23 +6,53 @@
    /writing is listed only once the section has launched (before that it is
    built but carries noindex; see src/lib/writing.ts). Published posts are
    indexable, so they are listed whenever they exist.
-   Add a new top-level page to STATIC_PAGES when you create it. */
+   Add a new top-level page to STATIC_PAGES when you create it, listing the
+   files its content comes from: <lastmod> is the newest commit among them.
+   Home, About and Speaking print most of their copy from site.ts, so an edit
+   there counts as a change to them; the essays carry their text inline. */
 import type { APIRoute } from 'astro';
 import { canonicalUrl } from '../lib/url';
 import { TRACKS, getPosts, isWritingLive, postHref } from '../lib/writing';
+import { lastModified } from '../lib/lastmod';
 
-const STATIC_PAGES = ['/', '/about', '/designed', '/confidence', '/value', '/speaking'];
+const SITE_DATA = 'src/data/site.ts';
+
+const STATIC_PAGES: Record<string, string[]> = {
+  '/': ['src/pages/index.astro', SITE_DATA],
+  '/about': ['src/pages/about.astro', SITE_DATA],
+  '/designed': ['src/pages/designed.astro'],
+  '/confidence': ['src/pages/confidence.astro'],
+  '/value': ['src/pages/value.astro'],
+  '/speaking': ['src/pages/speaking.astro', SITE_DATA],
+};
+
+interface Entry {
+  path: string;
+  lastmod?: string;
+}
 
 export const GET: APIRoute = async ({ site }) => {
-  const paths = [...STATIC_PAGES];
+  const entries: Entry[] = Object.entries(STATIC_PAGES).map(([path, files]) => ({
+    path,
+    lastmod: lastModified(files),
+  }));
 
-  if (await isWritingLive()) paths.push('/writing');
+  if (await isWritingLive()) {
+    entries.push({ path: '/writing', lastmod: lastModified(['src/pages/writing.astro', 'src/content']) });
+  }
+  // A post states its own dates in frontmatter, which is what readers see.
   for (const track of TRACKS) {
-    for (const post of await getPosts(track.key)) paths.push(postHref(track.key, post));
+    for (const post of await getPosts(track.key)) {
+      const changed = post.data.updated ?? post.data.date;
+      entries.push({ path: postHref(track.key, post), lastmod: changed.toISOString().slice(0, 10) });
+    }
   }
 
-  const urls = paths
-    .map((p) => `  <url><loc>${canonicalUrl(p, site!)}</loc></url>`)
+  const urls = entries
+    .map(({ path, lastmod }) => {
+      const mod = lastmod ? `<lastmod>${lastmod}</lastmod>` : '';
+      return `  <url><loc>${canonicalUrl(path, site!)}</loc>${mod}</url>`;
+    })
     .join('\n');
 
   const body = `<?xml version="1.0" encoding="UTF-8"?>

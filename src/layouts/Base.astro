@@ -53,8 +53,8 @@ const canonical = canonicalUrl(path, Astro.site!);
 
 /* Structured data, home page only: tells search engines this site is about
    one person and ties her names together. "Hua Liu" is the name on her
-   published paper and "劉樺" on her Chinese CV, so listing both lets a search
-   for either land here. */
+   published paper, "Hua Flora Liu" on her résumé and "劉樺" on her Chinese
+   CV, so listing them lets a search for any of them land here. */
 let personJsonLd: string | undefined;
 if (path === '/') {
   const portrait = await getImage({ src: headshot, width: 600, format: 'jpeg' });
@@ -74,7 +74,7 @@ if (path === '/') {
         '@type': 'Person',
         '@id': `${siteUrl}#person`,
         name: SITE.name,
-        alternateName: ['Hua Liu', '劉樺'],
+        alternateName: ['Hua Liu', 'Hua Flora Liu', '劉樺'],
         url: siteUrl,
         image: new URL(portrait.src, Astro.site).href,
         jobTitle: SITE.role,
@@ -92,7 +92,7 @@ if (path === '/') {
           'AI-assisted engineering workflows',
           'Reliability engineering',
         ],
-        sameAs: [SITE.linkedin, SITE.github],
+        sameAs: [SITE.linkedin, SITE.github, SITE.vocus, SITE.cake],
       },
     ],
   });
