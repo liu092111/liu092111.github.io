@@ -43,6 +43,31 @@
   stroke-linejoin: round;
 }
 
+/* Drawn on scroll (the script is in Figure.astro). The curve has
+   pathLength 1, so a single dash of length 1 covers it, and sliding that
+   dash from 1 to 0 draws it. Markers and notes follow once it lands. */
+.chart__draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1600ms cubic-bezier(0.45, 0, 0.25, 1);
+}
+
+.chart.is-pending .chart__draw {
+  stroke-dashoffset: 1;
+  transition: none;
+}
+
+.chart .chart__dot,
+.chart .chart__note {
+  transition: opacity 500ms ease 1400ms;
+}
+
+.chart.is-pending .chart__dot,
+.chart.is-pending .chart__note {
+  opacity: 0;
+  transition: none;
+}
+
 .chart__line--ln {
   stroke: var(--accent);
 }

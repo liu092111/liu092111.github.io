@@ -9,6 +9,9 @@ import stage from '../assets/techie-talk-stage.png';
    reserved for pages (see the numbering scheme in site.ts), which is what
    stops "01" here colliding with essay 01 in the nav. */
 
+/* One entry per line: the break between them is part of the design. */
+const HEADLINE = ['I study how products', 'earn the right to exist.'];
+
 const description =
   'Flora Liu is a hardware engineer writing about how products get designed, how they earn confidence, and how engineering decisions create value.';
 ---
@@ -22,10 +25,66 @@ const description =
              masthead directly above, so it is not repeated here. -->
         <p class="label hero__id">Hardware engineer at Amazon · Product integrity &amp; NPI</p>
 
-        <h1>
-          I study how products<br />
-          earn the right to exist.
+        <!-- Typed on load. Every character is in the HTML from the start and
+             only hidden (visibility, not removal), so the headline takes its
+             final size before the first letter appears: nothing below it
+             moves while it types. Screen readers and search engines get the
+             plain sentence; the per-letter copy is hidden from them so it is
+             never spelled out letter by letter. -->
+        <h1 class="typed" id="hero-title">
+          <span class="visually-hidden">{HEADLINE.join(' ')}</span>
+          <span class="typed__text" aria-hidden="true">
+            {
+              HEADLINE.map((line, i) => (
+                <>
+                  {i > 0 && <br />}
+                  {[...line].map((ch) => (
+                    <span class="typed__ch">{ch}</span>
+                  ))}
+                </>
+              ))
+            }
+          </span>
         </h1>
+
+        <!-- Inline and synchronous, so the letters are hidden before first
+             paint (no flash of the full headline). Without JavaScript the
+             headline simply shows. Plays under reduced motion too: letters
+             appearing in place move nothing (see the motion policy in
+             global.css). -->
+        <script is:inline>
+          (() => {
+            const h1 = document.getElementById('hero-title');
+            const chars = h1 ? h1.querySelectorAll('.typed__ch') : [];
+            if (!chars.length) return;
+            h1.classList.add('is-typing');
+            const cursor = document.createElement('span');
+            cursor.className = 'typed__cursor';
+            chars[0].before(cursor);
+
+            const START = 300; // cursor blinks alone first, like a prompt
+            const PER_CHAR = 35;
+            const LINE_PAUSE = 180; // a beat at the line break
+            const HOLD = 2600; // cursor stays after the last letter, then fades
+            let i = 0;
+            const step = () => {
+              h1.classList.add('is-keying');
+              const ch = chars[i];
+              ch.classList.add('is-on');
+              ch.after(cursor);
+              i += 1;
+              if (i < chars.length) {
+                const lineEnd = cursor.nextElementSibling?.tagName === 'BR';
+                setTimeout(step, lineEnd ? PER_CHAR + LINE_PAUSE : PER_CHAR);
+              } else {
+                h1.classList.remove('is-typing', 'is-keying');
+                setTimeout(() => cursor.classList.add('is-done'), HOLD);
+                cursor.addEventListener('transitionend', () => cursor.remove(), { once: true });
+              }
+            };
+            setTimeout(step, START);
+          })();
+        </script>
 
         <div class="hero__lede">
           <p>
@@ -199,12 +258,33 @@ const description =
     <div class="section-head">
       <span class="section-head__num">0.2</span>
       <div>
-        <!-- One sentence per line: three parallel beats read as a rhythm. -->
-        <h2 class="vantage__heading">
-          Decided by one company.<br />
-          Built by another.<br />
-          Tested by a third.
+        <!-- One sentence per line: three parallel beats read as a rhythm, and
+             they arrive one beat at a time when the section scrolls in. -->
+        <h2 class="vantage__heading" id="vantage-heading">
+          <span class="vantage__line">Decided by one company.</span><br />
+          <span class="vantage__line">Built by another.</span><br />
+          <span class="vantage__line">Tested by a third.</span>
         </h2>
+
+        <!-- Same pattern as the readout count-up: hidden synchronously before
+             first paint, revealed once in view. No JavaScript or no
+             IntersectionObserver: the heading simply shows. -->
+        <script is:inline>
+          (() => {
+            const h2 = document.getElementById('vantage-heading');
+            if (!h2 || !('IntersectionObserver' in window)) return;
+            h2.classList.add('is-pending');
+            const io = new IntersectionObserver(
+              (entries) => {
+                if (!entries.some((e) => e.isIntersecting)) return;
+                io.disconnect();
+                h2.classList.remove('is-pending');
+              },
+              { threshold: 0.6 }
+            );
+            io.observe(h2);
+          })();
+        </script>
         <p class="section-head__sub">
           The same product looks different from each seat on a supply chain. I have sat in all three,
           and the disagreements between them are where the real engineering happens.
@@ -327,6 +407,48 @@ const description =
   .hero__id {
     margin: 0 0 1.5rem;
     color: var(--accent);
+  }
+
+  /* --- typed headline --- */
+
+  .typed.is-typing .typed__ch:not(.is-on) {
+    visibility: hidden;
+  }
+
+  /* Zero-width, so moving it from letter to letter never nudges the text;
+     the bar itself is drawn outside that zero width. */
+  .typed :global(.typed__cursor) {
+    position: relative;
+    display: inline-block;
+    width: 0;
+    transition: opacity 400ms ease;
+  }
+
+  .typed :global(.typed__cursor)::after {
+    content: '';
+    position: absolute;
+    left: 0.06em;
+    bottom: -0.12em;
+    width: 0.07em;
+    height: 1em;
+    background: var(--accent);
+    animation: typed-blink 1s steps(1) infinite;
+  }
+
+  /* Solid while letters are arriving, the way a real cursor holds still
+     while you type; it blinks only while waiting. */
+  .typed.is-keying :global(.typed__cursor)::after {
+    animation: none;
+  }
+
+  .typed :global(.typed__cursor.is-done) {
+    opacity: 0;
+  }
+
+  @keyframes typed-blink {
+    50% {
+      opacity: 0;
+    }
   }
 
   .hero__lede {
@@ -584,6 +706,37 @@ const description =
 
   .vantage__heading {
     text-wrap: wrap;
+  }
+
+  /* Three beats, 800ms apart. The fade plays for everyone; the short rise
+     is movement, so it is kept for visitors who have not asked for less
+     (see the motion policy in global.css). */
+  .vantage__line {
+    display: inline-block;
+    transition: opacity 1300ms ease;
+  }
+
+  .vantage__line:nth-of-type(2) {
+    transition-delay: 800ms;
+  }
+
+  .vantage__line:nth-of-type(3) {
+    transition-delay: 1600ms;
+  }
+
+  .vantage__heading.is-pending .vantage__line {
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .vantage__line {
+      transition-property: opacity, transform;
+      transition-timing-function: ease, cubic-bezier(0.2, 0.7, 0.2, 1);
+    }
+
+    .vantage__heading.is-pending .vantage__line {
+      transform: translateY(0.4em);
+    }
   }
 
   /* Three columns divided by hairlines; no enclosing box. */

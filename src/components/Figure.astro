@@ -60,6 +60,46 @@ const { src, alt, caption, no, wide = false, source } = Astro.props;
   </figcaption>
 </figure>
 
+<!-- Inline SVG charts draw their curves when scrolled into view: the data
+     arrives left to right, the way it was measured, then the markers and
+     notes that read off it fade in. Only the data curves move; axes,
+     reference lines and the key are there from the start.
+     Inline and synchronous, right after its own figure, so the curves are
+     hidden before first paint even when the chart is on screen at load (a
+     tall window, or a chart near the top), and it still draws in. Same
+     pattern as the home page count-up. No JavaScript or no
+     IntersectionObserver: the chart is simply complete. Plays under reduced
+     motion too: a line extending in place moves nothing (see the motion
+     policy in global.css). -->
+<script is:inline>
+  (() => {
+    const fig = document.currentScript && document.currentScript.previousElementSibling;
+    const svg = fig && fig.querySelector('svg.chart');
+    const lines = svg ? svg.querySelectorAll('polyline.chart__line') : [];
+    if (!lines.length || !('IntersectionObserver' in window)) return;
+    // pathLength="1" makes every curve one unit long, so one dash rule
+    // draws them all at the same pace whatever their real length.
+    lines.forEach((line) => {
+      line.setAttribute('pathLength', '1');
+      line.classList.add('chart__draw');
+    });
+    svg.classList.add('is-pending');
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        io.disconnect();
+        // Two frames: let the hidden state paint once, so the draw is a
+        // transition rather than an instant jump to the finished curve.
+        requestAnimationFrame(() =>
+          requestAnimationFrame(() => svg.classList.remove('is-pending'))
+        );
+      },
+      { threshold: 0.5 }
+    );
+    io.observe(svg);
+  })();
+</script>
+
 <style>
   /* Narrower than the text and centred under it: a figure supports the
      prose around it and should not outweigh it on a laptop screen. */
