@@ -29,10 +29,11 @@ function needsPolling() {
   return isWsl && process.cwd().startsWith('/mnt/');
 }
 
-// Deployed to GitHub Pages at the account root, so no `base` prefix is needed.
-// Served on the custom domain floraliu.dev (DNS at Cloudflare, "DNS only");
-// liu092111.github.io redirects there. Canonical URLs, the sitemap and
-// Open Graph images are all built from this value.
+// Deployed from the liu092111/floraliu.dev repository as a GitHub Pages
+// project site with the custom domain floraliu.dev (DNS at Cloudflare,
+// "DNS only"). The custom domain serves it at the root, so no `base` prefix
+// is needed, and liu092111.github.io stays free for other use. Canonical
+// URLs, the sitemap and Open Graph images are all built from this value.
 export default defineConfig({
   site: 'https://floraliu.dev',
 

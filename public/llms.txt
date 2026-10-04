@@ -1,0 +1,24 @@
+# Flora Liu
+
+> Flora Liu (Hua Liu, 劉樺) is a hardware engineer in Taiwan working on product integrity and new product introduction (NPI) for consumer hardware. Her site floraliu.dev collects three essays on how hardware products get designed, earn confidence and create value, plus her experience, talks and selected projects.
+
+The site is written in English. It is also a working example of an engineer's personal website: built with Astro, hosted on GitHub Pages under a custom domain, with its source code public on GitHub.
+
+## Essays
+
+- [How a product gets designed](https://floraliu.dev/designed): How should it be designed, and why that way? The design process, competing requirements, and two design decisions (the radius at a shaft shoulder, a cooling fan's operating point) traced to their reasons.
+- [How a product earns confidence](https://floraliu.dev/confidence): How much evidence is enough? Test sample size, why the tail of a distribution matters more than the mean, and why a failure is not yet an explanation.
+- [How a product creates value](https://floraliu.dev/value): If the ship date is fixed, what does engineering still decide? Cost committed before it is spent, the rising price of late changes, and what volume does to small numbers.
+
+## About
+
+- [About](https://floraliu.dev/about): Experience, education (National Taiwan University, National Cheng Kung University), skills, certifications and selected work.
+- [Speaking](https://floraliu.dev/speaking): Talks on hardware development, NPI decisions, AI in hardware workflows, and career paths into hardware engineering.
+- [Résumé (PDF)](https://floraliu.dev/Hua-Flora-Liu-Resume.pdf)
+
+## Elsewhere
+
+- [LinkedIn](https://www.linkedin.com/in/flora-liu-b8a905236/)
+- [GitHub](https://github.com/liu092111)
+- [Site source code](https://github.com/liu092111/liu092111.github.io)
+- [方格子 vocus (Chinese writing)](https://vocus.cc/user/6ab8ce2f5396f334ab9587ed)
