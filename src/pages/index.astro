@@ -23,7 +23,7 @@ const description =
         <!-- Who, before what: a first-time visitor should know what she does and
              why to trust it before reading the thesis. The name is already in the
              masthead directly above, so it is not repeated here. -->
-        <p class="label hero__id">Hardware engineer at Amazon · Product integrity &amp; NPI</p>
+        <p class="label hero__id">Hardware engineer at Amazon · Mechanical engineering &amp; NPI</p>
 
         <!-- Typed on load. Every character is in the HTML from the start and
              only hidden (visibility, not removal), so the headline takes its
@@ -62,9 +62,9 @@ const description =
             cursor.className = 'typed__cursor';
             chars[0].before(cursor);
 
-            const START = 300; // cursor blinks alone first, like a prompt
-            const PER_CHAR = 35;
-            const LINE_PAUSE = 180; // a beat at the line break
+            const START = 200; // cursor blinks alone first, like a prompt
+            const PER_CHAR = 25;
+            const LINE_PAUSE = 120; // a beat at the line break
             const HOLD = 2600; // cursor stays after the last letter, then fades
             let i = 0;
             const step = () => {
@@ -202,7 +202,8 @@ const description =
         const start = () => {
           const io = new IntersectionObserver(
             (entries) => {
-              if (!entries.some((e) => e.isIntersecting)) return;
+              // Skipped past (a jump link): show the final figures too.
+              if (!entries.some((e) => e.isIntersecting || e.boundingClientRect.top < 0)) return;
               io.disconnect();
               readout.classList.remove('is-pending');
               els.forEach(run);
@@ -218,7 +219,7 @@ const description =
 
   <!-- ============ 0.1 · the argument ============ -->
   <section class="section shell shell--read" id="perspective">
-    <div class="section-head">
+    <div class="section-head" data-reveal>
       <span class="section-head__num">0.1</span>
       <div>
         <h2>Three questions I keep answering</h2>
@@ -234,8 +235,8 @@ const description =
          two rows below the hero line up. -->
     <ul class="list-plain pillars breakout">
       {
-        PILLARS.map((p) => (
-          <li class="pillar">
+        PILLARS.map((p, i) => (
+          <li class="pillar" data-reveal style={`--reveal-delay: ${150 + i * 120}ms`}>
             <a class="pillar__link" href={p.href}>
               <span class="num pillar__no" aria-hidden="true">{p.no}</span>
               <div class="pillar__body">
@@ -260,31 +261,11 @@ const description =
       <div>
         <!-- One sentence per line: three parallel beats read as a rhythm, and
              they arrive one beat at a time when the section scrolls in. -->
-        <h2 class="vantage__heading" id="vantage-heading">
+        <h2 class="vantage__heading" data-reveal="lines">
           <span class="vantage__line">Decided by one company.</span><br />
           <span class="vantage__line">Built by another.</span><br />
           <span class="vantage__line">Tested by a third.</span>
         </h2>
-
-        <!-- Same pattern as the readout count-up: hidden synchronously before
-             first paint, revealed once in view. No JavaScript or no
-             IntersectionObserver: the heading simply shows. -->
-        <script is:inline>
-          (() => {
-            const h2 = document.getElementById('vantage-heading');
-            if (!h2 || !('IntersectionObserver' in window)) return;
-            h2.classList.add('is-pending');
-            const io = new IntersectionObserver(
-              (entries) => {
-                if (!entries.some((e) => e.isIntersecting)) return;
-                io.disconnect();
-                h2.classList.remove('is-pending');
-              },
-              { threshold: 0.6 }
-            );
-            io.observe(h2);
-          })();
-        </script>
         <p class="section-head__sub">
           The same product looks different from each seat on a supply chain. I have sat in all three,
           and the disagreements between them are where the real engineering happens.
@@ -292,10 +273,17 @@ const description =
       </div>
     </div>
 
+    <!-- Each company arrives with its own sentence above: decided (Amazon),
+         built (Delta), tested (SGS). Same 800ms step and 1300ms fade as the
+         heading's lines, so each pair starts and lands together. -->
     <div class="vantage breakout">
       {
-        VANTAGE.map((v) => (
-          <article class="vantage__card">
+        VANTAGE.map((v, i) => (
+          <article
+            class="vantage__card"
+            data-reveal
+            style={`--reveal-delay: ${i * 800}ms; --reveal-duration: 1300ms`}
+          >
             {/* Period first: all three sit on the same top line, so the
                 dates read as one timeline across the row. */}
             <p class="num vantage__period">{v.period}</p>
@@ -342,7 +330,7 @@ const description =
 
   <!-- ============ 0.4 · speaking ============ -->
   <section class="section shell shell--read" id="speaking">
-    <div class="section-head">
+    <div class="section-head" data-reveal style="--reveal-duration: 1200ms">
       <span class="section-head__num">0.4</span>
       <div>
         <h2>I like explaining this out loud</h2>
@@ -354,28 +342,41 @@ const description =
 
     {
       TALKS.map((t) => (
-        <article class="talk">
-          <div class="talk__meta">
-            <span class="chip chip--accent">{t.role}</span>
-            <span class="num">
-              {t.organiser} · {t.year}
-            </span>
-          </div>
-          <h3 class="talk__event">{t.event}</h3>
-          <p class="talk__summary">{t.summary}</p>
-          <p class="talk__links">
-            {t.eventUrl && (
-              <a href={t.eventUrl} target="_blank" rel="noopener">
-                {t.eventUrlLabel ?? 'About the event'} ↗
-              </a>
-            )}
-            {t.link && (
-              <a href={t.link} target="_blank" rel="noopener">
-                My write-up ↗
-              </a>
-            )}
-          </p>
-        </article>
+        <div class="talk-row breakout">
+          <article class="talk" data-reveal style="--reveal-delay: 300ms; --reveal-duration: 1200ms">
+            <div class="talk__meta">
+              <span class="chip chip--accent">{t.role}</span>
+              <span class="num">
+                {t.organiser} · {t.year}
+              </span>
+            </div>
+            <h3 class="talk__event">{t.event}</h3>
+            <p class="talk__summary">{t.summary}</p>
+            <p class="talk__links">
+              {t.eventUrl && (
+                <a href={t.eventUrl} target="_blank" rel="noopener">
+                  {t.eventUrlLabel ?? 'About the event'} ↗
+                </a>
+              )}
+              {t.link && (
+                <a href={t.link} target="_blank" rel="noopener">
+                  My write-up ↗
+                </a>
+              )}
+            </p>
+          </article>
+          {t.photo && (
+            <figure class="talk__photo" data-reveal style="--reveal-delay: 600ms; --reveal-duration: 1200ms">
+              <Image
+                src={t.photo.src}
+                alt={t.photo.alt}
+                widths={[320, 480, 640]}
+                sizes="(max-width: 52rem) 90vw, 21rem"
+                loading="lazy"
+              />
+            </figure>
+          )}
+        </div>
       ))
     }
 
@@ -383,10 +384,51 @@ const description =
       needs="One sentence of feedback from the Techie Talk organiser or an attendee, with their name and role (ask first). It is the single strongest thing an event organiser can read here: someone else saying the talk was worth the slot. Add it to TALKS in src/data/site.ts as a `quote` and render it under the summary."
     />
 
-    <p class="speaking__cta">
+    <p class="speaking__cta" data-reveal style="--reveal-duration: 1200ms">
       <a class="textlink" href="/speaking">See what I can talk about →</a>
     </p>
   </section>
+
+  <!-- Scroll reveal for everything marked data-reveal: 0.1 and 0.4 fade in,
+       0.2's heading arrives line by line while its three companies fade in
+       together. 0.3 stays still: one section without motion keeps the rest from
+       reading as decoration. Each element plays once, when it is 12% up
+       into the viewport.
+       A position check on scroll rather than IntersectionObserver: an
+       observer only reports crossings, so a long jump ("Get in touch")
+       carries an element from below the viewport to above it without ever
+       reporting it, and it would sit hidden when scrolled back to. Here
+       anything already passed is shown. Inline at the end of the page, so
+       the hidden state is set before first paint. No JavaScript: everything
+       simply shows. -->
+  <script is:inline>
+    (() => {
+      let pending = [...document.querySelectorAll('[data-reveal]')];
+      if (!pending.length) return;
+      pending.forEach((el) => el.classList.add('is-pending'));
+      let queued = false;
+      const check = () => {
+        queued = false;
+        const line = innerHeight * 0.88;
+        pending = pending.filter((el) => {
+          if (el.getBoundingClientRect().top > line) return true;
+          el.classList.remove('is-pending');
+          return false;
+        });
+        if (!pending.length) removeEventListener('scroll', onScroll);
+      };
+      const onScroll = () => {
+        if (!queued) {
+          queued = true;
+          requestAnimationFrame(check);
+        }
+      };
+      addEventListener('scroll', onScroll, { passive: true });
+      // Two frames, so anything already in view at load still fades in
+      // rather than appearing instantly.
+      requestAnimationFrame(() => requestAnimationFrame(check));
+    })();
+  </script>
 </Base>
 
 <style>
@@ -407,6 +449,33 @@ const description =
   .hero__id {
     margin: 0 0 1.5rem;
     color: var(--accent);
+  }
+
+  /* --- scroll reveal (data-reveal) ---
+     A fade for everyone; the short rise is movement, so it is kept for
+     visitors who have not asked for less (see the motion policy in
+     global.css). --reveal-delay staggers items that arrive together;
+     --reveal-duration slows a section down. */
+
+  [data-reveal=''] {
+    transition: opacity var(--reveal-duration, 700ms) ease var(--reveal-delay, 0ms);
+  }
+
+  [data-reveal=''].is-pending {
+    opacity: 0;
+    transition: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal=''] {
+      transition:
+        opacity var(--reveal-duration, 700ms) ease var(--reveal-delay, 0ms),
+        transform var(--reveal-duration, 700ms) cubic-bezier(0.2, 0.7, 0.2, 1) var(--reveal-delay, 0ms);
+    }
+
+    [data-reveal=''].is-pending {
+      transform: translateY(14px);
+    }
   }
 
   /* --- typed headline --- */
@@ -726,6 +795,7 @@ const description =
 
   .vantage__heading.is-pending .vantage__line {
     opacity: 0;
+    transition: none;
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -807,6 +877,13 @@ const description =
     .vantage__card + .vantage__card {
       border-top: 1px solid var(--rule);
     }
+
+    /* Stacked, each card reaches the viewport on its own scroll, away from
+       its sentence, so it shows as soon as it arrives instead of waiting
+       out the desktop stagger. Overrides the inline delay. */
+    .vantage__card {
+      --reveal-delay: 0ms !important;
+    }
   }
 
   /* --- confidentiality band --- */
@@ -849,8 +926,40 @@ const description =
     padding-left: 1.25rem;
   }
 
-  .talk + .talk {
-    margin-top: 2rem;
+  /* Text on the left, the talk's own photo on the right; stacked on a
+     phone, photo under the text. The row breaks out to the full page width
+     like the 0.1 and 0.2 rows, so the photo's right edge lines up with
+     theirs, and its column matches the hero portrait's (21rem). */
+  .talk-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 21rem);
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+    align-items: start;
+  }
+
+  .talk-row + .talk-row {
+    margin-top: 2.5rem;
+  }
+
+  .talk__photo {
+    margin: 0;
+  }
+
+  .talk__photo :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius);
+  }
+
+  @media (max-width: 52rem) {
+    .talk-row {
+      grid-template-columns: 1fr;
+    }
+
+    .talk__photo {
+      max-width: 22rem;
+    }
   }
 
   .talk__event {

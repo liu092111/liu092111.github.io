@@ -67,16 +67,15 @@ const { src, alt, caption, no, wide = false, source } = Astro.props;
      Inline and synchronous, right after its own figure, so the curves are
      hidden before first paint even when the chart is on screen at load (a
      tall window, or a chart near the top), and it still draws in. Same
-     pattern as the home page count-up. No JavaScript or no
-     IntersectionObserver: the chart is simply complete. Plays under reduced
-     motion too: a line extending in place moves nothing (see the motion
-     policy in global.css). -->
+     pattern as the home page count-up. No JavaScript: the chart is simply
+     complete. Plays under reduced motion too: a line extending in place
+     moves nothing (see the motion policy in global.css). -->
 <script is:inline>
   (() => {
     const fig = document.currentScript && document.currentScript.previousElementSibling;
     const svg = fig && fig.querySelector('svg.chart');
     const lines = svg ? svg.querySelectorAll('polyline.chart__line') : [];
-    if (!lines.length || !('IntersectionObserver' in window)) return;
+    if (!lines.length) return;
     // pathLength="1" makes every curve one unit long, so one dash rule
     // draws them all at the same pace whatever their real length.
     lines.forEach((line) => {
@@ -84,19 +83,27 @@ const { src, alt, caption, no, wide = false, source } = Astro.props;
       line.classList.add('chart__draw');
     });
     svg.classList.add('is-pending');
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((e) => e.isIntersecting)) return;
-        io.disconnect();
-        // Two frames: let the hidden state paint once, so the draw is a
-        // transition rather than an instant jump to the finished curve.
-        requestAnimationFrame(() =>
-          requestAnimationFrame(() => svg.classList.remove('is-pending'))
-        );
-      },
-      { threshold: 0.5 }
-    );
-    io.observe(svg);
+    // Draws once half the chart is in view, or at once if it was skipped
+    // past. A position check rather than IntersectionObserver, which never
+    // reports an element a long jump carries straight past.
+    let queued = false;
+    const check = () => {
+      queued = false;
+      const r = svg.getBoundingClientRect();
+      if (r.top + r.height / 2 > innerHeight) return;
+      removeEventListener('scroll', onScroll);
+      svg.classList.remove('is-pending');
+    };
+    const onScroll = () => {
+      if (!queued) {
+        queued = true;
+        requestAnimationFrame(check);
+      }
+    };
+    addEventListener('scroll', onScroll, { passive: true });
+    // Two frames: let the hidden state paint once, so a chart in view at
+    // load still draws in rather than appearing complete.
+    requestAnimationFrame(() => requestAnimationFrame(check));
   })();
 </script>
 
