@@ -51,7 +51,7 @@ const social = await getImage({
 const socialUrl = new URL(social.src, Astro.site).href;
 const canonical = canonicalUrl(path, Astro.site!);
 
-/* Structured data, home page only: tells search engines this site is about
+/* Structured data on the home page: tells search engines this site is about
    one person and ties her names together. "Hua Liu" is the name on her
    published paper, "Hua Flora Liu" on her résumé and "劉樺" on her Chinese
    CV, so listing them lets a search for any of them land here. */
@@ -95,6 +95,19 @@ if (path === '/') {
         sameAs: [SITE.linkedin, SITE.github, SITE.vocus, SITE.cake],
       },
     ],
+  });
+}
+
+/* About is the page that describes her, so it is marked as her profile
+   page. Its subject points at the Person defined on the home page by @id,
+   which keeps one full description of her rather than two that can drift. */
+if (path === '/about') {
+  const siteUrl = new URL('/', Astro.site).href;
+  personJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    url: canonical,
+    mainEntity: { '@type': 'Person', '@id': `${siteUrl}#person`, name: SITE.name, url: siteUrl },
   });
 }
 ---
