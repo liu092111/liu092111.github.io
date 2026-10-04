@@ -177,7 +177,7 @@ export const LINKEDIN_STATS = {
    happens on the deployed site; localhost is ignored by GoatCounter. The
    public total needs "Allow using the visitor counter" switched on in
    GoatCounter → Settings, or the footer count simply stays hidden. */
-export const GOATCOUNTER = 'liu09211';
+export const GOATCOUNTER = 'liu092111';
 
 interface Proof {
   /** A number to animate up to when the readout scrolls into view. */
