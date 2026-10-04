@@ -1,0 +1,139 @@
+---
+import Essay from '../../layouts/Essay.astro';
+import Figure from '../../components/Figure.astro';
+import LoopVideo from '../../components/LoopVideo.astro';
+import { SITE } from '../../data/site';
+import survival from '../../assets/work/test2fail-survival-function-comparison.png';
+import cdf from '../../assets/work/test2fail-cdf-comparison.png';
+
+/* A project page: one public repository, told as the question it answers.
+   It reads like an essay and shares that layout, but sits under About's
+   "Selected work" (05), so the closing card leads back there. Figures come
+   from the repository's own README; facts and numbers match it. */
+const repo = `${SITE.github}/Test2Fail-Toolkit`;
+---
+
+<Essay
+  docNo="05"
+  title="Test2Fail Toolkit"
+  description="An open-source Python tool by Flora Liu that turns test-to-failure data into a reliability report: life distribution fitting, bootstrap confidence intervals, B10, B50 and MTTF, and a PDF."
+  thesis="Test-to-failure data in, a reliability report out."
+  next={{
+    href: '/work/piezo-motor',
+    kicker: 'Next project',
+    title: 'Visual servo control of a piezoelectric motor',
+    promise: 'A 120 FPS camera and a PID loop steer a motor that drifts on its own.',
+  }}
+>
+  <div class="sub">
+    <div class="sub__body">
+      <p class="opener">Which life model fits, how sure is the fit, and when do the first units fail?</p>
+      <p>
+        A test-to-failure run ends with a column of numbers. Turning it into an answer takes the
+        same steps every time, so I put them in one tool.
+      </p>
+      <div class="proj-video">
+        <LoopVideo
+          src="/media/work/test2fail-workflow.mp4"
+          alt="The Test2Fail GUI: picking dataset-2, entering 20,000 expected cycles, running the analysis, then scrolling through the whole PDF report."
+        />
+      </div>
+      <p class="aside">
+        <a href={repo} target="_blank" rel="noopener">github.com/liu092111/Test2Fail-Toolkit ↗</a>
+        · Python · Ships with synthetic sample data only.
+      </p>
+    </div>
+  </div>
+
+  <section class="sub">
+    <div class="sub__head">
+      <h2>What it does</h2>
+    </div>
+    <div class="sub__body">
+      <ul>
+        <li>Fits Weibull, Lognormal and Exponential by maximum likelihood and picks the best one.</li>
+        <li>Checks the fit with a Kolmogorov–Smirnov test.</li>
+        <li>Puts 95% bootstrap confidence intervals (1,000 resamples) on the Weibull β and η.</li>
+        <li>Predicts B10, B50, B95 and MTTF from 10,000 Monte Carlo samples.</li>
+        <li>Suggests a maintenance interval from a target reliability and cost.</li>
+        <li>Writes every plot and table into one PDF.</li>
+      </ul>
+      <Figure
+        no="1"
+        wide
+        src={survival}
+        alt="Survival curves for the same data under Weibull, Lognormal and Exponential fits. Their MTTFs sit within 1,000 cycles of each other, but the curves part early in life."
+        caption="Three fits to one dataset. The mean lives are close; the early-life curves are not."
+      />
+    </div>
+  </section>
+
+  <section class="sub">
+    <div class="sub__head">
+      <h2>Why fit more than one model</h2>
+    </div>
+    <div class="sub__body">
+      <p>
+        Two models can agree on the mean life and still disagree on when the first 10% fail. Field
+        returns come from that early tail, so the tool reports B10 and the fit test alongside MTTF.
+      </p>
+      <p>
+        I walk through one such dataset in <a href="/confidence">How a product earns confidence</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="sub">
+    <div class="sub__head">
+      <h2>Does the model match the data?</h2>
+    </div>
+    <div class="sub__body">
+      <p>
+        A best fit is only the best of three. The tool overlays the fitted CDF on the measured data
+        and on a Monte Carlo sample drawn from the fit, then measures the largest gap between them.
+      </p>
+      <Figure
+        no="2"
+        wide
+        src={cdf}
+        alt="Cumulative distribution of the measured lifetimes, a simulated sample and the fitted model, lying almost on top of each other. KS statistic 0.065, p-value 0.9507."
+        caption="Measured, simulated and fitted CDFs. The largest gap is 0.065 (KS test, p = 0.95): no sign the model is wrong."
+      />
+    </div>
+  </section>
+
+  <section class="sub">
+    <div class="sub__head">
+      <h2>Try it</h2>
+    </div>
+    <div class="sub__body">
+      <ul>
+        <li>
+          <a href={`${repo}/releases/latest`} target="_blank" rel="noopener"
+            >Download for Windows or macOS ↗</a
+          >, no Python needed.
+        </li>
+        <li>
+          <a href={`${repo}/blob/main/sample_report.pdf`} target="_blank" rel="noopener"
+            >See a full sample report (PDF) ↗</a
+          >: every plot and table in one file.
+        </li>
+        <li>
+          Or run from source: <code>pip install -r requirements.txt</code>, then
+          <code>python main.py</code>. Sample datasets are in <code>dataset/</code>.
+        </li>
+      </ul>
+    </div>
+  </section>
+</Essay>
+
+<style>
+  .proj-video {
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .proj-video :global(video) {
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+  }
+</style>

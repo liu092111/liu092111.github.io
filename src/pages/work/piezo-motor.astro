@@ -1,0 +1,209 @@
+---
+import Essay from '../../layouts/Essay.astro';
+import Figure from '../../components/Figure.astro';
+import LoopVideo from '../../components/LoopVideo.astro';
+import { SITE } from '../../data/site';
+import structure from '../../assets/work/piezo-motor-structure.jpg';
+import setup from '../../assets/work/piezo-setup.png';
+import loop from '../../assets/work/piezo-control-loop.png';
+import position from '../../assets/work/piezo-position-comparison.png';
+import switching from '../../assets/work/piezo-gen-comparison.png';
+
+/* Project page; see work/test2fail.astro for how these pages are built.
+   This one is my master's thesis: figures and results come from the oral
+   defence slides (July 2026) and the repository's README and benchmarks. */
+const repo = `${SITE.github}/piezo-motor-visual-servo`;
+---
+
+<Essay
+  docNo="05"
+  title="Visual servo control of a piezoelectric motor"
+  description="Flora Liu's master's thesis: vision-based closed-loop control of a 9 × 6 mm piezoelectric ultrasonic motor, with a 120 FPS camera, a Keysight function generator driven over SCPI, and PID heading control."
+  thesis="A camera watches a 9 × 6 mm motor, and a PID loop steers it."
+  next={{
+    href: '/work/outdoor-weathering',
+    kicker: 'Next project',
+    title: 'Outdoor weathering monitor',
+    promise: 'A year of one-minute weather readings, made answerable in MySQL and Excel.',
+  }}
+>
+  <div class="sub">
+    <div class="sub__body">
+      <p class="opener">
+        A motor the size of a fingernail drifts off course. How do you steer it without adding a
+        single sensor to it?
+      </p>
+      <p>
+        My master's thesis. The motor is a 9 × 6 mm plate that walks on traveling waves. Left
+        alone it drifts, and any sensor mounted on it would add weight. So a camera watches it
+        instead, and a PID loop corrects it 120 times a second.
+      </p>
+      <div class="proj-videos">
+        <LoopVideo
+          src="/media/work/piezo-demo-straight.mp4"
+          alt="Tracking view of a straight run: the motor is boxed in red on a grid, with live position, angle, speed and frame rate overlaid."
+        />
+        <LoopVideo
+          src="/media/work/piezo-demo-rotation.mp4"
+          alt="Tracking view of a rotation run, with the same live overlay."
+        />
+      </div>
+      <p class="aside">
+        <a href={repo} target="_blank" rel="noopener">github.com/liu092111/piezo-motor-visual-servo ↗</a>
+        · Python · OpenCV · SCPI · Presented at SPIE Smart Structures 2026
+      </p>
+    </div>
+  </div>
+
+  <section class="sub">
+    <div class="sub__head">
+      <h2>The motor</h2>
+    </div>
+    <div class="sub__body">
+      <p>
+        A PZT sheet on a stainless steel plate, both 9 × 6 mm, free on every edge. Exciting two
+        vibration modes together, out of phase, turns standing waves into a traveling wave that
+        pushes the plate along. One pair of modes moves it in a straight line; another pair turns it
+        on the spot. The electrode layout decides how strongly each mode is driven.
+      </p>
+      <Figure
+        no="1"
+        wide
+        src={structure}
+        alt="Exploded view of the motor: a 9 by 6 mm stainless steel plate under a PZT sheet with split electrodes. Electrodes A1 and A2 are marked; Y linear motion uses modes Φ20 and Φ21, Z rotation uses Φ21 and Φ31."
+        caption="Motor structure and electrode layout. Linear motion uses modes Φ20 + Φ21; rotation uses Φ21 + Φ31."
+      />
+    </div>
+  </section>
+
+  <section class="sub">
+    <div class="sub__head">
+      <h2>Closing the loop with a camera</h2>
+    </div>
+    <div class="sub__body">
+      <p>
+        A camera adds no weight and touches nothing, and it sees both position and heading at once.
+        A global-shutter camera above the motor feeds a computer; the computer sets the function
+        generator, whose signal a power amplifier raises to drive the motor.
+      </p>
+      <Figure
+        no="2"
+        src={setup}
+        alt="Setup sketch: a computer connected to a camera module and a function generator; the function generator feeds a power amplifier wired to the motor on a grid."
+        caption="Experimental setup."
+      />
+      <p>
+        Each frame, the software finds the motor, filters its position and heading, compares them
+        with the target, and turns the error into a drive command. Capture, image processing and
+        control run on separate threads so they overlap.
+      </p>
+      <Figure
+        no="3"
+        wide
+        src={loop}
+        alt="Block diagram: reference minus measured output gives the error; mode decision and PID give a command, sent through a compound SCPI write to the function generator and HV amplifier, which drive the actuator. A camera with Kalman and EMA filtering measures the motion at 120 fps and feeds it back."
+        caption="The control loop. Camera, filtering and control run as three threads at 120 FPS."
+      />
+      <dl class="proj-stats">
+        <div><dt>Feedback rate</dt><dd class="num">120.6 FPS</dd></div>
+        <div><dt>Camera to command</dt><dd class="num">12.4 ms</dd></div>
+        <div><dt>Dropped frames</dt><dd class="num">0 of 2,500</dd></div>
+        <div><dt>Calibration error</dt><dd class="num">0.094 mm</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sub">
+    <div class="sub__head">
+      <h2>Does the control work?</h2>
+    </div>
+    <div class="sub__body">
+      <p>
+        Driving straight, the uncontrolled motor wanders off line. With heading control it holds its
+        course, and it is faster too: top speed rises from 67.7 to 122.4 mm/s.
+      </p>
+      <Figure
+        no="4"
+        src={position}
+        alt="Two trajectories from the same start. Without control the path wanders left, ending 10.2° off; with control it stays nearly straight, 2.6° off."
+        caption="One straight run with and without heading control: 10.2° of drift down to 2.6°."
+      />
+      <p>
+        Turning on the spot to a target angle between 3° and 8°, it settles within about 1.2° of
+        the target.
+      </p>
+    </div>
+  </section>
+
+  <section class="sub">
+    <div class="sub__head">
+      <h2>Switching drive modes in under a millisecond</h2>
+    </div>
+    <div class="sub__body">
+      <p>
+        Changing direction first meant re-uploading the waveform: about 268 ms, some 30 frames with
+        no new command. Preloading the waveforms and sending every change as one compound SCPI
+        command brought it under a millisecond, more than 600 times faster.
+      </p>
+      <Figure
+        no="5"
+        src={switching}
+        alt="Log-scale bar chart: a full waveform upload takes 268 ms; compound commands take 0.3 to 0.4 ms, 670 to 850 times faster."
+        caption="Mode-switch latency, full upload versus compound SCPI commands (log scale)."
+      />
+    </div>
+  </section>
+
+  <section class="sub">
+    <div class="sub__head">
+      <h2>Try it</h2>
+    </div>
+    <div class="sub__body">
+      <ul>
+        <li>
+          Run from source: <code>pip install -r requirements.txt</code>, then <code>python main.py</code>.
+          Camera, mode and instrument address are set in <code>config.py</code>.
+        </li>
+        <li>Every run saves a tracked video, a raw video, a CSV and plots.</li>
+        <li>
+          <a href={`${repo}/blob/main/benchmarks/benchmark_summary_report.txt`} target="_blank" rel="noopener"
+            >Full latency and throughput benchmarks ↗</a
+          >
+        </li>
+      </ul>
+    </div>
+  </section>
+</Essay>
+
+<style>
+  .proj-videos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    max-width: 30rem;
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .proj-videos :global(video) {
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+  }
+
+  .proj-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+    gap: 1rem 1.5rem;
+    margin: 1.75rem 0 0;
+  }
+
+  .proj-stats dt {
+    font-size: var(--fs-meta);
+    color: var(--ink-muted);
+  }
+
+  .proj-stats dd {
+    margin: 0.2rem 0 0;
+    font-size: var(--fs-lede);
+    font-weight: 600;
+  }
+</style>

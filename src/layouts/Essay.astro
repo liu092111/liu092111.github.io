@@ -12,22 +12,29 @@ interface Props {
    * the two can never drift apart. Only pass it to deliberately differ.
    */
   thesis?: string;
+  /**
+   * Where the closing card leads. Only pages outside the essay series pass
+   * it (the project pages); the essays work it out from their order.
+   */
+  next?: { href: string; kicker: string; title: string; promise: string };
 }
 
-const { docNo, title, description, thesis } = Astro.props;
+const { docNo, title, description, thesis, next: nextOverride } = Astro.props;
 
 // The essays read in order. The last one hands the reader to the person who
 // wrote them, rather than looping back to the first essay.
 const here = PILLARS.findIndex((p) => p.no === docNo);
 const isLast = here === PILLARS.length - 1;
-const next = isLast
-  ? {
-      href: '/about',
-      kicker: 'Next · About',
-      title: 'About Flora',
-      promise: 'Experience, education, and what I do beyond the job.',
-    }
-  : { ...PILLARS[here + 1], kicker: `Next · ${PILLARS[here + 1].no}` };
+const next =
+  nextOverride ??
+  (isLast
+    ? {
+        href: '/about',
+        kicker: 'Next · About',
+        title: 'About Flora',
+        promise: 'Experience, education, and what I do beyond the job.',
+      }
+    : { ...PILLARS[here + 1], kicker: `Next · ${PILLARS[here + 1].no}` });
 const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
 ---
 

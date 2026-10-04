@@ -326,7 +326,7 @@ import compass from '../assets/compass-fellowship.jpg';
           <article class:list={['side', !p.media && 'side--solo']}>
             <div class="side__text">
               <div class="proj__head">
-                <h3>{p.title}</h3>
+                <h3>{p.page ? <a href={p.page}>{p.title}</a> : p.title}</h3>
                 <span class="chip">{p.kind}</span>
               </div>
               <p>{p.summary}</p>
@@ -339,6 +339,11 @@ import compass from '../assets/compass-fellowship.jpg';
                     </div>
                   ))}
                 </dl>
+              )}
+              {p.page && (
+                <p class="side__note">
+                  <a href={p.page}>Read the project page →</a>
+                </p>
               )}
               <p class="side__note">
                 <a class="proj__repo" href={`${SITE.github}/${p.repo}`} target="_blank" rel="noopener">

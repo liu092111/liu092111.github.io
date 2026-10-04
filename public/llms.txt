@@ -10,6 +10,12 @@ The site is written in English. It is also a working example of an engineer's pe
 - [How a product earns confidence](https://floraliu.dev/confidence): How much evidence is enough? Test sample size, why the tail of a distribution matters more than the mean, and why a failure is not yet an explanation.
 - [How a product creates value](https://floraliu.dev/value): If the ship date is fixed, what does engineering still decide? Cost committed before it is spent, the rising price of late changes, and what volume does to small numbers.
 
+## Projects
+
+- [Test2Fail Toolkit](https://floraliu.dev/work/test2fail): Open-source Python tool that turns test-to-failure data into a reliability report: Weibull, Lognormal and Exponential fits, bootstrap confidence intervals, B10/B50/MTTF and a PDF.
+- [Visual servo control of a piezoelectric motor](https://floraliu.dev/work/piezo-motor): Her master's thesis. A 120 FPS camera and a PID loop steer a 9 × 6 mm piezoelectric ultrasonic motor driven by a Keysight function generator over SCPI.
+- [Outdoor weathering monitor](https://floraliu.dev/work/outdoor-weathering): Imports one-minute weather-logger and station data into MySQL and feeds an Excel dashboard and PDF report.
+
 ## About
 
 - [About](https://floraliu.dev/about): Experience, education (National Taiwan University, National Cheng Kung University), skills, certifications and selected work.

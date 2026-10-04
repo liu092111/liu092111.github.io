@@ -1,0 +1,113 @@
+---
+import Essay from '../../layouts/Essay.astro';
+import LoopVideo from '../../components/LoopVideo.astro';
+import { SITE } from '../../data/site';
+
+/* Project page; see work/test2fail.astro for how these pages are built.
+   Facts and numbers match the repository's README. The site's real data
+   is confidential, so everything shown runs on the synthetic demo. */
+const repo = `${SITE.github}/outdoor-weathering-monitor`;
+---
+
+<Essay
+  docNo="05"
+  title="Outdoor weathering monitor"
+  description="Data tooling by Flora Liu for an outdoor weathering test site: imports one-minute logger and weather-station data into MySQL and feeds an Excel dashboard and PDF report. Open-source Python."
+  thesis="One-minute weather readings in, a dashboard anyone can filter out."
+  next={{
+    href: '/about#work',
+    kicker: 'Back · Selected work',
+    title: 'All projects',
+    promise: 'The other public repositories, from coursework to research rigs.',
+  }}
+>
+  <div class="sub">
+    <div class="sub__body">
+      <p class="opener">
+        A logger writes 1,440 readings a day. How do you keep what they say without storing every
+        one?
+      </p>
+      <p>
+        An outdoor weathering site records temperature, humidity, UV and light every minute, next to
+        a weather station's rainfall. This tooling loads both into MySQL and turns them into an
+        Excel dashboard and a PDF report.
+      </p>
+      <div class="proj-video">
+        <LoopVideo
+          src="/media/work/weathering-dashboard.mp4"
+          alt="Excel dashboard slicers: picking July, then July to September, then December and January across the year boundary, then every month; the temperature and precipitation charts follow."
+        />
+      </div>
+      <p class="aside">
+        <a href={repo} target="_blank" rel="noopener">github.com/liu092111/outdoor-weathering-monitor ↗</a>
+        · Python · MySQL · Excel · Demo runs on synthetic data.
+      </p>
+    </div>
+  </div>
+
+  <section class="sub">
+    <div class="sub__head">
+      <h2>30 times fewer rows, same accuracy</h2>
+    </div>
+    <div class="sub__body">
+      <p>
+        Every reading is 1,440 rows a day; a sample alone would lose the extremes. The importer
+        keeps the two apart:
+      </p>
+      <ul>
+        <li>It keeps one row every 30 minutes, with the value at that moment.</li>
+        <li>Daily average, minimum, maximum and range come from all 1,440 readings of the day.</li>
+        <li>Daily light and UV dose are integrated from the full one-minute data.</li>
+        <li>The station's temperature, humidity and rainfall are merged into the same table.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="sub">
+    <div class="sub__head">
+      <h2>A dashboard that follows the question</h2>
+    </div>
+    <div class="sub__body">
+      <p>
+        Eight linked charts read from that table: temperature, humidity, UV, light, precipitation,
+        rainfall ratio, and daily UV and light dose. Month and year slicers pick one month, several,
+        or a range across the new year, and every chart follows.
+      </p>
+      <p>
+        The same data also feeds a script that writes an eight-panel chart, a Markdown summary and a
+        PDF report from one workbook.
+      </p>
+    </div>
+  </section>
+
+  <section class="sub">
+    <div class="sub__head">
+      <h2>Try it</h2>
+    </div>
+    <div class="sub__body">
+      <ul>
+        <li>
+          <a href={`${repo}/blob/main/data/weathering-dashboard-demo.xlsx`} target="_blank" rel="noopener"
+            >Download the demo dashboard (Excel) ↗</a
+          >, filled with a year of synthetic data laid out like the real table.
+        </li>
+        <li>
+          Importer: <code>pip install -r requirements.txt</code>, set your MySQL credentials, then
+          <code>python deploy_all_data.py</code>. It creates the database on the first run.
+        </li>
+        <li>The site's own logger and station files are confidential and not in the repository.</li>
+      </ul>
+    </div>
+  </section>
+</Essay>
+
+<style>
+  .proj-video {
+    margin: 1.5rem 0 0.75rem;
+  }
+
+  .proj-video :global(video) {
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+  }
+</style>

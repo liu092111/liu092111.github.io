@@ -24,6 +24,9 @@ const STATIC_PAGES: Record<string, string[]> = {
   '/confidence': ['src/pages/confidence.astro'],
   '/value': ['src/pages/value.astro'],
   '/speaking': ['src/pages/speaking.astro', SITE_DATA],
+  '/work/test2fail': ['src/pages/work/test2fail.astro'],
+  '/work/piezo-motor': ['src/pages/work/piezo-motor.astro'],
+  '/work/outdoor-weathering': ['src/pages/work/outdoor-weathering.astro'],
 };
 
 interface Entry {

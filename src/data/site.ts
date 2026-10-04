@@ -323,6 +323,8 @@ export const PROJECTS: {
   kind: string;
   /** Repository name under github.com/liu092111. */
   repo: string;
+  /** Route of the project's own page on this site, when it has one. */
+  page?: string;
   summary: string;
   stats?: { label: string; value: string }[];
   media?: { src: string; alt: string; caption?: string }[];
@@ -365,6 +367,7 @@ export const PROJECTS: {
     title: 'Visual servo control of a piezoelectric motor',
     kind: 'Research instrumentation',
     repo: 'piezo-motor-visual-servo',
+    page: '/work/piezo-motor',
     summary:
       'The measurement and control rig behind my thesis: a camera tracks the motor, a Keysight 33600A drives it over SCPI, and a PID loop holds its heading.',
     stats: [
@@ -381,6 +384,7 @@ export const PROJECTS: {
     title: 'Test2Fail Toolkit',
     kind: 'Life data analysis',
     repo: 'Test2Fail-Toolkit',
+    page: '/work/test2fail',
     summary:
       'Test-to-failure data in, report out: fits life distributions, puts confidence intervals on them, estimates B10, B50 and MTTF, and writes a PDF. Ships with synthetic sample data only.',
     stats: [
@@ -396,6 +400,7 @@ export const PROJECTS: {
     title: 'Outdoor weathering monitor',
     kind: 'Data engineering',
     repo: 'outdoor-weathering-monitor',
+    page: '/work/outdoor-weathering',
     summary:
       'Imports weather-logger and station data into MySQL and feeds an Excel dashboard: pick one month, several, or a range across the new year, and eight linked charts follow. The demo runs on synthetic data.',
     stats: [
