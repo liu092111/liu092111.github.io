@@ -340,8 +340,8 @@ export const PROJECTS: {
       { label: 'Levels each', value: '3' },
     ],
     media: [
-      { src: '/media/work/dl-style-transfer.mp4', alt: 'Neural style transfer converging: a content photo taking on Starry Night style over the iterations.' },
-      { src: '/media/work/dl-style-basic.jpg', alt: 'A campus photo plus Zodiac style gives the stylised result.' },
+      { src: '/media/work/dl-style-transfer.mp4', alt: 'Neural style transfer, retrained: a photo of steps into the sea taking on Starry Night style, step by step.' },
+      { src: '/media/work/dl-style-zodiac.mp4', alt: "A campus photo taking on the style of Mucha's Zodiac, step by step." },
     ],
   },
   {
