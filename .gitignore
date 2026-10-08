@@ -12,3 +12,6 @@ dist/
 # Both are untracked already; listing them keeps `git status` honest about it.
 draft/
 icon/
+
+# Local cover-making workspace (LinkedIn / GitHub previews)
+tools/project-covers/
