@@ -4,7 +4,6 @@ import { getImage } from 'astro:assets';
 import { SITE, NAV, GOATCOUNTER, PERSPECTIVES_LABEL, EDUCATION } from '../data/site';
 import headshot from '../assets/headshot.jpg';
 import { routePath, canonicalUrl } from '../lib/url';
-import { isWritingLive } from '../lib/writing';
 import Mark from '../components/Mark.astro';
 // Branded 1200×630 link-preview card, rendered from tools/og-card.html.
 import socialSource from '../assets/og-card.png';
@@ -15,9 +14,9 @@ interface Props {
   /** Section number shown in the page masthead, e.g. "02". Omit on the homepage. */
   docNo?: string;
   /**
-   * Document language. The career track is written in Chinese, and a page that
-   * declares the wrong language gets read aloud wrong and indexed wrong, so a
-   * zh post has to override this rather than inherit the site default.
+   * Document language. A page that declares the wrong language gets read
+   * aloud wrong and indexed wrong, so a page written in Chinese has to
+   * override this rather than inherit the site default.
    */
   lang?: 'en' | 'zh';
   /**
@@ -35,8 +34,7 @@ interface Props {
 const { title, description, docNo, lang = 'en', noindex = false, social: socialOverride } = Astro.props;
 const htmlLang = lang === 'zh' ? 'zh-Hant' : 'en';
 const path = routePath(Astro.url.pathname);
-const writingLive = await isWritingLive();
-const nav = NAV.filter((item) => !item.afterWritingLaunch || writingLive);
+const nav = NAV;
 const essayNav = nav.filter((item) => item.essay);
 const inEssay = essayNav.some((item) => item.href === path);
 const fullTitle = path === '/' ? `${SITE.name} — ${SITE.role}` : `${title} · ${SITE.name}`;
@@ -257,12 +255,16 @@ if (path === '/about') {
 
     <main id="main">
       {
-        docNo && (
+        /* Only the essays carry a number. Other pages keep the same space
+           above the title, so headings line up across the site. */
+        docNo ? (
           <div class="shell pagehead">
             <p class="label pagehead__eyebrow">
               <span class="pagehead__num">{docNo}</span> {title}
             </p>
           </div>
+        ) : (
+          path !== '/' && <div class="pagehead" />
         )
       }
       <slot />

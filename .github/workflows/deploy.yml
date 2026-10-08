@@ -11,6 +11,10 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+  # Daily rebuild so new vocus posts reach /journal without a push
+  # (scripts/fetch-journal.mjs runs before every build). 21:00 UTC = 05:00 Taiwan.
+  schedule:
+    - cron: '0 21 * * *'
 
 permissions:
   contents: read

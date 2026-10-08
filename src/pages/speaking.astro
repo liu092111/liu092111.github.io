@@ -7,11 +7,10 @@ import { SPEAKING_TOPICS, TALKS, SITE } from '../data/site';
 <Base
   title="Speaking"
   description="Talks and sharing sessions on hardware development, NPI decisions, AI in hardware workflows, and career paths into hardware engineering."
-  docNo="04"
 >
   <div class="shell speak">
     <header class="speak__head">
-      <h1>Speaking</h1>
+      <h1 class="page-title">Speaking</h1>
       <p class="speak__lede">
         Engineering also means explaining a decision to people who did not run the test. I enjoy that
         part, and I am glad to do more of it.
@@ -24,7 +23,6 @@ import { SPEAKING_TOPICS, TALKS, SITE } from '../data/site';
 
     <section class="section" id="topics">
       <div class="section-head">
-        <span class="section-head__num">4.1</span>
         <div>
           <h2>What I can talk about</h2>
           <p class="section-head__sub">
@@ -38,8 +36,8 @@ import { SPEAKING_TOPICS, TALKS, SITE } from '../data/site';
         {
           SPEAKING_TOPICS.map((t, i) => (
             <li class="topic">
-              {/* Lettered, not "01"–"04": two-digit numbers are page numbers
-                  site-wide, and "01" would read as essay 01. */}
+              {/* Lettered, not "01"–"04": two-digit numbers belong to the
+                  essays, and "01" would read as essay 01. */}
               <span class="num topic__no">{String.fromCharCode(65 + i)}</span>
               <div>
                 <h3>{t.title}</h3>
@@ -53,7 +51,6 @@ import { SPEAKING_TOPICS, TALKS, SITE } from '../data/site';
 
     <section class="section" id="past">
       <div class="section-head">
-        <span class="section-head__num">4.2</span>
         <h2>Previously</h2>
       </div>
 
@@ -98,7 +95,6 @@ import { SPEAKING_TOPICS, TALKS, SITE } from '../data/site';
 
     <section class="section" id="invite">
       <div class="section-head">
-        <span class="section-head__num">4.3</span>
         <h2>Invitations</h2>
       </div>
 

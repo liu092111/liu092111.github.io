@@ -107,6 +107,19 @@ h2 {
   font-size: clamp(1.5rem, 3.2vw, 2.125rem);
 }
 
+/* A short rule in the signal colour under each page's title: the same
+   orange as the last tread of the mark. Not on the home hero, which has its
+   own typed entrance. */
+.page-title::after {
+  content: '';
+  display: block;
+  width: 3rem;
+  height: 3px;
+  margin-top: 1rem;
+  border-radius: 2px;
+  background: var(--signal);
+}
+
 h3 {
   font-size: 1.25rem;
 }

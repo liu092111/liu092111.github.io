@@ -5,10 +5,6 @@ import DraftNote from '../components/DraftNote.astro';
 import { PILLARS, VANTAGE, TALKS, NDA, PROOF } from '../data/site';
 import stage from '../assets/techie-talk-stage.png';
 
-/* Home is document 00, so its sections are 0.1–0.4. Two-digit numbers are
-   reserved for pages (see the numbering scheme in site.ts), which is what
-   stops "01" here colliding with essay 01 in the nav. */
-
 /* One entry per line: the break between them is part of the design. */
 const HEADLINE = ['I study how products', 'earn the right to exist.'];
 
@@ -217,10 +213,9 @@ const description =
     </script>
   </section>
 
-  <!-- ============ 0.1 · the argument ============ -->
+  <!-- ============ the argument ============ -->
   <section class="section shell shell--read" id="perspective">
     <div class="section-head" data-reveal>
-      <span class="section-head__num">0.1</span>
       <div>
         <h2>Three questions I keep answering</h2>
         <p class="section-head__sub">
@@ -254,10 +249,9 @@ const description =
     </ul>
   </section>
 
-  <!-- ============ 0.2 · why I can say this ============ -->
+  <!-- ============ why I can say this ============ -->
   <section class="section shell shell--read" id="vantage">
     <div class="section-head">
-      <span class="section-head__num">0.2</span>
       <div>
         <!-- One sentence per line: three parallel beats read as a rhythm, and
              they arrive one beat at a time when the section scrolls in. -->
@@ -307,14 +301,13 @@ const description =
     </p>
   </section>
 
-  <!-- ============ 0.3 · the constraint, stated as a position ============
+  <!-- ============ the constraint, stated as a position ============
        Same white ground as every other section. It stands out through type,
        not a background: the headline is set as a statement behind an accent
        bar, the same device the talk entry below uses. A background band here
        (black, then grey) broke the page's rhythm and read as its end. -->
   <section class="section shell shell--read" id="confidentiality">
     <div class="section-head">
-      <span class="section-head__num">0.3</span>
       <p class="label nda__kicker">{NDA.kicker}</p>
     </div>
 
@@ -328,10 +321,9 @@ const description =
     </div>
   </section>
 
-  <!-- ============ 0.4 · speaking ============ -->
+  <!-- ============ speaking ============ -->
   <section class="section shell shell--read" id="speaking">
     <div class="section-head" data-reveal style="--reveal-duration: 1200ms">
-      <span class="section-head__num">0.4</span>
       <div>
         <h2>I like explaining this out loud</h2>
         <p class="section-head__sub">
@@ -389,9 +381,9 @@ const description =
     </p>
   </section>
 
-  <!-- Scroll reveal for everything marked data-reveal: 0.1 and 0.4 fade in,
-       0.2's heading arrives line by line while its three companies fade in
-       together. 0.3 stays still: one section without motion keeps the rest from
+  <!-- Scroll reveal for everything marked data-reveal: the perspective and
+       speaking sections fade in, the vantage heading arrives line by line while
+       its three companies fade in together. Confidentiality stays still: one section without motion keeps the rest from
        reading as decoration. Each element plays once, when it is 12% up
        into the viewport.
        A position check on scroll rather than IntersectionObserver: an
@@ -928,7 +920,7 @@ const description =
 
   /* Text on the left, the talk's own photo on the right; stacked on a
      phone, photo under the text. The row breaks out to the full page width
-     like the 0.1 and 0.2 rows, so the photo's right edge lines up with
+     like the perspective and vantage rows, so the photo's right edge lines up with
      theirs, and its column matches the hero portrait's (21rem). */
   .talk-row {
     display: grid;

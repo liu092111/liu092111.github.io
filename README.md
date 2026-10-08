@@ -38,17 +38,16 @@ polling file watcher automatically. Set `ASTRO_POLL=1` or `ASTRO_POLL=0` to over
 | `src/pages/`            | One file per route. The three numbered essays are the site's argument.   |
 | `src/layouts/`          | `Base.astro` (shell, head, nav) and `Essay.astro` (the numbered essays). |
 | `src/components/`       | `Figure` (captioned figures) and `DraftNote` (dev-only placeholders).    |
-| `src/lib/`              | Shared logic: URL shape (`url.ts`) and the writing section (`writing.ts`). |
-| `src/content/`          | Writing, in two tracks — see `src/content/README.md`.                    |
+| `src/lib/`              | Shared logic: URL shape (`url.ts`) and sitemap dates (`lastmod.ts`).     |
+| `src/data/journal.json` | Vocus posts listed on `/journal`, refreshed by `scripts/fetch-journal.mjs` before each build. |
 | `src/styles/global.css` | Design tokens and shared element styles.                                |
-| `scripts/`              | Build checks run in CI.                                                 |
+| `scripts/`              | Build checks run in CI, and the vocus fetch for `/journal`.             |
 | `tools/`                | `site_chart_style.py`, so exported matplotlib charts match the site.     |
 
 ## Numbering
 
-Every page is a numbered document: home `00`, the essays `01`–`03`, Speaking `04`,
-About `05`, Writing `06`. Sections inside a page are `<page>.<n>` (home is `0.1`–`0.4`).
-Two-digit numbers only ever mean pages; anything listed inside a section is lettered.
+Only the three essays are numbered, `01`–`03`, with sections `<essay>.<n>` (`1.1`, `2.3`).
+Every other page is unnumbered. Anything listed inside a section is lettered.
 The full table is at the top of `src/data/site.ts`.
 
 ## URLs

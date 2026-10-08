@@ -19,6 +19,7 @@ The site is written in English. It is also a working example of an engineer's pe
 ## About
 
 - [About](https://floraliu.dev/about): Experience, education (National Taiwan University, National Cheng Kung University), skills, certifications and selected work.
+- [Journal](https://floraliu.dev/journal): Index of her Mandarin-language notes on Vocus (工程師的日常筆記): the stories behind tech products, everyday engineering work and career.
 - [Speaking](https://floraliu.dev/speaking): Talks on hardware development, NPI decisions, AI in hardware workflows, and career paths into hardware engineering.
 - [Résumé (PDF)](https://floraliu.dev/Hua-Flora-Liu-Resume.pdf)
 

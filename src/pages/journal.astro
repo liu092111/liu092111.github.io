@@ -1,0 +1,208 @@
+---
+/* Index of the vocus salon "工程師的日常筆記". The posts live on vocus and are
+   written in Mandarin; this page only lists them and links out, so nothing is
+   duplicated here. The list comes from src/data/journal.json, refreshed from
+   vocus before every build by scripts/fetch-journal.mjs. */
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { SITE } from '../data/site';
+import posts from '../data/journal.json';
+import headshot from '../assets/headshot.jpg';
+
+// Dates as the author saw them when publishing, in Taiwan time.
+const day = (iso: string) =>
+  new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Taipei' }).format(new Date(iso));
+---
+
+<Base
+  title="Journal"
+  description="Flora Liu's journal: everyday notes from engineering work, the stories behind tech products, and a career in progress. Written in Mandarin on Vocus."
+>
+  <div class="shell shell--read journal">
+    <header class="journal__head">
+      <h1 class="page-title">Journal</h1>
+      <p class="journal__lede">
+        Everyday notes from engineering work: the stories behind tech products, life on the job, and
+        what a career looks like while it is still being figured out.
+      </p>
+      <p class="journal__note">Written in Mandarin and published on Vocus.</p>
+    </header>
+
+    <a class="salon" href={SITE.vocusSalon}>
+      <Image class="salon__avatar" src={headshot} alt="" width={160} height={160} fit="cover" />
+      <span class="salon__body">
+        <span class="salon__name" lang="zh-Hant">工程師的日常筆記</span>
+        <span class="salon__more">Flora's salon on Vocus&nbsp;↗</span>
+      </span>
+    </a>
+
+    {
+      posts.length === 0 ? (
+        <p class="journal__empty">The first post is on its way.</p>
+      ) : (
+        <ul class="list-plain entries">
+          {posts.map((post) => (
+            <li>
+              <a class="entry" href={post.url}>
+                {post.cover && (
+                  <Image class="entry__cover" src={post.cover} alt="" inferSize width={400} height={400} fit="cover" position="center" format="webp" quality={80} />
+                )}
+                <span class="entry__body">
+                  <span class="num entry__date">
+                    <time datetime={day(post.date)}>{day(post.date)}</time>
+                  </span>
+                  <span class="entry__title" lang="zh-Hant">
+                    {post.title}
+                  </span>
+                  <span class="entry__more">Read on Vocus&nbsp;↗</span>
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</Base>
+
+<style>
+  .journal {
+    padding-top: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .journal__head {
+    padding-bottom: 2rem;
+  }
+
+  .journal__lede {
+    margin-top: 1.25rem;
+    font-size: var(--fs-lede);
+    color: var(--ink-muted);
+    max-width: 52ch;
+    text-wrap: pretty;
+  }
+
+  .journal__note {
+    margin-top: 0.75rem;
+    font-size: var(--fs-meta);
+    color: var(--ink-muted);
+  }
+
+  /* The salon itself, ahead of its posts: who is writing, then what. */
+  .salon {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem 1.25rem;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: inherit;
+    transition: background 120ms ease;
+  }
+
+  .salon:hover {
+    background: var(--paper-sunk);
+  }
+
+  .salon__avatar {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    object-fit: cover;
+    flex: none;
+  }
+
+  .salon__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .salon__name {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--accent);
+  }
+
+  .salon__more {
+    font-size: var(--fs-meta);
+    color: var(--ink-muted);
+  }
+
+  .journal__empty {
+    color: var(--ink-muted);
+  }
+
+  .entries {
+    border-top: 1px solid var(--rule);
+  }
+
+  .entries > li {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* Cover left, text right; the cover is the vocus thumbnail, so the card
+     looks like the post it opens. vocus covers come in any shape (the first
+     is a portrait photo), so they are cropped square at build time. */
+  .entry {
+    display: grid;
+    grid-template-columns: 10rem 1fr;
+    gap: 1.25rem;
+    align-items: center;
+    padding: 1.25rem 1rem 1.25rem 0;
+    text-decoration: none;
+    color: inherit;
+    transition: background 120ms ease;
+  }
+
+  .entry:hover {
+    background: var(--paper-sunk);
+  }
+
+  .entry__cover {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: var(--radius);
+    border: 1px solid var(--rule);
+    background: var(--paper-sunk);
+  }
+
+  .entry__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    min-width: 0;
+  }
+
+  .entry__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    text-underline-offset: 0.22em;
+  }
+
+  .entry:hover .entry__title {
+    text-decoration-color: var(--accent);
+  }
+
+  .entry__more {
+    font-size: var(--fs-meta);
+    color: var(--ink-muted);
+  }
+
+  @media (max-width: 40rem) {
+    .entry {
+      grid-template-columns: 6rem 1fr;
+      gap: 1rem;
+      padding-right: 0;
+    }
+  }
+</style>

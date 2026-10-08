@@ -29,6 +29,8 @@ export const SITE = {
   /* Other public profiles. Not linked on the page; listed in the home page's
      structured data so search engines treat them as the same person. */
   vocus: 'https://vocus.cc/user/6ab8ce2f5396f334ab9587ed',
+  /* The salon "工程師的日常筆記"; /journal lists its posts. */
+  vocusSalon: 'https://vocus.cc/salon/6ab8ce2f5396f334ab9587f0',
   cake: 'https://www.cake.me/me/liu092111',
   /* One-page résumé in public/. Replace the file to update it; keep the
      name, since the link may already be saved in bookmarks and emails.
@@ -37,27 +39,22 @@ export const SITE = {
   location: 'Taiwan',
 };
 
-/* Numbering scheme — one meaning per number, site-wide:
-     00  Home (the cover)   sections 0.1–0.4
+/* Numbering scheme — only the three essays (Perspectives) are numbered:
      01  Designed           sections 1.x
      02  Confidence         sections 2.x
      03  Value              sections 3.x
-     04  Speaking           sections 4.x
-     05  About              sections 5.x
-     06  Writing            tracks 6.1, 6.2
-   A page's number is its `docNo`; a section inside it is `<page>.<n>`.
-   Two-digit numbers are only ever pages, dotted numbers only ever sections,
-   so "01" always means the first essay wherever it appears. */
+   An essay's number is its `docNo`; a section inside it is `<essay>.<n>`.
+   Every other page (Home, About, Speaking, Journal, project pages) is
+   unnumbered, so "01" always means the first essay wherever it appears. */
 
 /* Nav order follows what a visitor wants to know, in order: who she is
    (About), how she thinks (Perspectives), then what to invite her for
-   (Speaking), which sits last so it leads straight into Contact.
+   (Speaking), which sits last so it leads straight into Contact. Journal,
+   everyday notes on vocus, sits just before Speaking.
    The three essays share one dropdown, "Perspectives": each is a point of
    view on a product question, not an essay in the school sense, and one
    entry keeps the bar short. Inside the menu every item shows its full
-   question, so the one-word labels never have to stand alone.
-   `afterWritingLaunch` hides an entry until the writing section has enough
-   published posts; the threshold lives in src/lib/writing.ts. */
+   question, so the one-word labels never have to stand alone. */
 export const PERSPECTIVES_LABEL = 'Perspectives';
 
 interface NavItem {
@@ -67,7 +64,6 @@ interface NavItem {
   no?: string;
   /** Part of the Perspectives dropdown. */
   essay?: boolean;
-  afterWritingLaunch?: boolean;
 }
 
 export const NAV: NavItem[] = [
@@ -75,8 +71,8 @@ export const NAV: NavItem[] = [
   { href: '/designed', label: 'Design', no: '01', essay: true, hint: 'How a product gets designed' },
   { href: '/confidence', label: 'Confidence', no: '02', essay: true, hint: 'How a product earns confidence' },
   { href: '/value', label: 'Value', no: '03', essay: true, hint: 'How a product creates value' },
+  { href: '/journal', label: 'Journal', hint: 'Everyday notes, written in Mandarin on Vocus' },
   { href: '/speaking', label: 'Speaking', hint: 'Talks, topics and invitations' },
-  { href: '/writing', label: 'Writing', hint: 'Notes and career posts', afterWritingLaunch: true },
 ];
 
 /* The three evergreen pillars. These are the site's argument; the

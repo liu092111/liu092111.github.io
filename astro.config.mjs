@@ -56,6 +56,12 @@ export default defineConfig({
     '/cost': '/value',
   },
 
+  // /journal shows each vocus post's cover. Allowing the host lets the build
+  // download and re-encode them, instead of hotlinking ~2 MB PNGs.
+  image: {
+    domains: ['images.vocus.cc'],
+  },
+
   vite: {
     server: {
       watch: needsPolling()

@@ -3,7 +3,8 @@ import Base from './Base.astro';
 import { PILLARS, SITE } from '../data/site';
 
 interface Props {
-  docNo: string;
+  /** The essay's number, 01–03. Omitted on project pages, which reuse this layout. */
+  docNo?: string;
   title: string;
   description: string;
   /**
@@ -43,7 +44,7 @@ const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
 <Base title={title} description={description} docNo={docNo} social={social}>
   <article class="essay shell shell--read">
     <header class="essay__head">
-      <h1>{title}</h1>
+      <h1 class="page-title">{title}</h1>
       <p class="essay__thesis">{thesisText}</p>
     </header>
 
@@ -81,6 +82,12 @@ const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
      document block, left-aligned with the page masthead above it. */
   .essay {
     padding-top: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  /* Smaller than the site h1 so the longest essay title, "How a product
+     earns confidence", holds one line on desktop. */
+  .essay__head h1 {
+    font-size: clamp(2.25rem, 4.6vw, 3.125rem);
   }
 
   .essay__head {
