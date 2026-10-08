@@ -5,6 +5,7 @@ import LoopVideo from '../../components/LoopVideo.astro';
 import { SITE } from '../../data/site';
 import survival from '../../assets/work/test2fail-survival-function-comparison.png';
 import cdf from '../../assets/work/test2fail-cdf-comparison.png';
+import socialCard from '../../assets/og/test2fail.png';
 
 /* A project page: one public repository, told as the question it answers.
    It reads like an essay and shares that layout, but sits under About's
@@ -14,6 +15,7 @@ const repo = `${SITE.github}/Test2Fail-Toolkit`;
 ---
 
 <Essay
+  social={{ image: socialCard, alt: 'Test2Fail Toolkit by Flora Liu: a frame from the demo, a Monte Carlo lifetime histogram in the generated PDF report, with a play button. floraliu.dev/work/test2fail.' }}
   docNo="05"
   title="Test2Fail Toolkit"
   description="An open-source Python tool by Flora Liu that turns test-to-failure data into a reliability report: life distribution fitting, bootstrap confidence intervals, B10, B50 and MTTF, and a PDF."

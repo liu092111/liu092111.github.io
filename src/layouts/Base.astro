@@ -25,9 +25,14 @@ interface Props {
    * canonical tag, which would otherwise ask search engines to index it.
    */
   noindex?: boolean;
+  /**
+   * A page's own 1200×630 link-preview card, in place of the site card. The
+   * project pages use one so a LinkedIn project link shows that project's demo.
+   */
+  social?: { image: ImageMetadata; alt: string };
 }
 
-const { title, description, docNo, lang = 'en', noindex = false } = Astro.props;
+const { title, description, docNo, lang = 'en', noindex = false, social: socialOverride } = Astro.props;
 const htmlLang = lang === 'zh' ? 'zh-Hant' : 'en';
 const path = routePath(Astro.url.pathname);
 const writingLive = await isWritingLive();
@@ -41,7 +46,7 @@ const fullTitle = path === '/' ? `${SITE.name} — ${SITE.role}` : `${title} · 
 // The card is already exactly 1200×630, so this only re-encodes it: JPEG at
 // high quality keeps the type crisp at a fraction of the PNG's size.
 const social = await getImage({
-  src: socialSource,
+  src: socialOverride?.image ?? socialSource,
   width: 1200,
   height: 630,
   fit: 'cover',
@@ -137,7 +142,8 @@ if (path === '/about') {
     <meta property="og:image:height" content="630" />
     <meta
       property="og:image:alt"
-      content="Flora Liu, Hardware Engineer at Amazon. Design · Testing · Decisions. floraliu.dev. Drawn as an engineering sheet: an exploded isometric view of her piezoelectric plate motor and a Weibull reliability plot."
+      content={socialOverride?.alt ??
+        'Flora Liu, Hardware Engineer at Amazon. Design · Testing · Decisions. floraliu.dev. Drawn as an engineering sheet: an exploded isometric view of her piezoelectric plate motor and a Weibull reliability plot.'}
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={fullTitle} />

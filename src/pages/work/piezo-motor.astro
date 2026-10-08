@@ -8,6 +8,7 @@ import setup from '../../assets/work/piezo-setup.png';
 import loop from '../../assets/work/piezo-control-loop.png';
 import position from '../../assets/work/piezo-position-comparison.png';
 import switching from '../../assets/work/piezo-gen-comparison.png';
+import socialCard from '../../assets/og/piezo-motor.png';
 
 /* Project page; see work/test2fail.astro for how these pages are built.
    This one is my master's thesis: figures and results come from the oral
@@ -16,6 +17,7 @@ const repo = `${SITE.github}/piezo-motor-visual-servo`;
 ---
 
 <Essay
+  social={{ image: socialCard, alt: 'Visual servo control of a piezo motor by Flora Liu: a frame from the 120 FPS tracking demo, with a play button. floraliu.dev/work/piezo-motor.' }}
   docNo="05"
   title="Visual servo control of a piezoelectric motor"
   description="Flora Liu's master's thesis: vision-based closed-loop control of a 9 × 6 mm piezoelectric ultrasonic motor, with a 120 FPS camera, a Keysight function generator driven over SCPI, and PID heading control."

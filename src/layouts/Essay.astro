@@ -17,9 +17,11 @@ interface Props {
    * it (the project pages); the essays work it out from their order.
    */
   next?: { href: string; kicker: string; title: string; promise: string };
+  /** Passed through to Base: this page's own link-preview card. */
+  social?: { image: ImageMetadata; alt: string };
 }
 
-const { docNo, title, description, thesis, next: nextOverride } = Astro.props;
+const { docNo, title, description, thesis, next: nextOverride, social } = Astro.props;
 
 // The essays read in order. The last one hands the reader to the person who
 // wrote them, rather than looping back to the first essay.
@@ -38,7 +40,7 @@ const next =
 const thesisText = thesis ?? PILLARS[here]?.promise ?? '';
 ---
 
-<Base title={title} description={description} docNo={docNo}>
+<Base title={title} description={description} docNo={docNo} social={social}>
   <article class="essay shell shell--read">
     <header class="essay__head">
       <h1>{title}</h1>
