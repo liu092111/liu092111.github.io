@@ -19,3 +19,16 @@ export function lastModified(files: string[]): string | undefined {
     return undefined;
   }
 }
+
+/** ISO date (YYYY-MM-DD) of the oldest commit touching any of `files`. */
+export function firstCommitted(files: string[]): string | undefined {
+  try {
+    const out = execFileSync('git', ['log', '--reverse', '--format=%cs', '--', ...files], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    });
+    return out.split('\n')[0].trim() || undefined;
+  } catch {
+    return undefined;
+  }
+}

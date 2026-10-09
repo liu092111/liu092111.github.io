@@ -4,6 +4,7 @@ import { getImage } from 'astro:assets';
 import { SITE, NAV, GOATCOUNTER, PERSPECTIVES_LABEL, EDUCATION } from '../data/site';
 import headshot from '../assets/headshot.jpg';
 import { routePath, canonicalUrl } from '../lib/url';
+import { lastModified, firstCommitted } from '../lib/lastmod';
 import Mark from '../components/Mark.astro';
 // Branded 1200×630 link-preview card, rendered from tools/og-card.html.
 import socialSource from '../assets/og-card.png';
@@ -29,9 +30,11 @@ interface Props {
    * project pages use one so a LinkedIn project link shows that project's demo.
    */
   social?: { image: ImageMetadata; alt: string };
+  /** Mark the page as an article (essays and project pages) in Open Graph and structured data. */
+  article?: boolean;
 }
 
-const { title, description, docNo, lang = 'en', noindex = false, social: socialOverride } = Astro.props;
+const { title, description, docNo, lang = 'en', noindex = false, social: socialOverride, article = false } = Astro.props;
 const htmlLang = lang === 'zh' ? 'zh-Hant' : 'en';
 const path = routePath(Astro.url.pathname);
 const nav = NAV;
@@ -113,6 +116,27 @@ if (path === '/about') {
     mainEntity: { '@type': 'Person', '@id': `${siteUrl}#person`, name: SITE.name, url: siteUrl },
   });
 }
+
+/* Essays and project pages are articles written by the Person on the home
+   page. Dates come from git, like the sitemap's lastmod, so the two agree. */
+if (article && !noindex) {
+  const siteUrl = new URL('/', Astro.site).href;
+  const source = [`src/pages${path}.astro`];
+  personJsonLd = JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: title,
+    description,
+    url: canonical,
+    mainEntityOfPage: canonical,
+    image: socialUrl,
+    inLanguage: htmlLang,
+    datePublished: firstCommitted(source),
+    dateModified: lastModified(source),
+    author: { '@type': 'Person', '@id': `${siteUrl}#person`, name: SITE.name, url: siteUrl },
+    isPartOf: { '@id': `${siteUrl}#website` },
+  });
+}
 ---
 
 <!doctype html>
@@ -130,7 +154,7 @@ if (path === '/about') {
          a broken one. -->
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:url" content={canonical} />
     <meta property="og:title" content={fullTitle} />
