@@ -11,9 +11,10 @@ import logoDelta from '../assets/logos/delta.jpg';
 import logoSgs from '../assets/logos/sgs.jpg';
 import logoNtu from '../assets/logos/ntu.jpg';
 import logoNcku from '../assets/logos/ncku.jpg';
-import logoAws from '../assets/logos/aws.jpg';
-import logoOracle from '../assets/logos/oracle.jpg';
 import logoGoogleEdu from '../assets/logos/google-edu.jpg';
+import badgeAwsCloud from '../assets/badges/aws-cloud-practitioner.png';
+import badgeAwsAi from '../assets/badges/aws-ai-practitioner.png';
+import badgeOracleAgentic from '../assets/badges/oracle-agentic-ai-foundations.png';
 import type { ImageMetadata } from 'astro';
 // Graded copy (exposure, highlights/shadows, a slightly cooler balance);
 // the untouched original is kept alongside it.
@@ -494,13 +495,14 @@ export const TALKS: Talk[] = [
 
 /* Newest first. An expired credential is dropped rather than listed.
    `tier` keeps proctored certifications apart from course and training
-   badges, so the two never read as the same weight. */
+   badges, so the two never read as the same weight. `logo` is the credential's
+   own badge where the issuer publishes one, else the issuer's logo. */
 export const CERTS = [
   {
     name: 'AWS Certified Cloud Practitioner',
     tier: 'cert',
     issuer: 'Amazon Web Services',
-    logo: logoAws,
+    logo: badgeAwsCloud,
     date: 'Oct 2026',
     url: 'https://www.credly.com/badges/84ce3771-e71f-4ef1-9e77-3cfa3c4267b6/linked_in_profile',
   },
@@ -508,7 +510,7 @@ export const CERTS = [
     name: 'AWS Certified AI Practitioner',
     tier: 'cert',
     issuer: 'Amazon Web Services',
-    logo: logoAws,
+    logo: badgeAwsAi,
     date: 'Sep 2026',
     url: 'https://www.credly.com/badges/5087d2da-c80b-4ca9-9c1e-c43653aa200b/linked_in_profile',
   },
@@ -516,7 +518,7 @@ export const CERTS = [
     name: 'Agentic AI Certified Foundations Associate',
     tier: 'cert',
     issuer: 'Oracle',
-    logo: logoOracle,
+    logo: badgeOracleAgentic,
     date: 'Sep 2026',
     url: 'https://catalog-education.oracle.com/ords/certview/sharebadge?id=CD2D9211D6A3CFEDB6E477E0BD2C57FC19DB9C6BC3040C32D4A2182BCBDC81DD',
   },
