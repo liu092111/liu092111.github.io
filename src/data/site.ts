@@ -497,6 +497,14 @@ export const TALKS: Talk[] = [
    badges, so the two never read as the same weight. */
 export const CERTS = [
   {
+    name: 'AWS Certified Cloud Practitioner',
+    tier: 'cert',
+    issuer: 'Amazon Web Services',
+    logo: logoAws,
+    date: 'Oct 2026',
+    url: 'https://www.credly.com/badges/84ce3771-e71f-4ef1-9e77-3cfa3c4267b6/linked_in_profile',
+  },
+  {
     name: 'AWS Certified AI Practitioner',
     tier: 'cert',
     issuer: 'Amazon Web Services',
@@ -511,14 +519,6 @@ export const CERTS = [
     logo: logoOracle,
     date: 'Sep 2026',
     url: 'https://catalog-education.oracle.com/ords/certview/sharebadge?id=CD2D9211D6A3CFEDB6E477E0BD2C57FC19DB9C6BC3040C32D4A2182BCBDC81DD',
-  },
-  {
-    name: 'Cloud Practitioner: Foundations',
-    tier: 'training',
-    issuer: 'AWS Skills Center',
-    logo: logoAws,
-    date: 'Apr 2026',
-    url: 'https://www.credly.com/badges/3ae6f4d9-d35d-4302-8e86-472cb0c2892d/linked_in_profile',
   },
   {
     name: 'Gemini Certified Faculty',
