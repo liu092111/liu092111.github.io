@@ -30,7 +30,7 @@ export const SITE = {
      structured data so search engines treat them as the same person. */
   vocus: 'https://vocus.cc/user/6ab8ce2f5396f334ab9587ed',
   /* The salon "工程師的日常筆記"; /journal lists its posts. */
-  vocusSalon: 'https://vocus.cc/salon/6ab8ce2f5396f334ab9587f0',
+  vocusSalon: 'https://vocus.cc/salon/floraliu',
   cake: 'https://www.cake.me/me/liu092111',
   /* One-page résumé in public/. Replace the file to update it; keep the
      name, since the link may already be saved in bookmarks and emails.
